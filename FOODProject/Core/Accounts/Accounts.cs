@@ -1,4 +1,5 @@
-﻿using FoodCenterContext;
+﻿using Food_Center.Services;
+using FoodCenterContext;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -17,10 +18,12 @@ namespace FOODProject.Core.Accounts
     {
         FoodCenterDataContext context = new FoodCenterDataContext();
         private readonly IConfiguration _configuration;
+        private readonly TokenService _tokenService;
 
-        public Accounts(IConfiguration configuration)
+        public Accounts(IConfiguration configuration, TokenService tokenService)
         {
             _configuration = configuration;
+            _tokenService = tokenService;
         }
 
         public async Task<string> AddRole(Model.Account.Role value)
@@ -87,24 +90,29 @@ namespace FOODProject.Core.Accounts
                 var authclaims = new List<Claim>
                   {
                  new Claim(ClaimTypes.Name,values.EmailId),
-                 new Claim(ClaimTypes.Name,values.Password),
                  new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString())
                   };
-                var authsignkey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_configuration["JWT:Secret"]));
 
-                var token = new JwtSecurityToken(
-                    issuer: _configuration["JWT:ValidIssuer"],
-                    audience: _configuration["JWT:ValidAudience"],
-                    expires: DateTime.Now.AddDays(1),
-                    claims: authclaims,
-                    signingCredentials: new SigningCredentials(authsignkey, SecurityAlgorithms.HmacSha256Signature)
-                    );
+                var jwtToken = _tokenService.GenerateAccessToken(authclaims);
+                var refreshToken = _tokenService.GenerateRefreshToken();
 
-                return new JwtSecurityTokenHandler().WriteToken(token);
+                RefreshToken rt = new RefreshToken();
+                rt.RToken = refreshToken;
+                context.RefreshTokens.InsertOnSubmit(rt);
+                context.SubmitChanges();
+
+                UserRefresh ur = new UserRefresh();
+                ur.UserEmailId = values.EmailId;
+                ur.RefreshTokenId = rt.RefreshTokenId;
+                context.UserRefreshes.InsertOnSubmit(ur);
+                context.SubmitChanges();
+
+                return "Login Successfully";
             }
             else
-                return "Incorrect Email or Password";
-
+            {
+                return "Please Enter valid login details";
+            }
         }
 
     }

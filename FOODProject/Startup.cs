@@ -17,6 +17,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Serialization;
+using Food_Center.Services;
 
 namespace FOODProject
 {
@@ -75,6 +76,7 @@ namespace FOODProject
             services.AddTransient<ProductTypes>();
             services.AddTransient<Core.Products.Products>();
             services.AddTransient<Core.Accounts.UpdatePassword>();
+            services.AddTransient<TokenService>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "FOODProject", Version = "v1" });
