@@ -107,7 +107,7 @@ namespace FOODProject.Core.Accounts
                 context.UserRefreshes.InsertOnSubmit(ur);
                 context.SubmitChanges();
 
-                return "Login Successfully";
+                return jwtToken;
             }
             else
             {
