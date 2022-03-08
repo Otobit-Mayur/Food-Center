@@ -12,9 +12,9 @@ namespace FOODProject.Controllers.StoreDetail
     [ApiController]
     public class AddressController : ControllerBase
     {
-        private readonly Address _address;
+        private readonly Addresses _address;
 
-        public AddressController(Core.StoreDetails.Address address)
+        public AddressController(Core.StoreDetails.Addresses address)
         {
             _address = address;
         }

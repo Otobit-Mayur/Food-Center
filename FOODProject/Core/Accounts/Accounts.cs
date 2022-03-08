@@ -1,5 +1,7 @@
 ﻿using Food_Center.Services;
 using FoodCenterContext;
+using FOODProject.Model.Common;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -26,7 +28,7 @@ namespace FOODProject.Core.Accounts
             _tokenService = tokenService;
         }
 
-        public async Task<string> AddRole(Model.Account.Role value)
+        public Result AddRole(Model.Account.Role value)
         {
             Role role = new Role();
 
@@ -34,13 +36,23 @@ namespace FOODProject.Core.Accounts
             var check = context.Roles.FirstOrDefault(x => x.Role1 == value.role);
             if (check != null)
             {
-                return "Role already exist";
+                return new Result()
+                {
+                    Message = string.Format("Role Already Exits"),
+                    Status = Result.ResultStatus.danger,
+                };
             }
             else
             {
                 context.Roles.InsertOnSubmit(role);
                 context.SubmitChanges();
-                return "New Role Added Successfully";
+                //return "New Role Added Successfully";
+                return new Result()
+                {
+                    Message = string.Format("New Role Added Successfully"),
+                    Status = Result.ResultStatus.none,
+                    Data = value.role,
+                };
             }
         }
 
@@ -52,7 +64,7 @@ namespace FOODProject.Core.Accounts
             return qs;
         }
 
-        public async Task<string> SignUp(Model.Account.User values)
+        public Result SignUp(Model.Account.User values)
         {
             User sp = new User();
             Role role = new Role();
@@ -72,12 +84,18 @@ namespace FOODProject.Core.Accounts
                 
                 context.Users.InsertOnSubmit(sp);
                 context.SubmitChanges();
-                return "SignUp Successfully";
+                return new Result()
+                {
+                    Message = string.Format($"{values.EmailId} Signup Successfully"),
+                    Status = Result.ResultStatus.success,
+                    Data=sp.UserId,
+                };
+                /*return "Signup Successfully";*/
             }
 
         }
 
-        public async Task<string> Login(Model.Account.Login values)
+        public Result Login(Model.Account.Login values)
         {
 
             var result = (from SignUp in context.Users
@@ -89,8 +107,9 @@ namespace FOODProject.Core.Accounts
 
                 var authclaims = new List<Claim>
                   {
-                 new Claim(ClaimTypes.Name,values.EmailId),
-                 new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString())
+                     new Claim(ClaimTypes.Name,values.EmailId),
+                     /*new Claim(ClaimTypes.Sid,values.UserId),*/
+                     new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString())
                   };
 
                 var jwtToken = _tokenService.GenerateAccessToken(authclaims);
@@ -107,13 +126,31 @@ namespace FOODProject.Core.Accounts
                 context.UserRefreshes.InsertOnSubmit(ur);
                 context.SubmitChanges();
 
-                return jwtToken;
+                return new Result()
+                {
+                    Message = String.Format($"Login Successfully"),
+                    Status=Result.ResultStatus.success,
+                    Data=new
+                    {
+                        token=jwtToken,
+                        RefreshToken=refreshToken,
+                        UserEmailId=values.EmailId,
+                    },
+                };
             }
             else
             {
-                return "Please Enter valid login details";
+                throw new ArgumentException("Please Enter Valid Login Details..");
             }
         }
+
+        /*public async Task<IEnumerable> GetEmailId()
+        {
+            var Email=(string)HttpContext.Items["EmailId"];
+            var qs = (from obj in context.Roles
+                      select new { obj.RoleId, obj.Role1 }).ToList();
+            return qs;
+        }*/
 
     }
 }

@@ -13,6 +13,6 @@ namespace FOODProject.Model.StoreDetail
         public decimal Latitude { get; set; }
         public decimal Longitude { get; set; }
 
-    
+        public Model.Common.IntegerNullString ShopId { get; set; } = new Model.Common.IntegerNullString();
     }
 }

@@ -1,4 +1,5 @@
 ﻿using FoodCenterContext;
+using FOODProject.Model.Common;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ namespace FOODProject.Core.Products
     {
         FoodCenterDataContext context = new FoodCenterDataContext();
 
-        public async Task<string>AddProuct(Model.Product.Product value)
+        public Result AddProuct(Model.Product.Product value)
         {
             FoodCenterContext.Product p = new Product();
 
@@ -21,7 +22,11 @@ namespace FOODProject.Core.Products
             var check = context.Products.FirstOrDefault(x => x.ProductName == value.ProductName);
             if (check != null)
             {
-                return "Product Already Added";
+                return new Result()
+                {
+                    Message = string.Format("Product Already Exits"),
+                    Status = Result.ResultStatus.danger,
+                };
             }
             else
             {
@@ -32,7 +37,11 @@ namespace FOODProject.Core.Products
                 p.Status = 1;
                 context.Products.InsertOnSubmit(p);
                 context.SubmitChanges();
-                return "Product Added Succesfully";
+                return new Result()
+                {
+                    Message = string.Format($"New Product Added Successfully"),
+                    Status = Result.ResultStatus.success,
+                };
             }
 
         }
@@ -45,7 +54,7 @@ namespace FOODProject.Core.Products
 
             return q;
         }
-        public async Task<string> Update(Model.Product.Product value, int Id)
+        public Result Update(Model.Product.Product value, int Id)
         {
             
 
@@ -59,12 +68,20 @@ namespace FOODProject.Core.Products
                 product.TypeId = value.TypeId.Id;
 
                 context.SubmitChanges();
-                return "Product Updated..!";
+                return new Result()
+                {
+                    Message = string.Format($"Product Updated"),
+                    Status = Result.ResultStatus.success,
+                };
             }
-            return "Product Is Not Available";
+            return new Result()
+            {
+                Message = string.Format($"Product Not Available"),
+                Status = Result.ResultStatus.warning,
+            };
         }
 
-        public async Task<string> UpdateStatus(int Id)
+        public Result UpdateStatus(int Id)
         {
             Product product = context.Products.SingleOrDefault(x => x.ProductId == Id);
             if (product != null)
@@ -78,12 +95,20 @@ namespace FOODProject.Core.Products
                     product.Status = 1;
                 }
                 context.SubmitChanges();
-                return "Status Updated..!";
+                return new Result()
+                {
+                    Message = string.Format($"Status Updated"),
+                    Status = Result.ResultStatus.success,
+                };
             }
-            return "Product Is Not Available";
+            return new Result()
+            {
+                Message = string.Format($"Product Not Available"),
+                Status = Result.ResultStatus.danger,
+            };
         }
 
-        public async Task<string> Delete(Model.Product.Product value, int Id)
+        public Result Delete(Model.Product.Product value, int Id)
         {
             //FoodCenterContext.Product p = new Product();
 
@@ -92,9 +117,17 @@ namespace FOODProject.Core.Products
             {
                 context.Products.DeleteOnSubmit(product);
                 context.SubmitChanges();
-                return "Product Deleted..!";
+                return new Result()
+                {
+                    Message = string.Format($"Product Deleted"),
+                    Status = Result.ResultStatus.success,
+                };
             }
-            return "Product Is Not Available";
+            return new Result()
+            {
+                Message = string.Format($"Product Not Available"),
+                Status = Result.ResultStatus.warning,
+            };
         }
     }
 }

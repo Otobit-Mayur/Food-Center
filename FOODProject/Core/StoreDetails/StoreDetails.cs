@@ -1,4 +1,5 @@
 ﻿using FoodCenterContext;
+using FOODProject.Model.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace FOODProject.Core.Accounts
     {
         FoodCenterDataContext context = new FoodCenterDataContext();
 
-        public async Task<string> AddStoreDetails(Model.StoreDetail.StoreDetail value)
+        public Result AddStoreDetails(Model.StoreDetail.StoreDetail value)
         {
             ShopDetail sd = new ShopDetail();
            
@@ -26,20 +27,26 @@ namespace FOODProject.Core.Accounts
 
             var ui = context.Users.SingleOrDefault(c=>c.EmailId==value.UserId.String);
 
-            var ai = context.Addresses.SingleOrDefault(c => c.Address1 == value.AddressId.String);
+        
 
             
             sd.CategoryId = ci.CategoryId;
             sd.UserId = ui.UserId;
-            sd.AddressId = ai.AddressId;
+           
 
             context.ShopDetails.InsertOnSubmit(sd);
             context.SubmitChanges();
-            return "Details Added Successfully";
+            return new Result()
+            { 
+
+                Message = string.Format($"Details Added Successfully"),
+                Status = Result.ResultStatus.success,
+                Data=sd.ShopId,
+            };
 
         }
 
-        public async Task<string> UpdateProfile(Model.StoreDetail.Update value,int id)
+        public Result UpdateProfile(Model.StoreDetail.Update value,int id)
         {
             ShopDetail shopdetail = context.ShopDetails.SingleOrDefault(x=>x.ShopId==id);
             if(shopdetail !=null)
@@ -49,11 +56,21 @@ namespace FOODProject.Core.Accounts
                 shopdetail.Logo = value.Logo;
        
                 context.SubmitChanges();
-                return "Profile Updated";
+                return new Result()
+                {
+
+                    Message = string.Format($"Profile Updated Successfully"),
+                    Status = Result.ResultStatus.success,
+                };
             }
             else
             {
-                return "Invalid Shop Id";
+                return new Result()
+                {
+
+                    Message = string.Format($"Invalid Shop ID"),
+                    Status = Result.ResultStatus.danger,
+                };
             }
         }
            

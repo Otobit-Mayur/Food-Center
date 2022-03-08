@@ -22,7 +22,7 @@ namespace FOODProject.Controllers.Product
         public async Task<IActionResult> AddType(Model.Product.ProductType value)
         {
             var result = _productTypes.AddProducttype(value);
-            return Ok(result);
+            return Ok(result.Result);
         }
 
         [HttpGet("get")]

@@ -1,5 +1,6 @@
 ﻿using FoodCenterContext;
 using FOODProject.Model.Category;
+using FOODProject.Model.Common;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,20 +15,28 @@ namespace FOODProject.Core.Categories
         FoodCenterDataContext context = new FoodCenterDataContext();
 
 
-        public async Task<string>AddCategory(Model.Category.CategoryModel value)
+        public Result AddCategory(Model.Category.CategoryModel value)
         {
             Category c = new Category();
             c.Category1 = value.Category;
             var check = context.Categories.FirstOrDefault(x => x.Category1 == value.Category);
             if(check!=null)
             {
-                return "Category already exist";
+                return new Result()
+                {
+                    Message = string.Format("Category Already Exits"),
+                    Status = Result.ResultStatus.success,
+                };
             }
             else
             {
                 context.Categories.InsertOnSubmit(c);
                 context.SubmitChanges();
-                return "New Category Added Successfully";
+                return new Result()
+                {
+                    Message = string.Format("New Category Added Successfully"),
+                    Status = Result.ResultStatus.warning,
+                };
             }
 
            
@@ -37,8 +46,6 @@ namespace FOODProject.Core.Categories
         {
             var qs = (from obj in context.Categories
                       select new { obj.CategoryId, obj.Category1 }).ToList();
-            /*var qs = (from obj in context.Categories
-                      select obj).ToList();*/
             return qs;
         }
 

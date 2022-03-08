@@ -27,7 +27,6 @@ namespace FOODProject.Model.StoreDetail
 
         public Model.Common.IntegerNullString UserId { get; set; } = new Model.Common.IntegerNullString();
 
-        public Model.Common.IntegerNullString AddressId { get; set; } = new Model.Common.IntegerNullString();
     }
 
     public class Update

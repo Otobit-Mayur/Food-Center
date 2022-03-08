@@ -1,4 +1,5 @@
 ﻿using FoodCenterContext;
+using FOODProject.Model.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace FOODProject.Core.Accounts
     public class UpdatePassword
     {
         FoodCenterDataContext context = new FoodCenterDataContext();
-        public async Task<string> Changepassword(Model.Account.Changepassword value, int id)
+        public Result Changepassword(Model.Account.Changepassword value, int id)
         {
             User user = context.Users.SingleOrDefault(x => x.UserId == id);
             if (user != null)
@@ -21,14 +22,26 @@ namespace FOODProject.Core.Accounts
                 {
                     user.Password = value.NewPassword;
                     context.SubmitChanges();
-                    return "Password Changed";
+                    return new Result()
+                    {
+                        Message = string.Format("Password Change Successfully"),
+                        Status = Result.ResultStatus.success,
+                    };
                 }
                 else
                 {
-                    return "Old Password is Incorrect";
+                    return new Result()
+                    {
+                        Message = string.Format("Old Password Is Incorrect"),
+                        Status = Result.ResultStatus.warning,
+                    };
                 }
             }
-            return "User Not Found";
+            return new Result()
+            {
+                Message = string.Format("User Not Found"),
+                Status = Result.ResultStatus.none,
+            };
 
         }
     }

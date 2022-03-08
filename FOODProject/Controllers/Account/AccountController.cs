@@ -44,9 +44,17 @@ namespace FOODProject.Controllers.Account
        [HttpPost("login")]
         public async Task<IActionResult> login(Model.Account.Login values)
         {
-            var result = await _accounts.Login(values);
+            var result = _accounts.Login(values);
             return Ok(result);
         }
+      /* [HttpGet("email")]
+        public IActionResult GetEmail()
+        {
+
+            string EmailId = (string)HttpContext.Items["EmailId"];
+
+            return Ok(EmailId);
+        }*/
 
     }
 }

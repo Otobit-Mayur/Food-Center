@@ -18,6 +18,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Serialization;
 using Food_Center.Services;
+using Shopping.Middleware;
 
 namespace FOODProject
 {
@@ -32,9 +33,13 @@ namespace FOODProject
 
         // This method gets called by the runtime. Use this method to add services to the container.
 
-        FoodCenterContext.FoodCenterDataContext db = new FoodCenterContext.FoodCenterDataContext("data source=DESKTOP-5H6J294;initial catalog=FoodCenter;integrated security=True;persist security info=False;License Key=qHnH5wx/L422kFN4WQussVkqbelF0xGMaZi+DGL6lhFu+VTasW/ZRA22+dVoDbuQ64trDZsBMziLDE9kumHeTDKlcRSCvsotqn7rHn9VHFXS3Jmh/rFBVSxav6UlKmT4POdU+hnX8ACaigXhFdBiZ4NeHNVRNTqJ4fUTou0czKt8ATWxOB2MjUrprbYTV2ECFJOo2uLgwGzqeEpv1gGPLKR3p5DOKdeMu61FRAak23fmjt8PPQpz50o1E0r0FFdoQrJIYKkMxqRiD2IhVxlcVCvpIqR31rWwKJ1sNquGBMU=;");
+        FoodCenterContext.FoodCenterDataContext db = new FoodCenterContext.FoodCenterDataContext("data source=20.204.136.73;initial catalog=FoodCenter;integrated security=False;persist security info=True;user id=fcDB;password=****************;License Key=qHnH5wx/L422kFN4WQussVkqbelF0xGMaZi+DGL6lhFu+VTasW/ZRA22+dVoDbuQ64trDZsBMziLDE9kumHeTDKlcRSCvsotqn7rHn9VHFXS3Jmh/rFBVSxav6UlKmT4POdU+hnX8ACaigXhFdBiZ4NeHNVRNTqJ4fUTou0czKt8ATWxOB2MjUrprbYTV2ECFJOo2uLgwGzqeEpv1gGPLKR3p5DOKdeMu61FRAak23fmjt8PPQpz50o1E0r0FFdoQrJIYKkMxqRiD2IhVxlcVCvpIqR31rWwKJ1sNquGBMU=;");
 
-       /* data source = DESKTOP - 5H6J294;initial catalog = "Food Center"; integrated security = True; persist security info=True*/
+        //data source=20.204.136.73;initial catalog=FoodCenter;integrated security=False;persist security info=True;user id=fcDB;password=****************
+
+
+        /* data source = DESKTOP - 5H6J294;initial catalog = "Food Center"; integrated security = True; persist security info=True*/
+
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAuthentication(option =>
@@ -69,9 +74,8 @@ namespace FOODProject
             services.AddControllers();
 
             services.AddTransient<Accounts>();
-            /*services.AddTransient<Core.StoreDetails>();*/
             services.AddTransient<StoreDetails>();
-            services.AddTransient<Core.StoreDetails.Address>();
+            services.AddTransient<Core.StoreDetails.Addresses>();
             services.AddTransient<Core.Categories.Categories>();
             services.AddTransient<ProductTypes>();
             services.AddTransient<Core.Products.Products>();
@@ -96,6 +100,7 @@ namespace FOODProject
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseMiddleware<JwtHandler>();
 
             app.UseEndpoints(endpoints =>
             {
