@@ -1,4 +1,5 @@
 ﻿using FOODProject.Core.Products;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -18,10 +19,12 @@ namespace FOODProject.Controllers.Product
         {
             _productTypes = productTypes;
         }
+        //[Authorize]
         [HttpPost("Addtype")]
         public async Task<IActionResult> AddType(Model.Product.ProductType value)
         {
-            var result = _productTypes.AddProducttype(value);
+            int UserId = (int)HttpContext.Items["UserId"];
+            var result = _productTypes.AddProducttype(value, UserId);
             return Ok(result.Result);
         }
 

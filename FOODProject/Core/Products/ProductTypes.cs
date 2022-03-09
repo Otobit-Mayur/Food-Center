@@ -11,10 +11,15 @@ namespace FOODProject.Core.Products
     {
         FoodCenterDataContext context = new FoodCenterDataContext();
 
-        public async Task<string> AddProducttype(Model.Product.ProductType value)
+        public async Task<string> AddProducttype(Model.Product.ProductType value,int UserId)
         {
             ProductType pt = new ProductType();
+
+            var qes = (from obj in context.ShopDetails
+                       where obj.UserId == UserId
+                       select obj.ShopId).SingleOrDefault();
             pt.Type = value.Type;
+            pt.ShopId = qes;
             var check = context.ProductTypes.SingleOrDefault(x => x.Type==value.Type);
             if (check != null)
             {

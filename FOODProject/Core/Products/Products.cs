@@ -50,7 +50,19 @@ namespace FOODProject.Core.Products
             /*var q = (from obj in context.Products
                      select new { obj.ProductId, obj.ProductName,obj.Price, obj.Description, obj.Status, obj.Image }).ToList();*/
             var q = (from obj in context.Products
-                     select obj).ToList();
+                     join pt in context.ProductTypes
+                     on obj.TypeId equals pt.TypeId
+                     select new
+                     {
+                         ProductId=obj.ProductId,
+                         ProductName=obj.ProductName,
+                         Price=obj.Price,
+                         Description=obj.Description,
+                         Image=obj.Image,
+                         TypeId=obj.TypeId,
+                         Type=pt.Type,
+                         ShopId=pt.ShopId
+                     }).ToList();
 
             return q;
         }

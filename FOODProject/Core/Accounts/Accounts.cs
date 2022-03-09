@@ -110,14 +110,14 @@ namespace FOODProject.Core.Accounts
                 var authclaims = new List<Claim>
                   {
                      new Claim(ClaimTypes.Name,values.EmailId),
-                     new Claim(ClaimTypes.Sid,qs.ToString()),
+                       
                      new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString())
                   };
 
                 var jwtToken = _tokenService.GenerateAccessToken(authclaims);
                 var refreshToken = _tokenService.GenerateRefreshToken();
 
-                RefreshToken rt = new RefreshToken();
+                RefreshToken rt = new RefreshToken();   
                 rt.RToken = refreshToken;
                 context.RefreshTokens.InsertOnSubmit(rt);
                 context.SubmitChanges();
