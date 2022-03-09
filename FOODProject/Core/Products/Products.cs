@@ -129,5 +129,17 @@ namespace FOODProject.Core.Products
                 Status = Result.ResultStatus.warning,
             };
         }
+        public Result getsid(string Emailid)
+        {
+            var uid = (from user in context.Users
+                       where user.EmailId == Emailid
+                       select user.UserId).SingleOrDefault();
+            return new Result()
+            {
+                Message = string.Format($"Product Not Available"),
+                Status = Result.ResultStatus.warning,
+                Data=uid,
+            };
+        }
     }
 }

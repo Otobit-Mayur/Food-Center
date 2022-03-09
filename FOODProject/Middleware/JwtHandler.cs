@@ -39,7 +39,7 @@ namespace Shopping.Middleware
                 tokenhandler.ValidateToken(token, new Microsoft.IdentityModel.Tokens.TokenValidationParameters()
                 {
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes("ThisIsMySecretKey12345678910")),
+                    IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes("ThisIsMySecurKey123")),
                     ClockSkew = TimeSpan.Zero,
                     ValidateAudience = false,
                     ValidateIssuer = false,

@@ -97,7 +97,9 @@ namespace FOODProject.Core.Accounts
 
         public Result Login(Model.Account.Login values)
         {
-
+            var qs = (from obj in context.Users
+                      where obj.EmailId==values.EmailId
+                      select obj.UserId).SingleOrDefault();
             var result = (from SignUp in context.Users
                           where SignUp.EmailId == values.EmailId && SignUp.Password == values.Password
                           select SignUp).ToList();
@@ -108,7 +110,7 @@ namespace FOODProject.Core.Accounts
                 var authclaims = new List<Claim>
                   {
                      new Claim(ClaimTypes.Name,values.EmailId),
-                     /*new Claim(ClaimTypes.Sid,values.UserId),*/
+                     new Claim(ClaimTypes.Sid,qs.ToString()),
                      new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString())
                   };
 
@@ -151,6 +153,6 @@ namespace FOODProject.Core.Accounts
                       select new { obj.RoleId, obj.Role1 }).ToList();
             return qs;
         }*/
-
+        
     }
 }

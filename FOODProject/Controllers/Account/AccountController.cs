@@ -47,14 +47,14 @@ namespace FOODProject.Controllers.Account
             var result = _accounts.Login(values);
             return Ok(result);
         }
-      /* [HttpGet("email")]
-        public IActionResult GetEmail()
-        {
+        /* [HttpGet("email")]
+          public IActionResult GetEmail()
+          {
 
-            string EmailId = (string)HttpContext.Items["EmailId"];
+              string EmailId = (string)HttpContext.Items["EmailId"];
 
-            return Ok(EmailId);
-        }*/
-
+              return Ok(EmailId);
+          }*/
+        
     }
 }

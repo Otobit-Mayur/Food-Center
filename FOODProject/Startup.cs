@@ -98,7 +98,7 @@ namespace FOODProject
             }
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
             app.UseMiddleware<JwtHandler>();
 

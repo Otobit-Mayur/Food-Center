@@ -1,4 +1,5 @@
 ﻿using FOODProject.Core.Products;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -10,6 +11,7 @@ namespace FOODProject.Controllers.Product
 {
     [Route("api/[controller]")]
     [ApiController]
+   
     public class ProductController : ControllerBase
     {
         private readonly Products _products;
@@ -25,6 +27,7 @@ namespace FOODProject.Controllers.Product
             var result = _products.AddProuct(value);
             return Ok(result);
         }
+       /*[Authorize]*/
         [HttpGet("get")]
         public async Task<IActionResult>Get()
         {
@@ -47,6 +50,14 @@ namespace FOODProject.Controllers.Product
         public IActionResult UpdateStatus(int id)
         {
             var result = _products.UpdateStatus(id);
+            return Ok(result);
+        }
+        [HttpGet]
+        public async Task<IActionResult> getsids()
+        {
+            string EmailId = (string)HttpContext.Items["EmailId"];
+            //return Ok(new Orders().getsid(EmailId));
+            var result = _products.getsid(EmailId);
             return Ok(result);
         }
     }
