@@ -14,7 +14,8 @@ namespace FOODProject.Core.Accounts
         public Result AddStoreDetails(Model.StoreDetail.StoreDetail value)
         {
             ShopDetail sd = new ShopDetail();
-           
+
+            sd.IsCompleted = 0;
             sd.ShopName = value.ShopName;
             sd.PhoneNumber = value.PhoneNumber;
             sd.AlternateNumber = value.AlternateNumber;
@@ -22,12 +23,9 @@ namespace FOODProject.Core.Accounts
             sd.Logo = value.Logo;
             sd.Status = 1;
 
-
             var ci = context.Categories.SingleOrDefault(c => c.Category1 == value.CategoryId.String);
 
             var ui = context.Users.SingleOrDefault(c=>c.EmailId==value.UserId.String);
-
-        
 
             
             sd.CategoryId = ci.CategoryId;
@@ -45,10 +43,24 @@ namespace FOODProject.Core.Accounts
             };
 
         }
-
-        public Result UpdateProfile(Model.StoreDetail.Update value,int id)
+        public Result Iscompleted()
         {
-            ShopDetail shopdetail = context.ShopDetails.SingleOrDefault(x=>x.ShopId==id);
+            ShopDetail sd = new ShopDetail();
+            sd.IsCompleted = 1;
+            context.SubmitChanges();
+            return new Result()
+                {
+                    Message = string.Format($"Profile Completed"),
+                    Status = Result.ResultStatus.success,
+                };
+        }
+
+        public Result UpdateProfile(Model.StoreDetail.Update value,int UserId)
+        {
+            var qes = (from obj in context.ShopDetails
+                       where obj.UserId == UserId
+                       select obj.ShopId).SingleOrDefault();
+            ShopDetail shopdetail = context.ShopDetails.SingleOrDefault(x=>x.ShopId==qes);
             if(shopdetail !=null)
             {
                 shopdetail.ShopName = value.ShopName;

@@ -11,16 +11,21 @@ namespace FOODProject.Core.Accounts
     public class UpdatePassword
     {
         FoodCenterDataContext context = new FoodCenterDataContext();
-        public Result Changepassword(Model.Account.Changepassword value, int id)
+        public Result Changepassword(Model.Account.Changepassword value, int UserId)
         {
-            User user = context.Users.SingleOrDefault(x => x.UserId == id);
-            if (user != null)
+            
+             var qs = (from obj in context.Users
+                    where obj.UserId == UserId
+                    select obj).ToList();
+            if (qs.Count()>0)
             {
-                user.Password = value.OldPassword;
-                var check = context.Users.SingleOrDefault(x => x.Password == value.OldPassword);
+                /*user.Password = value.OldPassword;*/
+                var check = (from obj in qs
+                             where obj.Password==value.OldPassword
+                             select obj).SingleOrDefault();
                 if(check!=null)
                 {
-                    user.Password = value.NewPassword;
+                    check.Password = value.NewPassword;
                     context.SubmitChanges();
                     return new Result()
                     {

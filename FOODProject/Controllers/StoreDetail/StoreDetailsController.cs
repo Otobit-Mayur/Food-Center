@@ -26,11 +26,18 @@ namespace FOODProject.Controllers.Account
             return Ok(result);
         }
         [HttpPut]
-        public async Task<IActionResult>Update(Model.StoreDetail.Update value,int id)
+        public async Task<IActionResult>Update(Model.StoreDetail.Update value)
         {
-            var result = _store_Details.UpdateProfile(value, id);
+            int UserId = (int)HttpContext.Items["UserId"];
+            var result = _store_Details.UpdateProfile(value,UserId);
             return Ok(result);
         }
-        
+        [HttpPut("IsCompleted")]
+        public async Task<IActionResult> IsCompled()
+        {
+            var result = _store_Details.Iscompleted();
+            return Ok(result);
+        }
+
     }
 }

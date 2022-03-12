@@ -4,6 +4,7 @@ using FOODProject.Model.Common;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using NPOI.SS.Formula.Functions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -32,7 +33,7 @@ namespace FOODProject.Core.Accounts
         {
             Role role = new Role();
 
-            role.Role1 = value.role;
+            role.Role1 = char.ToUpper(value.role[0]) + value.role.Substring(1).ToLower();
             var check = context.Roles.FirstOrDefault(x => x.Role1 == value.role);
             if (check != null)
             {
@@ -110,7 +111,7 @@ namespace FOODProject.Core.Accounts
                 var authclaims = new List<Claim>
                   {
                      new Claim(ClaimTypes.Name,values.EmailId),
-                       
+                     new Claim(ClaimTypes.Sid,qs.ToString()),
                      new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString())
                   };
 
@@ -146,13 +147,32 @@ namespace FOODProject.Core.Accounts
             }
         }
 
-        /*public async Task<IEnumerable> GetEmailId()
+        public double CalculateDistance(Location point1)
         {
-            var Email=(string)HttpContext.Items["EmailId"];
-            var qs = (from obj in context.Roles
-                      select new { obj.RoleId, obj.Role1 }).ToList();
-            return qs;
-        }*/
-        
+            var d1 = point1.Latitude1 * (Math.PI / 180.0);
+            var num1 = point1.Longitude1 * (Math.PI / 180.0);
+            var d2 = point1.Latitude2 * (Math.PI / 180.0);
+            var num2 = point1.Longitude2 * (Math.PI / 180.0) - num1;
+            var d3 = Math.Pow(Math.Sin((d2 - d1) / 2.0), 2.0) +
+                     Math.Cos(d1) * Math.Cos(d2) * Math.Pow(Math.Sin(num2 / 2.0), 2.0);
+
+            return Math.Round(6371.0 * (2.0 * Math.Atan2(Math.Sqrt(d3), Math.Sqrt(1.0 - d3))));
+        }
+
+        public class Location
+        {
+            public double Latitude1 = 21.1481604;
+            public double Longitude1 = 72.7730543;
+            public double Latitude2 = 21.1583979;
+            public double Longitude2 = 72.837367;
+
+        }
+
+        //21.1481604,72.7730543
+        //21.1481486,72.7600902
+        //21.1484738,72.7550798
+        //21.1583979,72.837367
+
+
     }
 }

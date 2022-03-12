@@ -16,7 +16,7 @@ namespace FOODProject.Core.Categories
 
 
         public Result AddCategory(Model.Category.CategoryModel value)
-        {
+        {   
             Category c = new Category();
             c.Category1 = value.Category;
             var check = context.Categories.FirstOrDefault(x => x.Category1 == value.Category);
@@ -38,8 +38,6 @@ namespace FOODProject.Core.Categories
                     Status = Result.ResultStatus.warning,
                 };
             }
-
-           
 
         }
         public async Task<IEnumerable> get()

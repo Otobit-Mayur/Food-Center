@@ -76,3 +76,10 @@ C:\Users\SMARTY\Desktop\FOODProject\FOODProject\bin\Debug\net5.0\Microsoft.AspNe
 C:\Users\SMARTY\Desktop\FOODProject\FOODProject\bin\Debug\net5.0\Newtonsoft.Json.dll
 C:\Users\SMARTY\Desktop\FOODProject\FOODProject\bin\Debug\net5.0\Newtonsoft.Json.Bson.dll
 C:\Users\SMARTY\Desktop\FOODProject\FOODProject\obj\Debug\net5.0\FOODProject.csproj.AssemblyReference.cache
+C:\Users\SMARTY\Desktop\FOODProject\FOODProject\bin\Debug\net5.0\GeolocationNetStandard.dll
+C:\Users\SMARTY\Desktop\FOODProject\FOODProject\bin\Debug\net5.0\NPOI.OOXML.dll
+C:\Users\SMARTY\Desktop\FOODProject\FOODProject\bin\Debug\net5.0\NPOI.OpenXml4Net.dll
+C:\Users\SMARTY\Desktop\FOODProject\FOODProject\bin\Debug\net5.0\NPOI.OpenXmlFormats.dll
+C:\Users\SMARTY\Desktop\FOODProject\FOODProject\bin\Debug\net5.0\NPOI.dll
+C:\Users\SMARTY\Desktop\FOODProject\FOODProject\bin\Debug\net5.0\BouncyCastle.Crypto.dll
+C:\Users\SMARTY\Desktop\FOODProject\FOODProject\bin\Debug\net5.0\ICSharpCode.SharpZipLib.dll

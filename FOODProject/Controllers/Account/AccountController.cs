@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static FOODProject.Core.Accounts.Accounts;
 
 namespace FOODProject.Controllers.Account
 {
@@ -41,20 +42,20 @@ namespace FOODProject.Controllers.Account
             var result = _accounts.SignUp(values);
             return Ok(result);
         }
-       [HttpPost("login")]
+        [HttpPost("login")]
         public async Task<IActionResult> login(Model.Account.Login values)
         {
             var result = _accounts.Login(values);
             return Ok(result);
         }
-        /* [HttpGet("email")]
-          public IActionResult GetEmail()
-          {
+        [HttpPost("Distance")]
+        public IActionResult Getdistance(Location point1)
+        {
 
-              string EmailId = (string)HttpContext.Items["EmailId"];
+            // return Ok(new Accounts().get());
+            var result = _accounts.CalculateDistance(point1);
+            return Ok(result);
+        }
 
-              return Ok(EmailId);
-          }*/
-        
     }
 }

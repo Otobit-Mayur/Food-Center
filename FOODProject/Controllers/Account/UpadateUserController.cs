@@ -20,9 +20,10 @@ namespace FOODProject.Controllers.Account
         }
 
         [HttpPut]
-        public async Task<IActionResult>Updatepassword(Model.Account.Changepassword value,int id)
+        public async Task<IActionResult>Updatepassword(Model.Account.Changepassword value)
         {
-            var result = _updatePassword.Changepassword(value, id);
+            int UserId = (int)HttpContext.Items["UserId"];
+            var result = _updatePassword.Changepassword(value, UserId);
             return Ok(result);
         }
     }

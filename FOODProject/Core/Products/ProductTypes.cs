@@ -18,7 +18,7 @@ namespace FOODProject.Core.Products
             var qes = (from obj in context.ShopDetails
                        where obj.UserId == UserId
                        select obj.ShopId).SingleOrDefault();
-            pt.Type = value.Type;
+            pt.Type = char.ToUpper(value.Type[0]) + value.Type.Substring(1).ToLower();
             pt.ShopId = qes;
             var check = context.ProductTypes.SingleOrDefault(x => x.Type==value.Type);
             if (check != null)

@@ -18,7 +18,8 @@ namespace FOODProject.Core.Products
 
             var res = context.ProductTypes.SingleOrDefault(x => x.Type == value.TypeId.String);
 
-            p.ProductName = value.ProductName;
+            p.ProductName = char.ToUpper(value.ProductName[0])+value.ProductName.Substring(1).ToLower();
+            //char.ToUpper(userModel.UserName[0]) + userModel.UserName.Substring(1).ToLower();
             var check = context.Products.FirstOrDefault(x => x.ProductName == value.ProductName);
             if (check != null)
             {
@@ -73,7 +74,8 @@ namespace FOODProject.Core.Products
             Product product = context.Products.SingleOrDefault(x => x.ProductId == Id);
             if (product != null)
             {
-                product.ProductName = value.ProductName;
+                product.ProductName = char.ToUpper(value.ProductName[0]) + value.ProductName.Substring(1).ToLower();
+                var check = context.Products.FirstOrDefault(x => x.ProductName == value.ProductName);
                 product.Price = value.Price;
                 product.Description = value.Description;
                 product.Image = value.Image;
