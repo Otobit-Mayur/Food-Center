@@ -25,5 +25,11 @@ namespace FOODProject.Controllers.StoreDetail
             var result = _address.Addresss(value);
             return Ok(result);
         }
+        [HttpGet]
+        public IActionResult GetAllUser()
+        {
+            var result = _address.getAddress();
+            return Ok(result);
+        }
     }
 }

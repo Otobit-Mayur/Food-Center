@@ -26,7 +26,7 @@ namespace Food_Center.Services
                 issuer: _configuration["JWT:ValidIssuer"],
                 audience: _configuration["Jwt:ValidIssuer"],
                 notBefore: DateTime.Now,
-                expires: DateTime.Now.AddDays(1),
+                expires: DateTime.Now.AddDays(7),
                 claims: claims,
                 signingCredentials: new SigningCredentials(authSignKey, SecurityAlgorithms.HmacSha256Signature)
             );

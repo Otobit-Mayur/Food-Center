@@ -32,12 +32,11 @@ namespace FOODProject.Controllers.Account
             var result = _store_Details.UpdateProfile(value,UserId);
             return Ok(result);
         }
-        [HttpPut("IsCompleted")]
-        public async Task<IActionResult> IsCompled()
+        [HttpGet]
+        public IActionResult GetAllUser()
         {
-            var result = _store_Details.Iscompleted();
+            var result = _store_Details.getallShop();
             return Ok(result);
         }
-
     }
 }

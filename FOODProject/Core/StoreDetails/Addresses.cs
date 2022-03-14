@@ -1,6 +1,7 @@
 ﻿using FoodCenterContext;
 using FOODProject.Model.Common;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -39,6 +40,17 @@ namespace FOODProject.Core.StoreDetails
             {
                 Message = string.Format($"Address Added"),
                 Status = Result.ResultStatus.success,
+            };
+        }
+        public Result getAddress()
+        {
+            return new Result()
+            {
+                Message = String.Format($"Get All Address"),
+                Status = Result.ResultStatus.success,
+                Data = (from obj in context.Addresses
+                        select new { obj.Address1, obj.Latitude, obj.Longitude, obj.ShopId }).ToList(),
+
             };
         }
     }

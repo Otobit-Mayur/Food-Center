@@ -58,7 +58,7 @@ namespace FOODProject.Core.Accounts
         }
 
      
-        public async Task<IEnumerable> get()
+        public async Task<IEnumerable> getallRole()
         {
             var qs = (from obj in context.Roles
                       select new { obj.RoleId, obj.Role1 }).ToList();
@@ -94,6 +94,12 @@ namespace FOODProject.Core.Accounts
                 /*return "Signup Successfully";*/
             }
 
+        }
+        public async Task<IEnumerable> getallUser()
+        {
+            var qs = (from obj in context.Users
+                      select new{obj.UserId, obj.EmailId,obj.RoleId}).ToList();
+            return qs;
         }
 
         public Result Login(Model.Account.Login values)

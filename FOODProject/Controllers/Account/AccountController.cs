@@ -32,7 +32,7 @@ namespace FOODProject.Controllers.Account
         {
 
             // return Ok(new Accounts().get());
-            var result = _accounts.get();
+            var result = _accounts.getallRole();
             return Ok(result);
         }
         [HttpPost("Signup")]
@@ -40,6 +40,14 @@ namespace FOODProject.Controllers.Account
         {
             //return Ok(new Accounts().SignUp(store_SignUpModel));
             var result = _accounts.SignUp(values);
+            return Ok(result);
+        }
+        [HttpGet("User")]
+        public IActionResult GetAllUser()
+        {
+
+            // return Ok(new Accounts().get());
+            var result = _accounts.getallUser();
             return Ok(result);
         }
         [HttpPost("login")]

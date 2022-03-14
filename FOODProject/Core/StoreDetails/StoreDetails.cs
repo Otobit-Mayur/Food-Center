@@ -43,16 +43,18 @@ namespace FOODProject.Core.Accounts
             };
 
         }
-        public Result Iscompleted()
+        public Result getallShop()
         {
-            ShopDetail sd = new ShopDetail();
-            sd.IsCompleted = 1;
-            context.SubmitChanges();
             return new Result()
-                {
-                    Message = string.Format($"Profile Completed"),
-                    Status = Result.ResultStatus.success,
-                };
+            {
+                Message = String.Format($"Get All Shop Details"),
+                Status = Result.ResultStatus.success,
+                Data = (from obj in context.ShopDetails
+                        select new { obj.ShopId, obj.ShopName, obj.PhoneNumber,
+                                     obj.DeliveryRadius,obj.UserId,obj.CategoryId,
+                                     obj.Status,obj.IsCompleted }).ToList(),
+
+            };
         }
 
         public Result UpdateProfile(Model.StoreDetail.Update value,int UserId)

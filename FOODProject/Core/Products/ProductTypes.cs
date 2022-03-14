@@ -1,4 +1,5 @@
 ﻿using FoodCenterContext;
+using FOODProject.Model.Common;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -32,6 +33,7 @@ namespace FOODProject.Core.Products
                 return "ProductType Added Successfully";
             }
         }
+        /*$distance = DB::raw("( 3959 * acos( cos( radians($lat) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians($lng) ) + sin( radians($lat) ) * sin( radians( latitude ) ) ) ) AS distance");*/
         public async Task<IEnumerable> get()
         {
             var q = (from obj in context.ProductTypes
@@ -39,5 +41,7 @@ namespace FOODProject.Core.Products
 
             return q;
         }
+       
+
     }
 }
