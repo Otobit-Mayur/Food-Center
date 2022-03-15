@@ -60,5 +60,23 @@ namespace FOODProject.Controllers.Product
             var result = _products.getsid(EmailId);
             return Ok(result);
         }
+        [HttpGet("getbytype")]
+        public async Task<IActionResult> GetByType(int TypeId)
+        {
+            var result = _products.GetByType(TypeId);
+            return Ok(result);
+        }
+        [HttpGet("SortPrice")]
+        public async Task<IActionResult> SortPrice()
+        {
+            var result = _products.SortByPrice();
+            return Ok(result);
+        }
+        [HttpGet("SortPriceDescending")]
+        public async Task<IActionResult> SortPriceDescending()
+        {
+            var result = _products.SortByPriceDes();
+            return Ok(result);
+        }
     }
 }

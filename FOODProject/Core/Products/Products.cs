@@ -155,5 +155,73 @@ namespace FOODProject.Core.Products
                 Data=uid,
             };
         }
+
+        // Filtering in Product
+        public async Task<IEnumerable> GetByType(int TypeId)
+        {
+         
+            var q = (from obj in context.Products
+                     join pt in context.ProductTypes
+                     on obj.TypeId equals pt.TypeId
+                     where obj.TypeId==TypeId
+                     select new
+                     {
+                         ProductId = obj.ProductId,
+                         ProductName = obj.ProductName,
+                         Price = obj.Price,
+                         Description = obj.Description,
+                         Image = obj.Image,
+                         TypeId = obj.TypeId,
+                         Type = pt.Type,
+                         ShopId = pt.ShopId
+                     }).ToList();
+
+            return q;
+        }
+
+        //Sort By Price In Ascending order 
+        public async Task<IEnumerable> SortByPrice ()
+        {
+
+            var q = (from obj in context.Products
+                     join pt in context.ProductTypes
+                     on obj.TypeId equals pt.TypeId
+                     orderby obj.Price
+                     select new
+                     {
+                         ProductId = obj.ProductId,
+                         ProductName = obj.ProductName,
+                         Price = obj.Price,
+                         Description = obj.Description,
+                         Image = obj.Image,
+                         TypeId = obj.TypeId,
+                         Type = pt.Type,
+                         ShopId = pt.ShopId
+                     }).ToList();
+
+            return q;
+        }
+        //Sort By Price In Descending order 
+        public async Task<IEnumerable> SortByPriceDes()
+        {
+
+            var q = (from obj in context.Products
+                     join pt in context.ProductTypes
+                     on obj.TypeId equals pt.TypeId
+                     orderby obj.Price descending
+                     select new
+                     {
+                         ProductId = obj.ProductId,
+                         ProductName = obj.ProductName,
+                         Price = obj.Price,
+                         Description = obj.Description,
+                         Image = obj.Image,
+                         TypeId = obj.TypeId,
+                         Type = pt.Type,
+                         ShopId = pt.ShopId
+                     }).ToList();
+
+            return q;
+        }
     }
 }

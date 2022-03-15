@@ -109,14 +109,19 @@ namespace FOODProject.Core.Accounts
                       select obj.UserId).SingleOrDefault();
             var result = (from SignUp in context.Users
                           where SignUp.EmailId == values.EmailId && SignUp.Password == values.Password
-                          select SignUp).ToList();
+                          select new 
+                          {
+                              UserId=SignUp.UserId,
+                              EmailId=SignUp.EmailId,
+                              RoleId=SignUp.RoleId
+                          }).FirstOrDefault();
 
-            if (result.Count() == 1)
+            if (result != null)
             {
 
                 var authclaims = new List<Claim>
                   {
-                     new Claim(ClaimTypes.Name,values.EmailId),
+                     new Claim(ClaimTypes.Name,result.EmailId),
                      new Claim(ClaimTypes.Sid,qs.ToString()),
                      new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString())
                   };
@@ -130,7 +135,7 @@ namespace FOODProject.Core.Accounts
                 context.SubmitChanges();
 
                 UserRefresh ur = new UserRefresh();
-                ur.UserEmailId = values.EmailId;
+                ur.UserEmailId = result.EmailId;
                 ur.RefreshTokenId = rt.RefreshTokenId;
                 context.UserRefreshes.InsertOnSubmit(ur);
                 context.SubmitChanges();
@@ -143,7 +148,9 @@ namespace FOODProject.Core.Accounts
                     {
                         token=jwtToken,
                         RefreshToken=refreshToken,
-                        UserEmailId=values.EmailId,
+                        UserEmailId= result.EmailId,
+                        RoleId=result.RoleId,
+
                     },
                 };
             }
