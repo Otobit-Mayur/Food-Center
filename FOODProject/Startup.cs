@@ -76,7 +76,7 @@ namespace FOODProject
 
             services.AddTransient<Accounts>();
             services.AddTransient<StoreDetails>();
-            services.AddTransient<Core.StoreDetails.Addresses>();
+           // services.AddTransient<Core.StoreDetails.Addresses>();
             services.AddTransient<Core.Categories.Categories>();
             services.AddTransient<ProductTypes>();
             services.AddTransient<Core.Products.Products>();
@@ -126,6 +126,7 @@ namespace FOODProject
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseMiddleware<ErrorHandler>();
             app.UseMiddleware<JwtHandler>();
 
             app.UseEndpoints(endpoints =>

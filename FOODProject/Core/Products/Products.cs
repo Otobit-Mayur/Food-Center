@@ -150,8 +150,8 @@ namespace FOODProject.Core.Products
                        select user.UserId).SingleOrDefault();
             return new Result()
             {
-                Message = string.Format($"Product Not Available"),
-                Status = Result.ResultStatus.warning,
+                Message = string.Format($"{uid}"),
+                Status = Result.ResultStatus.success,
                 Data=uid,
             };
         }

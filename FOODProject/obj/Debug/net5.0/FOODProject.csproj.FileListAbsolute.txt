@@ -83,3 +83,5 @@ C:\Users\SMARTY\Desktop\FOODProject\FOODProject\bin\Debug\net5.0\NPOI.OpenXmlFor
 C:\Users\SMARTY\Desktop\FOODProject\FOODProject\bin\Debug\net5.0\NPOI.dll
 C:\Users\SMARTY\Desktop\FOODProject\FOODProject\bin\Debug\net5.0\BouncyCastle.Crypto.dll
 C:\Users\SMARTY\Desktop\FOODProject\FOODProject\bin\Debug\net5.0\ICSharpCode.SharpZipLib.dll
+C:\Users\SMARTY\Desktop\FOODProject\FOODProject\obj\Debug\net5.0\FOODProject.Properties.Resources.resources
+C:\Users\SMARTY\Desktop\FOODProject\FOODProject\obj\Debug\net5.0\FOODProject.csproj.GenerateResource.cache
