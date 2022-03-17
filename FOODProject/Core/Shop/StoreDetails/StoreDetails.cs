@@ -62,7 +62,8 @@ namespace FOODProject.Core.Accounts
                         Status = Result.ResultStatus.success,
                         Data = sd.ShopId,
                     };
-                }           }
+                }          
+            }
             
         }
         public Result getallShop()

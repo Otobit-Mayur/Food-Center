@@ -84,6 +84,7 @@ namespace FOODProject
             services.AddTransient<Core.Accounts.UpdatePassword>();
             services.AddTransient<TokenService>();
             services.AddTransient<OfficeDetails>();
+            services.AddTransient<Core.Shop.StoreDetails.AddMoreAddress>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "FOODProject", Version = "v1" });
