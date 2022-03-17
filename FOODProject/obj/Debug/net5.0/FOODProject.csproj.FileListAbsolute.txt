@@ -52,8 +52,6 @@ C:\Users\SMARTY\Desktop\FOODProject\FOODProject\bin\Debug\net5.0\runtimes\win-x8
 C:\Users\SMARTY\Desktop\FOODProject\FOODProject\bin\Debug\net5.0\runtimes\win-arm64\native\sni.dll
 C:\Users\SMARTY\Desktop\FOODProject\FOODProject\bin\Debug\net5.0\runtimes\win-x64\native\sni.dll
 C:\Users\SMARTY\Desktop\FOODProject\FOODProject\bin\Debug\net5.0\runtimes\win-x86\native\sni.dll
-C:\Users\SMARTY\Desktop\FOODProject\FOODProject\bin\Debug\net5.0\runtimes\unix\lib\netstandard2.0\System.Data.SqlClient.dll
-C:\Users\SMARTY\Desktop\FOODProject\FOODProject\bin\Debug\net5.0\runtimes\win\lib\netstandard2.0\System.Data.SqlClient.dll
 C:\Users\SMARTY\Desktop\FOODProject\FOODProject\bin\Debug\net5.0\runtimes\win\lib\netstandard2.0\System.Runtime.Caching.dll
 C:\Users\SMARTY\Desktop\FOODProject\FOODProject\bin\Debug\net5.0\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
 C:\Users\SMARTY\Desktop\FOODProject\FOODProject\obj\Debug\net5.0\FOODProject.GeneratedMSBuildEditorConfig.editorconfig
@@ -75,7 +73,6 @@ C:\Users\SMARTY\Desktop\FOODProject\FOODProject\bin\Debug\net5.0\Microsoft.AspNe
 C:\Users\SMARTY\Desktop\FOODProject\FOODProject\bin\Debug\net5.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 C:\Users\SMARTY\Desktop\FOODProject\FOODProject\bin\Debug\net5.0\Newtonsoft.Json.dll
 C:\Users\SMARTY\Desktop\FOODProject\FOODProject\bin\Debug\net5.0\Newtonsoft.Json.Bson.dll
-C:\Users\SMARTY\Desktop\FOODProject\FOODProject\obj\Debug\net5.0\FOODProject.csproj.AssemblyReference.cache
 C:\Users\SMARTY\Desktop\FOODProject\FOODProject\bin\Debug\net5.0\GeolocationNetStandard.dll
 C:\Users\SMARTY\Desktop\FOODProject\FOODProject\bin\Debug\net5.0\NPOI.OOXML.dll
 C:\Users\SMARTY\Desktop\FOODProject\FOODProject\bin\Debug\net5.0\NPOI.OpenXml4Net.dll
@@ -85,3 +82,6 @@ C:\Users\SMARTY\Desktop\FOODProject\FOODProject\bin\Debug\net5.0\BouncyCastle.Cr
 C:\Users\SMARTY\Desktop\FOODProject\FOODProject\bin\Debug\net5.0\ICSharpCode.SharpZipLib.dll
 C:\Users\SMARTY\Desktop\FOODProject\FOODProject\obj\Debug\net5.0\FOODProject.Properties.Resources.resources
 C:\Users\SMARTY\Desktop\FOODProject\FOODProject\obj\Debug\net5.0\FOODProject.csproj.GenerateResource.cache
+C:\Users\SMARTY\Desktop\FOODProject\FOODProject\bin\Debug\net5.0\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
+C:\Users\SMARTY\Desktop\FOODProject\FOODProject\bin\Debug\net5.0\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
+C:\Users\SMARTY\Desktop\FOODProject\FOODProject\obj\Debug\net5.0\FOODProject.csproj.AssemblyReference.cache

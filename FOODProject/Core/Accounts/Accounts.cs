@@ -33,8 +33,8 @@ namespace FOODProject.Core.Accounts
         {
             Role role = new Role();
 
-            role.Role1 = char.ToUpper(value.role[0]) + value.role.Substring(1).ToLower();
-            var check = context.Roles.FirstOrDefault(x => x.Role1 == value.role);
+            role.RoleName = char.ToUpper(value.role[0]) + value.role.Substring(1).ToLower();
+            var check = context.Roles.FirstOrDefault(x => x.RoleName == value.role);
             if (check != null)
             {
                 return new Result()
@@ -58,11 +58,17 @@ namespace FOODProject.Core.Accounts
         }
 
      
-        public async Task<IEnumerable> getallRole()
+        public Result getallRole()
         {
-            var qs = (from obj in context.Roles
-                      select new { obj.RoleId, obj.Role1 }).ToList();
-            return qs;
+            return new Result()
+            {
+                Message = string.Format("Get All  Role Successfully"),
+                Status = Result.ResultStatus.none,
+                Data =(from obj in context.Roles
+                       select new { obj.RoleId, obj.RoleName }).ToList(),
+            };
+            
+      
         }
 
         public Result SignUp(Model.Account.User values)
@@ -70,7 +76,7 @@ namespace FOODProject.Core.Accounts
             User sp = new User();
             Role role = new Role();
          
-            var ms = context.Roles.SingleOrDefault(c => c.Role1 == values.RoleId.String);
+            var ms = context.Roles.SingleOrDefault(c => c.RoleName == values.RoleId.String);
            
             var res = context.Users.FirstOrDefault(x => x.EmailId == values.EmailId);
             if (res != null)
@@ -95,11 +101,16 @@ namespace FOODProject.Core.Accounts
             }
 
         }
-        public async Task<IEnumerable> getallUser()
+        public Result getallUser()
         {
-            var qs = (from obj in context.Users
-                      select new{obj.UserId, obj.EmailId,obj.RoleId}).ToList();
-            return qs;
+            return new Result()
+            {
+                Message = string.Format("Get All User Successfully"),
+                Status = Result.ResultStatus.none,
+                Data = (from obj in context.Users
+                        select new { obj.UserId, obj.EmailId, obj.RoleId }).ToList(),
+            };
+            
         }
 
         public Result Login(Model.Account.Login values)

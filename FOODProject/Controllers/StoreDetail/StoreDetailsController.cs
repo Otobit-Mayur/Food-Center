@@ -26,7 +26,7 @@ namespace FOODProject.Controllers.Account
             return Ok(result);
         }
         [HttpPut]
-        public async Task<IActionResult>Update(Model.StoreDetail.Update value)
+        public async Task<IActionResult>Update(Model.StoreDetail.StoreDetail value)
         {
             int UserId = (int)HttpContext.Items["UserId"];
             var result = _store_Details.UpdateProfile(value,UserId);

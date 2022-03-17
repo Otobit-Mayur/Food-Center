@@ -46,26 +46,28 @@ namespace FOODProject.Core.Products
             }
 
         }
-        public async Task<IEnumerable>get()
+        public Result GetAllProduct()
         {
-            /*var q = (from obj in context.Products
-                     select new { obj.ProductId, obj.ProductName,obj.Price, obj.Description, obj.Status, obj.Image }).ToList();*/
-            var q = (from obj in context.Products
-                     join pt in context.ProductTypes
-                     on obj.TypeId equals pt.TypeId
-                     select new
-                     {
-                         ProductId=obj.ProductId,
-                         ProductName=obj.ProductName,
-                         Price=obj.Price,
-                         Description=obj.Description,
-                         Image=obj.Image,
-                         TypeId=obj.TypeId,
-                         Type=pt.Type,
-                         ShopId=pt.ShopId
-                     }).ToList();
 
-            return q;
+            return new Result()
+            {
+                Message = string.Format("Get All Product Successfully"),
+                Status = Result.ResultStatus.none,
+                Data = (from obj in context.Products
+                        join pt in context.ProductTypes
+                        on obj.TypeId equals pt.TypeId
+                        select new
+                        {
+                            ProductId = obj.ProductId,
+                            ProductName = obj.ProductName,
+                            Price = obj.Price,
+                            Description = obj.Description,
+                            Image = obj.Image,
+                            TypeId = obj.TypeId,
+                            Type = pt.Type,
+                            ShopId = pt.ShopId
+                        }).ToList(),
+            };
         }
         public Result Update(Model.Product.Product value, int Id)
         {
@@ -157,71 +159,82 @@ namespace FOODProject.Core.Products
         }
 
         // Filtering in Product
-        public async Task<IEnumerable> GetByType(int TypeId)
+        public Result GetByType(int TypeId)
         {
-         
-            var q = (from obj in context.Products
-                     join pt in context.ProductTypes
-                     on obj.TypeId equals pt.TypeId
-                     where obj.TypeId==TypeId
-                     select new
-                     {
-                         ProductId = obj.ProductId,
-                         ProductName = obj.ProductName,
-                         Price = obj.Price,
-                         Description = obj.Description,
-                         Image = obj.Image,
-                         TypeId = obj.TypeId,
-                         Type = pt.Type,
-                         ShopId = pt.ShopId
-                     }).ToList();
+            return new Result()
+            {
+                Message = string.Format($"Get Product Successfully"),
+                Status = Result.ResultStatus.success,
+                Data = (from obj in context.Products
+                        join pt in context.ProductTypes
+                        on obj.TypeId equals pt.TypeId
+                        where obj.TypeId == TypeId
+                        select new
+                        {
+                            ProductId = obj.ProductId,
+                            ProductName = obj.ProductName,
+                            Price = obj.Price,
+                            Description = obj.Description,
+                            Image = obj.Image,
+                            TypeId = obj.TypeId,
+                            Type = pt.Type,
+                            ShopId = pt.ShopId
+                        }).ToList(),
+            };
 
-            return q;
+            
         }
 
         //Sort By Price In Ascending order 
-        public async Task<IEnumerable> SortByPrice ()
+        public Result SortByPrice ()
         {
+            return new Result()
+            {
+                Message = string.Format("Get Product In Sort By Price Successfully"),
+                Status = Result.ResultStatus.none,
+                Data =(from obj in context.Products
+                                join pt in context.ProductTypes
+                                on obj.TypeId equals pt.TypeId
+                                orderby obj.Price
 
-            var q = (from obj in context.Products
-                     join pt in context.ProductTypes
-                     on obj.TypeId equals pt.TypeId
-                     orderby obj.Price
-                     select new
-                     {
-                         ProductId = obj.ProductId,
-                         ProductName = obj.ProductName,
-                         Price = obj.Price,
-                         Description = obj.Description,
-                         Image = obj.Image,
-                         TypeId = obj.TypeId,
-                         Type = pt.Type,
-                         ShopId = pt.ShopId
-                     }).ToList();
-
-            return q;
+                                select new
+                                {
+                                    ProductId = obj.ProductId,
+                                    ProductName = obj.ProductName,
+                                    Price = obj.Price,
+                                    Description = obj.Description,
+                                    Image = obj.Image,
+                                    TypeId = obj.TypeId,
+                                    Type = pt.Type,
+                                    ShopId = pt.ShopId
+                                }).ToList(),
+            };
+          
         }
         //Sort By Price In Descending order 
-        public async Task<IEnumerable> SortByPriceDes()
+        public Result SortByPriceDes()
         {
+            return new Result()
+            {
+                Message = string.Format("Get Product In Sort By Price in Descending Order"),
+                Status = Result.ResultStatus.none,
+                Data = (from obj in context.Products
+                        join pt in context.ProductTypes
+                        on obj.TypeId equals pt.TypeId
+                        orderby obj.Price descending
+                        select new
+                        {
+                            ProductId = obj.ProductId,
+                            ProductName = obj.ProductName,
+                            Price = obj.Price,
+                            Description = obj.Description,
+                            Image = obj.Image,
+                            TypeId = obj.TypeId,
+                            Type = pt.Type,
+                            ShopId = pt.ShopId
+                        }).ToList(),
 
-            var q = (from obj in context.Products
-                     join pt in context.ProductTypes
-                     on obj.TypeId equals pt.TypeId
-                     orderby obj.Price descending
-                     select new
-                     {
-                         ProductId = obj.ProductId,
-                         ProductName = obj.ProductName,
-                         Price = obj.Price,
-                         Description = obj.Description,
-                         Image = obj.Image,
-                         TypeId = obj.TypeId,
-                         Type = pt.Type,
-                         ShopId = pt.ShopId
-                     }).ToList();
-
-            return q;
+        };
         }
     }
 }

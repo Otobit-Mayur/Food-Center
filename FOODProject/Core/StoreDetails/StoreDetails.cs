@@ -13,12 +13,12 @@ namespace FOODProject.Core.Accounts
         public Result AddStoreDetails(Model.StoreDetail.StoreDetail value)
         {
 
-          /*  using (TransactionScope scope = new TransactionScope())
-            {*/
-            using (FoodCenterDataContext context = new FoodCenterDataContext())
+            using (TransactionScope scope = new TransactionScope())
             {
+                using (FoodCenterDataContext context = new FoodCenterDataContext())
+                {
                     ShopDetail sd = new ShopDetail();
-
+                    
                     sd.IsCompleted = 1;
                     sd.ShopName = value.ShopName;
                     sd.PhoneNumber = value.PhoneNumber;
@@ -27,33 +27,34 @@ namespace FOODProject.Core.Accounts
                     sd.Logo = value.Logo;
                     sd.Status = 1;
 
-                    var ci = context.Categories.SingleOrDefault(c => c.Category1 == value.CategoryId.String);
+                    var ci = context.Categories.SingleOrDefault(c => c.CategoryName == value.CategoryId.String).CategoryId;
 
                     var ui = context.Users.SingleOrDefault(c => c.EmailId == value.UserId.String);
-                    var check = context.ShopDetails.SingleOrDefault(c=>c.UserId==ui.UserId);
-                        if (check != null) 
-                        {
-                            throw new ArgumentException("Entered Email Already Registered for another store");
-                        }
+                    var check = context.ShopDetails.SingleOrDefault(c => c.UserId == ui.UserId);
+                    if (check != null)
+                    {
+                        throw new ArgumentException("Entered Email Already Registered for another store");
+                    }
 
 
-                    sd.CategoryId = ci.CategoryId;
+                    sd.CategoryId = ci;
                     sd.UserId = ui.UserId;
 
                     context.ShopDetails.InsertOnSubmit(sd);
                     context.SubmitChanges();
+                    
 
 
-                    FoodCenterContext.Address add = new FoodCenterContext.Address() 
-                    { 
-                        Address1 = value.Address.AddresssLine,
+                    FoodCenterContext.ShopAddress add = new FoodCenterContext.ShopAddress()
+                    {
+                        AddressLine = value.Address.AddresssLine,
                         Latitude = value.Address.Latitude,
                         Longitude = value.Address.Longitude,
                         ShopId = sd.ShopId,
                     };
-                    context.Addresses.InsertOnSubmit(add);
+                    context.ShopAddresses.InsertOnSubmit(add);
                     context.SubmitChanges();
-                   // scope.Complete();
+                    scope.Complete();
                     return new Result()
                     {
 
@@ -61,7 +62,7 @@ namespace FOODProject.Core.Accounts
                         Status = Result.ResultStatus.success,
                         Data = sd.ShopId,
                     };
-               }
+                }           }
             
         }
         public Result getallShop()
@@ -90,7 +91,7 @@ namespace FOODProject.Core.Accounts
               
         }
 
-        public Result UpdateProfile(Model.StoreDetail.Update value,int UserId)
+        public Result UpdateProfile(Model.StoreDetail.StoreDetail value,int UserId)
         {
             using (FoodCenterDataContext context = new FoodCenterDataContext())
             {

@@ -18,8 +18,8 @@ namespace FOODProject.Core.Categories
         public Result AddCategory(Model.Category.CategoryModel value)
         {   
             Category c = new Category();
-            c.Category1 = value.Category;
-            var check = context.Categories.FirstOrDefault(x => x.Category1 == value.Category);
+            c.CategoryName = value.Category;
+            var check = context.Categories.FirstOrDefault(x => x.CategoryName == value.Category);
             if(check!=null)
             {
                 return new Result()
@@ -43,7 +43,7 @@ namespace FOODProject.Core.Categories
         public async Task<IEnumerable> get()
         {
             var qs = (from obj in context.Categories
-                      select new { obj.CategoryId, obj.Category1 }).ToList();
+                      select new { obj.CategoryId, obj.CategoryName }).ToList();
             return qs;
         }
 

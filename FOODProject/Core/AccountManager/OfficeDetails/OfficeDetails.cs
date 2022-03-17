@@ -9,7 +9,6 @@ namespace FOODProject.Core.AccountManager.OfficeDetails
 {
     public class OfficeDetails
     {
-        
 
         public Result AddOfficeDetail(Model.AccountManager.OfficeDetail.OfficeDetail value)
         {

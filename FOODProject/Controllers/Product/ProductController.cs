@@ -31,7 +31,7 @@ namespace FOODProject.Controllers.Product
         [HttpGet("get")]
         public async Task<IActionResult>Get()
         {
-            var result = _products.get();
+            var result = _products.GetAllProduct();
             return Ok(result);
         }
         [HttpPut("{id}")]

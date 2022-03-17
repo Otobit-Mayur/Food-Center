@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "PWg/EKKPGLae0+YJJ/Qj8v7jxGUglfzqVdRGUGXfnKH4Y4oNWCGzXUw9giYoaZiDTtkBUHQG1XTDO4JTRw0WEw==",
+  "dgSpecHash": "x6+Eiht/2bSbpQY0kuzIXwzAgzkpAiJ4LI1+z6YImW65xXvoTDM5hocexHhsCeKkYbzEl5oFZ0BKRv4WJwvTUA==",
   "success": true,
   "projectFilePath": "C:\\Users\\SMARTY\\Desktop\\FOODProject\\FOODProject\\FOODProject.csproj",
   "expectedPackageFiles": [
@@ -57,7 +57,7 @@
     "C:\\Users\\SMARTY\\.nuget\\packages\\runtime.fedora.23-x64.runtime.native.system.security.cryptography.openssl\\4.3.0\\runtime.fedora.23-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512",
     "C:\\Users\\SMARTY\\.nuget\\packages\\runtime.fedora.24-x64.runtime.native.system.security.cryptography.openssl\\4.3.0\\runtime.fedora.24-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512",
     "C:\\Users\\SMARTY\\.nuget\\packages\\runtime.native.system\\4.3.0\\runtime.native.system.4.3.0.nupkg.sha512",
-    "C:\\Users\\SMARTY\\.nuget\\packages\\runtime.native.system.data.sqlclient.sni\\4.4.0\\runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512",
+    "C:\\Users\\SMARTY\\.nuget\\packages\\runtime.native.system.data.sqlclient.sni\\4.7.0\\runtime.native.system.data.sqlclient.sni.4.7.0.nupkg.sha512",
     "C:\\Users\\SMARTY\\.nuget\\packages\\runtime.native.system.io.compression\\4.3.0\\runtime.native.system.io.compression.4.3.0.nupkg.sha512",
     "C:\\Users\\SMARTY\\.nuget\\packages\\runtime.native.system.net.http\\4.3.0\\runtime.native.system.net.http.4.3.0.nupkg.sha512",
     "C:\\Users\\SMARTY\\.nuget\\packages\\runtime.native.system.security.cryptography.apple\\4.3.0\\runtime.native.system.security.cryptography.apple.4.3.0.nupkg.sha512",
@@ -91,7 +91,7 @@
     "C:\\Users\\SMARTY\\.nuget\\packages\\system.componentmodel.typeconverter\\4.3.0\\system.componentmodel.typeconverter.4.3.0.nupkg.sha512",
     "C:\\Users\\SMARTY\\.nuget\\packages\\system.configuration.configurationmanager\\4.7.0\\system.configuration.configurationmanager.4.7.0.nupkg.sha512",
     "C:\\Users\\SMARTY\\.nuget\\packages\\system.console\\4.3.0\\system.console.4.3.0.nupkg.sha512",
-    "C:\\Users\\SMARTY\\.nuget\\packages\\system.data.sqlclient\\4.4.0\\system.data.sqlclient.4.4.0.nupkg.sha512",
+    "C:\\Users\\SMARTY\\.nuget\\packages\\system.data.sqlclient\\4.8.3\\system.data.sqlclient.4.8.3.nupkg.sha512",
     "C:\\Users\\SMARTY\\.nuget\\packages\\system.diagnostics.debug\\4.3.0\\system.diagnostics.debug.4.3.0.nupkg.sha512",
     "C:\\Users\\SMARTY\\.nuget\\packages\\system.diagnostics.diagnosticsource\\5.0.1\\system.diagnostics.diagnosticsource.5.0.1.nupkg.sha512",
     "C:\\Users\\SMARTY\\.nuget\\packages\\system.diagnostics.tools\\4.3.0\\system.diagnostics.tools.4.3.0.nupkg.sha512",
