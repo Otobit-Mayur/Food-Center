@@ -1,14 +1,14 @@
-﻿using FOODProject.Core.Accounts;
-using FOODProject.Model.Account;
+﻿
+using FOODProject.Core.Common.Accounts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using static FOODProject.Core.Accounts.Accounts;
+using static FOODProject.Core.Common.Accounts.Accounts;
 
-namespace FOODProject.Controllers.Account
+namespace FOODProject.Controllers.Common.Account
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -20,7 +20,7 @@ namespace FOODProject.Controllers.Account
             _accounts = accounts;
         }
         [HttpPost("role")]
-        public async Task<IActionResult> Add(Model.Account.Role role)
+        public IActionResult Add(Model.Common.Account.Role role)
         {
             //return Ok(new Accounts().AddRole(role));
             var result = _accounts.AddRole(role);
@@ -36,7 +36,7 @@ namespace FOODProject.Controllers.Account
             return Ok(result);
         }
         [HttpPost("Signup")]
-        public async Task<IActionResult> Store_SignUp(Model.Account.User values)
+        public IActionResult Store_SignUp(Model.Common.Account.User values)
         {
             //return Ok(new Accounts().SignUp(store_SignUpModel));
             var result = _accounts.SignUp(values);
@@ -51,7 +51,7 @@ namespace FOODProject.Controllers.Account
             return Ok(result);
         }
         [HttpPost("login")]
-        public async Task<IActionResult> login(Model.Account.Login values)
+        public IActionResult login(Model.Common.Account.Login values)
         {
             var result = _accounts.Login(values);
             return Ok(result);

@@ -9,7 +9,7 @@ namespace FOODProject.Core.Shop.StoreDetails
 {
     public class AddMoreAddress
     {
-        public Result AddmoreAddress(Model.StoreDetail.Address value,int UserId)
+        public Result AddmoreAddress(Model.Shop.ShopDetail.ShopAddress value,int UserId)
         {
             using(FoodCenterDataContext context =new FoodCenterDataContext())
             {
@@ -67,7 +67,7 @@ namespace FOODProject.Core.Shop.StoreDetails
 
             
         }
-        public Result UpdateAddress(Model.StoreDetail.Address value,int Id)
+        public Result UpdateAddress(Model.Shop.ShopDetail.ShopAddress value,int Id)
         {
             using (FoodCenterDataContext context = new FoodCenterDataContext())
             {

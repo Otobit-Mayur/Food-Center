@@ -19,16 +19,26 @@ namespace FOODProject.Controllers.AccountManager.OfficeDetail
             _officeDetail = officeDetail;
         }
         [HttpPost("Add")]
-        public async Task<IActionResult>AddOfficeDetail(Model.AccountManager.OfficeDetail.OfficeDetail value)
+        public IActionResult AddOfficeDetail(Model.AccountManager.OfficeDetail.OfficeDetail value)
         {
             var result = _officeDetail.AddOfficeDetail(value);
             return Ok(result);
         }
         [HttpGet("GetAll")]
-        public async Task<IActionResult> GetAllOffice()
+        public IActionResult GetAllOffice()
         {
             var result = _officeDetail.GetAllOfficeDetail();
             return Ok(result);
         }
+        [HttpPut]
+        public IActionResult Update(Model.AccountManager.OfficeDetail.UpdateProfile value)
+        {
+            int UserId = (int)HttpContext.Items["UserId"];
+            var result = _officeDetail.UpdateProfile(value, UserId);
+            return Ok(result);
+        }
+
+        
+
     }
 }

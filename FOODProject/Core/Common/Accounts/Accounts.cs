@@ -14,7 +14,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FOODProject.Core.Accounts
+namespace FOODProject.Core.Common.Accounts
 {
 
     public class Accounts
@@ -29,7 +29,7 @@ namespace FOODProject.Core.Accounts
             _tokenService = tokenService;
         }
 
-        public Result AddRole(Model.Account.Role value)
+        public Result AddRole(Model.Common.Account.Role value)
         {
             Role role = new Role();
 
@@ -71,7 +71,7 @@ namespace FOODProject.Core.Accounts
       
         }
 
-        public Result SignUp(Model.Account.User values)
+        public Result SignUp(Model.Common.Account.User values)
         {
             User sp = new User();
             Role role = new Role();
@@ -113,7 +113,7 @@ namespace FOODProject.Core.Accounts
             
         }
 
-        public Result Login(Model.Account.Login values)
+        public Result Login(Model.Common.Account.Login values)
         {
             var qs = (from obj in context.Users
                       where obj.EmailId==values.EmailId

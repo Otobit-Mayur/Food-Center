@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace FOODProject.Model.Account
+namespace FOODProject.Model.Common.Account
 {
     public class Token
     {

@@ -1,6 +1,4 @@
-using FOODProject.Core.Accounts;
-using FOODProject.Core.Categories;
-using FOODProject.Core.Products;
+
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -20,6 +18,8 @@ using Newtonsoft.Json.Serialization;
 using Food_Center.Services;
 using Shopping.Middleware;
 using FOODProject.Core.AccountManager.OfficeDetails;
+using FOODProject.Core.Common.Accounts;
+using FOODProject.Core.Shop.StoreDetails;
 
 namespace FOODProject
 {
@@ -76,12 +76,12 @@ namespace FOODProject
             services.AddControllers();
 
             services.AddTransient<Accounts>();
-            services.AddTransient<StoreDetails>();
+            services.AddTransient<Core.Shop.StoreDetails.StoreDetails>();
            // services.AddTransient<Core.StoreDetails.Addresses>();
-            services.AddTransient<Core.Categories.Categories>();
-            services.AddTransient<ProductTypes>();
-            services.AddTransient<Core.Products.Products>();
-            services.AddTransient<Core.Accounts.UpdatePassword>();
+            services.AddTransient<Core.Shop.Categories.Categories>();
+            services.AddTransient<Core.Shop.Products.ProductTypes>();
+            services.AddTransient<Core.Shop.Products.Products>();
+            services.AddTransient<Core.Common.Accounts.UpdatePassword>();
             services.AddTransient<TokenService>();
             services.AddTransient<OfficeDetails>();
             services.AddTransient<Core.Shop.StoreDetails.AddMoreAddress>();

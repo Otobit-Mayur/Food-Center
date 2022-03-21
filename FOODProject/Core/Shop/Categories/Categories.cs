@@ -1,5 +1,4 @@
 ﻿using FoodCenterContext;
-using FOODProject.Model.Category;
 using FOODProject.Model.Common;
 using System;
 using System.Collections;
@@ -7,25 +6,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace FOODProject.Core.Categories
+namespace FOODProject.Core.Shop.Categories
 {
     public class Categories
     {
-        private readonly CategoryModel _category;
+     
         FoodCenterDataContext context = new FoodCenterDataContext();
 
 
-        public Result AddCategory(Model.Category.CategoryModel value)
+        public Result AddCategory(Model.Shop.Category.Category value)
         {   
             Category c = new Category();
-            c.CategoryName = value.Category;
-            var check = context.Categories.FirstOrDefault(x => x.CategoryName == value.Category);
+            c.CategoryName = value.CategoryName;
+            var check = context.Categories.FirstOrDefault(x => x.CategoryName == value.CategoryName);
             if(check!=null)
             {
                 return new Result()
                 {
                     Message = string.Format("Category Already Exits"),
-                    Status = Result.ResultStatus.success,
+                    Status = Result.ResultStatus.warning,
                 };
             }
             else
@@ -35,16 +34,21 @@ namespace FOODProject.Core.Categories
                 return new Result()
                 {
                     Message = string.Format("New Category Added Successfully"),
-                    Status = Result.ResultStatus.warning,
+                    Status = Result.ResultStatus.success,
                 };
             }
 
         }
-        public async Task<IEnumerable> get()
+        public Result get()
         {
-            var qs = (from obj in context.Categories
-                      select new { obj.CategoryId, obj.CategoryName }).ToList();
-            return qs;
+            return new Result()
+            {
+                Message=string.Format("Get All Category Successfully"),
+                Status=Result.ResultStatus.success,
+                Data= (from obj in context.Categories
+                       select new { obj.CategoryId, obj.CategoryName }).ToList(),
+            };
+    
         }
 
     }

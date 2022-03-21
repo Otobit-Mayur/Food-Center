@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace FOODProject.Model.Product
+namespace FOODProject.Model.Shop.Product
 {
     public class Product
     {
@@ -13,6 +13,5 @@ namespace FOODProject.Model.Product
         public string Image { get; set; }
 
         public Model.Common.IntegerNullString TypeId { get; set; } = new Model.Common.IntegerNullString();
-
     }
 }

@@ -19,21 +19,21 @@ namespace FOODProject.Controllers.Shop.StoreDetail
             _addMoreAddress = addMoreAddress;
         }
         [HttpPost]
-        public async Task<IActionResult>AddAddress(Model.StoreDetail.Address value)
+        public IActionResult AddAddress(Model.Shop.ShopDetail.ShopAddress value)
         {
             int UserId = (int)HttpContext.Items["UserId"];
             var result = _addMoreAddress.AddmoreAddress(value, UserId);
             return Ok(result);
         }
         [HttpGet]
-        public async Task<IActionResult>GetAllAddress()
+        public IActionResult GetAllAddress()
         {
             int UserId = (int)HttpContext.Items["UserId"];
             var result = _addMoreAddress.GetAllAddress(UserId);
             return Ok(result);
         }
         [HttpPut("{id}")]
-        public IActionResult Update(Model.StoreDetail.Address value, int id)
+        public IActionResult Update(Model.Shop.ShopDetail.ShopAddress value, int id)
         {
             var result = _addMoreAddress.UpdateAddress(value, id);
             return Ok(result);

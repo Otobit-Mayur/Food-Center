@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
 
-namespace FOODProject.Model.Category
+namespace FOODProject.Model.Shop.Category
 {
-    public class CategoryModel
+    public class Category
     {
         [Required(ErrorMessage = "Category Name is required")]
-        public String Category { get; set; }
+        public String CategoryName { get; set; }
     }
 }

@@ -5,13 +5,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace FOODProject.Core.Accounts
+namespace FOODProject.Core.Common.Accounts
 {
     
     public class UpdatePassword
     {
         FoodCenterDataContext context = new FoodCenterDataContext();
-        public Result Changepassword(Model.Account.Changepassword value, int UserId)
+        public Result Changepassword(Model.Common.Account.Changepassword value, int UserId)
         {
             
              var qs = (from obj in context.Users

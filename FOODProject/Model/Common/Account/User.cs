@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
 
-namespace FOODProject.Model.Account
+namespace FOODProject.Model.Common.Account
 {
     public class User
     {
@@ -21,6 +21,7 @@ namespace FOODProject.Model.Account
 
         [Required(ErrorMessage = "RoleName is required")]
         public Model.Common.IntegerNullString RoleId { get; set; } = new Model.Common.IntegerNullString();
+
     }
     public class Changepassword
     {

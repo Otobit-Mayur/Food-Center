@@ -1,4 +1,5 @@
-﻿using FOODProject.Core.Accounts;
+﻿
+using FOODProject.Core.Common.Accounts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -6,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace FOODProject.Controllers.Account
+namespace FOODProject.Controllers.Common.Account
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -14,13 +15,13 @@ namespace FOODProject.Controllers.Account
     {
         private readonly UpdatePassword _updatePassword;
 
-        public UpadateUserController(Core.Accounts.UpdatePassword updatePassword)
+        public UpadateUserController(Core.Common.Accounts.UpdatePassword updatePassword)
         {
             _updatePassword = updatePassword;
         }
 
         [HttpPut]
-        public async Task<IActionResult>Updatepassword(Model.Account.Changepassword value)
+        public IActionResult Updatepassword(Model.Common.Account.Changepassword value)
         {
             int UserId = (int)HttpContext.Items["UserId"];
             var result = _updatePassword.Changepassword(value, UserId);

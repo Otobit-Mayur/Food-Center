@@ -1,5 +1,4 @@
-﻿using FOODProject.Core.Accounts;
-using FOODProject.Core.Categories;
+﻿using FOODProject.Core.Shop.Categories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -7,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace FOODProject.Controllers.Category
+namespace FOODProject.Controllers.Shop.Category
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -15,12 +14,12 @@ namespace FOODProject.Controllers.Category
     {
         private readonly Categories _categories;
 
-        public CategoryController(Core.Categories.Categories categories)
+        public CategoryController(Core.Shop.Categories.Categories categories)
         {
             _categories = categories;
         }
         [HttpPost("Category")]
-        public async Task<IActionResult> AddCategory(Model.Category.CategoryModel value)
+        public IActionResult AddCategory(Model.Shop.Category.Category value)
         {
             var result = _categories.AddCategory(value);
             return Ok(result);

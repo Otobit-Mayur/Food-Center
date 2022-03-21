@@ -6,13 +6,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace FOODProject.Core.Products
+namespace FOODProject.Core.Shop.Products
 {
     public class Products
     {
         FoodCenterDataContext context = new FoodCenterDataContext();
 
-        public Result AddProuct(Model.Product.Product value)
+        public Result AddProuct(Model.Shop.Product.Product value)
         {
             FoodCenterContext.Product p = new Product();
 
@@ -69,7 +69,7 @@ namespace FOODProject.Core.Products
                         }).ToList(),
             };
         }
-        public Result Update(Model.Product.Product value, int Id)
+        public Result Update(Model.Shop.Product.Product value, int Id)
         {
             
 
@@ -124,7 +124,7 @@ namespace FOODProject.Core.Products
             };
         }
 
-        public Result Delete(Model.Product.Product value, int Id)
+        public Result Delete(Model.Shop.Product.Product value, int Id)
         {
             //FoodCenterContext.Product p = new Product();
 
@@ -234,7 +234,7 @@ namespace FOODProject.Core.Products
                             ShopId = pt.ShopId
                         }).ToList(),
 
-        };
+            };
         }
     }
 }

@@ -6,11 +6,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Transactions;
 
-namespace FOODProject.Core.Accounts
+namespace FOODProject.Core.Shop.StoreDetails
 {
     public class StoreDetails
     {
-        public Result AddStoreDetails(Model.StoreDetail.StoreDetail value)
+        public Result AddStoreDetails(Model.Shop.ShopDetail.ShopDetail value)
         {
 
             using (TransactionScope scope = new TransactionScope())
@@ -19,7 +19,6 @@ namespace FOODProject.Core.Accounts
                 {
                     ShopDetail sd = new ShopDetail();
                     
-                    sd.IsCompleted = 1;
                     sd.ShopName = value.ShopName;
                     sd.PhoneNumber = value.PhoneNumber;
                     sd.AlternateNumber = value.AlternateNumber;
@@ -75,6 +74,8 @@ namespace FOODProject.Core.Accounts
                     Message = String.Format($"Get All Shop Details"),
                     Status = Result.ResultStatus.success,
                     Data = (from obj in context.ShopDetails
+                            join add in context.ShopAddresses
+                            on obj.ShopId equals add.ShopId
                             select new
                             {
                                 obj.ShopId,
@@ -84,7 +85,8 @@ namespace FOODProject.Core.Accounts
                                 obj.UserId,
                                 obj.CategoryId,
                                 obj.Status,
-                                obj.IsCompleted
+                                obj.IsCompleted,
+                                add.AddressLine
                             }).ToList(),
 
                 };
@@ -92,7 +94,7 @@ namespace FOODProject.Core.Accounts
               
         }
 
-        public Result UpdateProfile(Model.StoreDetail.StoreDetail value,int UserId)
+        public Result UpdateProfile(Model.Shop.ShopDetail.UpdateShopDetails value,int UserId)
         {
             using (FoodCenterDataContext context = new FoodCenterDataContext())
             {
@@ -105,6 +107,10 @@ namespace FOODProject.Core.Accounts
                     shopdetail.ShopName = value.ShopName;
                     shopdetail.PhoneNumber = value.PhoneNumber;
                     shopdetail.Logo = value.Logo;
+                    shopdetail.CoverPhoto = value.CoverPhoto;
+                    shopdetail.Description = value.Description;
+
+
 
                     context.SubmitChanges();
                     return new Result()

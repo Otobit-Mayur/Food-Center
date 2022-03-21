@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
 
-namespace FOODProject.Model.StoreDetail
+namespace FOODProject.Model.Shop.ShopDetail
 {
-    public class Address
+    public class ShopAddress
     {
         [Required(ErrorMessage = "Address is required")]
         public string AddresssLine { get; set; }
@@ -17,7 +17,5 @@ namespace FOODProject.Model.StoreDetail
 
         [Required(ErrorMessage = "Longitude is required")]
         public decimal Longitude { get; set; }
-
-        //public Model.Common.IntegerNullString ShopId { get; set; } = new Model.Common.IntegerNullString();
     }
 }

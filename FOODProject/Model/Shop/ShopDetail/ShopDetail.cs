@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
 
-namespace FOODProject.Model.StoreDetail
+namespace FOODProject.Model.Shop.ShopDetail
 {
-    public class StoreDetail
+    public class ShopDetail
     {
         [Required(ErrorMessage = "Shop Name is required")]
         public string ShopName { get; set; }
@@ -27,21 +27,19 @@ namespace FOODProject.Model.StoreDetail
 
         public Model.Common.IntegerNullString UserId { get; set; } = new Model.Common.IntegerNullString();
 
+
         [Required(ErrorMessage = "Address is required!")]
 
-
-
-
-
-        public Model.StoreDetail.Address Address { get; set; } = new Model.StoreDetail.Address();
+        public Model.Shop.ShopDetail.ShopAddress Address { get; set; } = new Model.Shop.ShopDetail.ShopAddress();
 
     }
-
-    public class Update
+    public class UpdateShopDetails
     {
         public string ShopName { get; set; }
         public ulong PhoneNumber { get; set; }
         public string Logo { get; set; }
+        public string CoverPhoto { get; set; }
+        public string Description { get; set; }
+
     }
-    
 }

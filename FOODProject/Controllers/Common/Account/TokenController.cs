@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace FOODProject.Controllers.Account
+namespace FOODProject.Controllers.Common.Account
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -22,7 +22,7 @@ namespace FOODProject.Controllers.Account
             _context = context;
         }
         [HttpPost]
-        public async Task<IActionResult> Refresh(Model.Account.Token value)
+        public IActionResult Refresh(Model.Common.Account.Token value)
         {
             var principal = _tokenService.GetPrincipalFromExpiredToken(value.token);
             var emailid = principal.Identity.Name; //this is mapped to the Name claim by default
@@ -46,7 +46,7 @@ namespace FOODProject.Controllers.Account
             });
         }
         [HttpPost("Revoke")]
-        public async Task<IActionResult> Revoke()
+        public IActionResult Revoke()
         {
             var emailaddress = User.Identity.Name;
 
