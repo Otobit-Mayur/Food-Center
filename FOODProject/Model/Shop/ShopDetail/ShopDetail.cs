@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FOODProject.Model.Shop.ShopDetail
 {
-    public class ShopDetail
+    public class ShopDetail 
     {
         [Required(ErrorMessage = "Shop Name is required")]
         public string ShopName { get; set; }
@@ -33,7 +33,7 @@ namespace FOODProject.Model.Shop.ShopDetail
         public Model.Shop.ShopDetail.ShopAddress Address { get; set; } = new Model.Shop.ShopDetail.ShopAddress();
 
     }
-    public class UpdateShopDetails
+    public class UpdateShopDetails 
     {
         public string ShopName { get; set; }
         public ulong PhoneNumber { get; set; }

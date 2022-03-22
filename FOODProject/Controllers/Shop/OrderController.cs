@@ -14,7 +14,11 @@ namespace FOODProject.Controllers.Shop
     public class OrderController : ControllerBase
     {
         [HttpPut("{Id}")]
-        public IActionResult UpdateStatus([FromRoute] int Id, Model.Shop.Order value)
+        public 
+            
+            
+            
+            IActionResult UpdateStatus([FromRoute] int Id, Model.Shop.Order value)
         {
             return Ok(new Orders().UpdateStatus(Id,value));
         }
