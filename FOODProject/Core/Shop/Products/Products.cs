@@ -17,9 +17,13 @@ namespace FOODProject.Core.Shop.Products
             FoodCenterContext.Product p = new Product();
 
             var res = context.ProductTypes.SingleOrDefault(x => x.Type == value.TypeId.String);
-
-            p.ProductName = char.ToUpper(value.ProductName[0])+value.ProductName.Substring(1).ToLower();
-            //char.ToUpper(userModel.UserName[0]) + userModel.UserName.Substring(1).ToLower();
+            /* var ft = context.FixLookUps.FirstOrDefault(x => x.FixName == value.FoodType.Id);*/
+            //.EmailId == value.UserId.String
+           /* var ft = from od in context.FixLookUps
+                     where od.FixId == value.FoodType.Id
+                     select od.FixName;*/
+            p.ProductName = char.ToUpper(value.ProductName[0]) + value.ProductName.Substring(1).ToLower();
+            
             var check = context.Products.FirstOrDefault(x => x.ProductName == value.ProductName);
             if (check != null)
             {
@@ -36,6 +40,7 @@ namespace FOODProject.Core.Shop.Products
                 p.Image = value.Image;
                 p.TypeId = res.TypeId;
                 p.Status = 1;
+               /* p.FoodType = ft.ToString();*/
                 context.Products.InsertOnSubmit(p);
                 context.SubmitChanges();
                 return new Result()

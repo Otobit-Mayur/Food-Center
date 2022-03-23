@@ -20,12 +20,20 @@ namespace FOODProject.Controllers.Shop.Product
         {
             _products = products;
         }
-
+       
         [HttpPost("Add")]
         public IActionResult AddProduct(Model.Shop.Product.Product value)
         {
-            var result = _products.AddProuct(value);
-            return Ok(result);
+            var RoleID = HttpContext.Items["RoleID"];
+            if (RoleID.ToString() == "1")
+            {
+                var result = _products.AddProuct(value);
+                return Ok(result);
+            }
+            else 
+            {
+                throw new Exception("Unauthorized");
+            }
         }
        //[Authorize]
         [HttpGet("get")]

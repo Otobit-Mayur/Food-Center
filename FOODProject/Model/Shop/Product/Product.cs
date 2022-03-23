@@ -13,5 +13,6 @@ namespace FOODProject.Model.Shop.Product
         public string Image { get; set; }
 
         public Model.Common.IntegerNullString TypeId { get; set; } = new Model.Common.IntegerNullString();
+       // public Model.Common.IntegerNullString FoodType { get; set; } = new Model.Common.IntegerNullString();
     }
 }

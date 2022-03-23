@@ -1,177 +1,192 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Database Name="FoodCenter" EntityNamespace="FoodCenterContext" ContextNamespace="FoodCenterContext" Class="FoodCenterDataContext" xmlns:ed="http://devart.com/schemas/EntityDeveloper/1.0" ed:Guid="20a82e58-a975-4192-ba1e-ed3b1b9c0702" Provider="Devart.Data.SqlServer.Linq.Provider.SqlDataProvider, Devart.Data.SqlServer.Linq" Extended="true" xmlns="http://schemas.devart.com/linqconnect/mapping">
+<Database Name="FoodCenter" EntityNamespace="FoodCenterContext" ContextNamespace="FoodCenterContext" Class="FoodCenterDataContext" xmlns:ed="http://devart.com/schemas/EntityDeveloper/1.0" ed:Guid="d8057a29-44df-40b6-ae92-9d533022d879" Provider="Devart.Data.SqlServer.Linq.Provider.SqlDataProvider, Devart.Data.SqlServer.Linq" Extended="true" xmlns="http://schemas.devart.com/linqconnect/mapping">
   <Connection Mode="ConnectionString" ConnectionString="Data Source=20.204.136.73;Initial Catalog=FoodCenter;Integrated Security=False;Persist Security Info=True;User ID=fcDB;Password=Otobit@2022@Food" Provider="System.Data.SqlClient" />
   <Table Name="dbo.Category" Member="Categories">
-    <Type Name="Category" ed:Guid="c6c6d6d1-36cb-4602-94e7-40e90c9336d9">
-      <Column Name="CategoryId" Type="System.Int32" AutoSync="OnInsert" DbType="INT NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" UpdateCheck="Always" Precision="10" ed:ValidateRequired="true" ed:Guid="011e55ee-1c0b-46c4-96a4-d7e51cdc20f8" />
-      <Column Name="CategoryName" Type="System.String" DbType="NVARCHAR(50)" CanBeNull="true" UpdateCheck="Never" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="false" ed:Guid="8be99ad8-9668-40a6-986b-374b4f2e6782" />
-      <Association Name="Category_ShopDetail" ed:AssociationGuid="aa05b241-42fd-432b-bf3e-f5fdf09de27e" Member="ShopDetails" ed:Guid="023343c0-d3be-4656-b55a-18d60ce174d7" ThisKey="CategoryId" OtherKey="CategoryId" Type="ShopDetail" />
+    <Type Name="Category" ed:Guid="7754a5a2-2a40-4fd9-8b62-14f42f158d74">
+      <Column Name="CategoryId" Type="System.Int32" AutoSync="OnInsert" DbType="INT NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" UpdateCheck="Always" Precision="10" ed:ValidateRequired="true" ed:Guid="99cd1079-bf9c-4fef-a2e7-5bc186015a56" />
+      <Column Name="CategoryName" Type="System.String" DbType="NVARCHAR(50)" CanBeNull="true" UpdateCheck="Never" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="false" ed:Guid="54d3a231-5a65-42d1-a701-27805188a399" />
+      <Association Name="Category_ShopDetail" ed:AssociationGuid="e65a7aa0-7bd2-4b43-8e5b-549f2f7946b3" Member="ShopDetails" ed:Guid="486e02b4-96ba-4555-a703-1791335873f0" ThisKey="CategoryId" OtherKey="CategoryId" Type="ShopDetail" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Employee" Member="Employees">
+    <Type Name="Employee" ed:Guid="5fd8e965-820f-45a2-b1d7-bbf8fa03d891">
+      <Column Name="EmployeeId" Type="System.Int32" AutoSync="OnInsert" DbType="INT NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" UpdateCheck="Always" Precision="10" ed:ValidateRequired="true" ed:Guid="91e599f7-f5b6-4500-9cc2-fe9a69cf151e" />
+      <Column Name="EmployeeName" Type="System.String" DbType="NVARCHAR(50)" CanBeNull="true" UpdateCheck="Never" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="false" ed:Guid="9875c486-b7cd-46dd-9237-203ad46e4685" />
+      <Column Name="PhoneNumber" Type="System.Decimal" DbType="NUMERIC" CanBeNull="true" UpdateCheck="Never" Precision="18" Scale="0" ed:ValidateRequired="false" ed:Guid="84a03927-cf57-40cf-b0a8-0cb62ec5e6ab" />
+      <Column Name="Photo" Type="System.String" DbType="NVARCHAR(50)" CanBeNull="true" UpdateCheck="Never" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="false" ed:Guid="f3487b2a-2fb9-4ee2-87af-e24d3d3050c5" />
+      <Column Name="UserId" Type="System.Int32" DbType="INT" CanBeNull="true" UpdateCheck="Never" Precision="10" ed:ValidateRequired="false" ed:Guid="adfc18d3-bece-4231-86cb-3bbab8cecf0b" />
+      <Column Name="OfficeId" Type="System.Int32" DbType="INT" CanBeNull="true" UpdateCheck="Never" Precision="10" ed:ValidateRequired="false" ed:Guid="7dbf0551-d3f5-413e-8b5c-cfcdbf504b57" />
+      <Association Name="User_Employee" ed:AssociationGuid="eddf0042-8f9f-4fe5-8c60-a20c11e0aadc" Member="User" ed:Guid="c59daf30-07d1-40bd-8bd3-b7daf890f4c1" ThisKey="UserId" OtherKey="UserId" Type="User" DeleteRule="NO ACTION" IsForeignKey="true" />
+      <Association Name="OfficeDetail_Employee" ed:AssociationGuid="c2315042-6f6c-4472-935c-28e1dbc7a906" Member="OfficeDetail" ed:Guid="927dcb37-f191-428d-8279-f0b98be20c8b" ThisKey="OfficeId" OtherKey="OfficeId" Type="OfficeDetail" DeleteRule="NO ACTION" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.FixLookUp" Member="FixLookUps">
-    <Type Name="FixLookUp" ed:Guid="468126d2-6d4f-4ee6-bbac-1f2f00ae3c55">
-      <Column Name="FixId" Type="System.Int32" AutoSync="OnInsert" DbType="INT NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" UpdateCheck="Always" Precision="10" ed:ValidateRequired="true" ed:Guid="3b9b81c0-5a44-45c1-9dff-13373415efc6" />
-      <Column Name="FixName" Type="System.String" DbType="VARCHAR(50)" CanBeNull="true" UpdateCheck="Never" MaxLength="50" ed:ValidateMaxLength="50" ed:ValidateRequired="false" ed:Guid="79b664ee-3ea7-44eb-a057-3e8229900c1b" />
-      <Column Name="LookUpId" Type="System.Int32" DbType="INT" CanBeNull="true" UpdateCheck="Never" Precision="10" ed:ValidateRequired="false" ed:Guid="f444cfcc-b80e-4ab9-9a6f-16bb6127027a" />
-      <Association Name="LookUp_FixLookUp" ed:AssociationGuid="3f5ef7a2-5193-463e-ba8f-fa469c0b6dd3" Member="LookUp" ed:Guid="89aebb05-d090-4e84-80e9-229253319dd8" ThisKey="LookUpId" OtherKey="LookUpId" Type="LookUp" DeleteRule="NO ACTION" IsForeignKey="true" />
+    <Type Name="FixLookUp" ed:Guid="7710eaed-d808-4baa-99eb-f2d2ea58446e">
+      <Column Name="FixId" Type="System.Int32" AutoSync="OnInsert" DbType="INT NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" UpdateCheck="Always" Precision="10" ed:ValidateRequired="true" ed:Guid="51fd9249-8c02-4143-9901-5a526ae6207e" />
+      <Column Name="FixName" Type="System.String" DbType="VARCHAR(50)" CanBeNull="true" UpdateCheck="Never" MaxLength="50" ed:ValidateMaxLength="50" ed:ValidateRequired="false" ed:Guid="5baea321-91ca-4b68-a7b2-974e80fb274f" />
+      <Column Name="LookUpId" Type="System.Int32" DbType="INT" CanBeNull="true" UpdateCheck="Never" Precision="10" ed:ValidateRequired="false" ed:Guid="253a511b-0368-4b7d-8090-a7e6a7c4cd65" />
+      <Association Name="LookUp_FixLookUp" ed:AssociationGuid="8e2cf742-c52c-43c1-bb72-815535a0b7b0" Member="LookUp" ed:Guid="e9628fe6-326c-4258-8079-aa4777e0b8b1" ThisKey="LookUpId" OtherKey="LookUpId" Type="LookUp" DeleteRule="NO ACTION" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.LookUp" Member="LookUps">
-    <Type Name="LookUp" ed:Guid="592d0da3-2aef-49f2-98b0-06f84280f4f3">
-      <Column Name="LookUpId" Type="System.Int32" AutoSync="OnInsert" DbType="INT NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" UpdateCheck="Always" Precision="10" ed:ValidateRequired="true" ed:Guid="4d4976b4-89cd-4cba-89e6-19df5cedd765" />
-      <Column Name="LookUpName" Type="System.String" DbType="VARCHAR(50)" CanBeNull="true" UpdateCheck="Never" MaxLength="50" ed:ValidateMaxLength="50" ed:ValidateRequired="false" ed:Guid="def9cbe8-0797-4cce-b499-6201c44c19f1" />
-      <Association Name="LookUp_FixLookUp" ed:AssociationGuid="3f5ef7a2-5193-463e-ba8f-fa469c0b6dd3" Member="FixLookUps" ed:Guid="ebbd69cd-b770-4c27-83c5-520335ff76d1" ThisKey="LookUpId" OtherKey="LookUpId" Type="FixLookUp" />
+    <Type Name="LookUp" ed:Guid="9d56ae0f-4b98-4498-911b-6b3b5f843a82">
+      <Column Name="LookUpId" Type="System.Int32" AutoSync="OnInsert" DbType="INT NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" UpdateCheck="Always" Precision="10" ed:ValidateRequired="true" ed:Guid="a65620de-5511-43ad-812c-a848c4314b95" />
+      <Column Name="LookUpName" Type="System.String" DbType="VARCHAR(50)" CanBeNull="true" UpdateCheck="Never" MaxLength="50" ed:ValidateMaxLength="50" ed:ValidateRequired="false" ed:Guid="a6ceb171-eaf2-44fe-86c6-189df86d54fa" />
+      <Association Name="LookUp_FixLookUp" ed:AssociationGuid="8e2cf742-c52c-43c1-bb72-815535a0b7b0" Member="FixLookUps" ed:Guid="bea642ca-6087-4242-88dd-a896eb56d2bc" ThisKey="LookUpId" OtherKey="LookUpId" Type="FixLookUp" />
     </Type>
   </Table>
   <Table Name="dbo.OfficeAddress" Member="OfficeAddresses">
-    <Type Name="OfficeAddress" ed:Guid="d03404e0-3a8a-485c-9815-d7945db5fe6d">
-      <Column Name="AddressId" Type="System.Int32" AutoSync="OnInsert" DbType="INT NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" UpdateCheck="Always" Precision="10" ed:ValidateRequired="true" ed:Guid="f3fcf538-ae67-4181-af65-07674c20f50f" />
-      <Column Name="AddressLine" Type="System.String" DbType="NVARCHAR(50)" CanBeNull="true" UpdateCheck="Never" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="false" ed:Guid="783f171a-ce6b-4128-b0d3-c3e442bc49bb" />
-      <Column Name="Latitude" Type="System.Decimal" DbType="DECIMAL(18,15)" CanBeNull="true" UpdateCheck="Never" Precision="18" Scale="15" ed:ValidateRequired="false" ed:Guid="71295360-94b8-42fc-a624-f92d73abd66a" />
-      <Column Name="Longitude" Type="System.Decimal" DbType="DECIMAL(18,15)" CanBeNull="true" UpdateCheck="Never" Precision="18" Scale="15" ed:ValidateRequired="false" ed:Guid="bdf3ae1b-9a80-4ce5-9bfd-ae0c288cdf42" />
-      <Column Name="OfficeId" Type="System.Int32" DbType="INT" CanBeNull="true" UpdateCheck="Never" Precision="10" ed:ValidateRequired="false" ed:Guid="0fb3f8f2-3108-40e6-8450-2048258d2bab" />
-      <Association Name="OfficeDetail_OfficeAddress" ed:AssociationGuid="899ebe24-7f72-48be-85dc-953a151add7b" Member="OfficeDetail" ed:Guid="7632289d-6449-4970-93fd-b95851444d65" ThisKey="OfficeId" OtherKey="OfficeId" Type="OfficeDetail" DeleteRule="NO ACTION" IsForeignKey="true" />
+    <Type Name="OfficeAddress" ed:Guid="838cf4c6-77ce-4937-8a82-bf69ca8654bc">
+      <Column Name="AddressId" Type="System.Int32" AutoSync="OnInsert" DbType="INT NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" UpdateCheck="Always" Precision="10" ed:ValidateRequired="true" ed:Guid="5a6a4368-c49f-404f-abf6-2c789cce9271" />
+      <Column Name="AddressLine" Type="System.String" DbType="NVARCHAR(50)" CanBeNull="true" UpdateCheck="Never" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="false" ed:Guid="e1a45219-1cd2-4077-ae4a-7193710857b0" />
+      <Column Name="Latitude" Type="System.Decimal" DbType="DECIMAL(18,15)" CanBeNull="true" UpdateCheck="Never" Precision="18" Scale="15" ed:ValidateRequired="false" ed:Guid="67dc2ee9-64e7-45c1-ac4c-cc1215db8fd6" />
+      <Column Name="Longitude" Type="System.Decimal" DbType="DECIMAL(18,15)" CanBeNull="true" UpdateCheck="Never" Precision="18" Scale="15" ed:ValidateRequired="false" ed:Guid="d47e9416-d9ed-496f-8258-11504c55e5a6" />
+      <Column Name="OfficeId" Type="System.Int32" DbType="INT" CanBeNull="true" UpdateCheck="Never" Precision="10" ed:ValidateRequired="false" ed:Guid="388622b3-6dd2-49a3-a07d-b4017cb717e2" />
+      <Association Name="OfficeDetail_OfficeAddress" ed:AssociationGuid="63aba890-4fa9-430d-badb-e269936db037" Member="OfficeDetail" ed:Guid="2cb14308-1d28-4bc0-89cc-568aa4dca594" ThisKey="OfficeId" OtherKey="OfficeId" Type="OfficeDetail" DeleteRule="NO ACTION" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.OfficeDetail" Member="OfficeDetails">
-    <Type Name="OfficeDetail" ed:Guid="9dd89cd6-fbbb-46fc-8123-c50977a1039f">
-      <Column Name="OfficeId" Type="System.Int32" AutoSync="OnInsert" DbType="INT NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" UpdateCheck="Always" Precision="10" ed:ValidateRequired="true" ed:Guid="ef197edc-8025-4b34-96ce-84c33ff5bbf2" />
-      <Column Name="OfficeName" Type="System.String" DbType="NVARCHAR(50)" CanBeNull="true" UpdateCheck="Never" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="false" ed:Guid="fd1296ca-9851-43b0-8f26-a161f4fe233c" />
-      <Column Name="ManagerName" Type="System.String" DbType="NVARCHAR(50)" CanBeNull="true" UpdateCheck="Never" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="false" ed:Guid="42307e50-3704-4647-ab34-b11a13e361d2" />
-      <Column Name="PhoneNumber" Type="System.Decimal" DbType="NUMERIC NOT NULL" CanBeNull="false" UpdateCheck="Never" Precision="18" Scale="0" ed:ValidateRequired="true" ed:Guid="28c203a9-a2bd-455b-a3b4-1b2770ac64b1" />
-      <Column Name="AlternateNumber" Type="System.Decimal" DbType="NUMERIC" CanBeNull="true" UpdateCheck="Never" Precision="18" Scale="0" ed:ValidateRequired="false" ed:Guid="a71554e3-2e41-44e6-acbd-0d6fe508f43e" />
-      <Column Name="Staff" Type="System.Int32" DbType="INT" CanBeNull="true" UpdateCheck="Never" Precision="10" ed:ValidateRequired="false" ed:Guid="a4b11b0a-ce0c-4564-8003-3a58246629f9" />
-      <Column Name="Image" Type="System.String" DbType="NVARCHAR(50)" CanBeNull="true" UpdateCheck="Never" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="false" ed:Guid="b2ebbbcb-682e-4619-8997-95444fd169f9" />
-      <Column Name="CoverPhoto" Type="System.String" DbType="NVARCHAR(50)" CanBeNull="true" UpdateCheck="Never" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="false" ed:Guid="ec9778f0-faa5-480f-82f4-b3db7e177a69" />
-      <Column Name="Description" Type="System.String" DbType="NVARCHAR(MAX)" CanBeNull="true" UpdateCheck="Never" Unicode="true" ed:ValidateRequired="false" ed:Guid="76148ab7-e8c0-4167-bef7-4142731ff8a2" />
-      <Column Name="UserId" Type="System.Int32" DbType="INT" CanBeNull="true" UpdateCheck="Never" Precision="10" ed:ValidateRequired="false" ed:Guid="76a8ff88-97e9-4c26-8305-cb751aec5ddc" />
-      <Association Name="OfficeDetail_OfficeAddress" ed:AssociationGuid="899ebe24-7f72-48be-85dc-953a151add7b" Member="OfficeAddresses" ed:Guid="5d4080a5-80d9-43fe-a9cb-0eddeac505f6" ThisKey="OfficeId" OtherKey="OfficeId" Type="OfficeAddress" />
-      <Association Name="User_OfficeDetail" ed:AssociationGuid="e35b3f28-5387-41a0-b457-1ab6cfc95334" Member="User" ed:Guid="a77ea67d-5bce-468d-8ac5-79eec56c7f68" ThisKey="UserId" OtherKey="UserId" Type="User" DeleteRule="NO ACTION" IsForeignKey="true" />
-      <Association Name="OfficeDetail_OrderMstr" ed:AssociationGuid="3fea6380-947a-444f-9fff-a5fea2cb5405" Member="OrderMstrs" ed:Guid="52b422fa-d798-452b-afa0-447a6dcacb37" ThisKey="OfficeId" OtherKey="OfficeId" Type="OrderMstr" />
-      <Association Name="OfficeDetail_Subscriber" ed:AssociationGuid="3e2260df-7532-4ec9-bffc-e873aedbc418" Member="Subscribers" ed:Guid="b92be3e5-23b3-47b3-b0eb-794d780f28f2" ThisKey="OfficeId" OtherKey="OfficeId" Type="Subscriber" />
+    <Type Name="OfficeDetail" ed:Guid="268e7fe0-d3ee-4118-9728-c84bfd4d8adc">
+      <Column Name="OfficeId" Type="System.Int32" AutoSync="OnInsert" DbType="INT NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" UpdateCheck="Always" Precision="10" ed:ValidateRequired="true" ed:Guid="12e10df0-60b1-48da-a8fa-a4b232d1dc4b" />
+      <Column Name="OfficeName" Type="System.String" DbType="NVARCHAR(50)" CanBeNull="true" UpdateCheck="Never" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="false" ed:Guid="f5042b00-d774-4f7e-a9c4-2e27b68e0363" />
+      <Column Name="ManagerName" Type="System.String" DbType="NVARCHAR(50)" CanBeNull="true" UpdateCheck="Never" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="false" ed:Guid="c8ccefe0-8f10-46c4-83fd-bc5e5adf0382" />
+      <Column Name="PhoneNumber" Type="System.Decimal" DbType="NUMERIC NOT NULL" CanBeNull="false" UpdateCheck="Never" Precision="18" Scale="0" ed:ValidateRequired="true" ed:Guid="9cf491cd-0559-420b-b6bf-2ba4e927001c" />
+      <Column Name="AlternateNumber" Type="System.Decimal" DbType="NUMERIC" CanBeNull="true" UpdateCheck="Never" Precision="18" Scale="0" ed:ValidateRequired="false" ed:Guid="cee32968-daa1-4a96-9d0a-90507503e282" />
+      <Column Name="Staff" Type="System.Int32" DbType="INT" CanBeNull="true" UpdateCheck="Never" Precision="10" ed:ValidateRequired="false" ed:Guid="f3f2cd7d-c196-4f57-97aa-7a541f79664d" />
+      <Column Name="Image" Type="System.String" DbType="NVARCHAR(50)" CanBeNull="true" UpdateCheck="Never" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="false" ed:Guid="f1871bbc-4f3b-4d65-812a-47729086550b" />
+      <Column Name="CoverPhoto" Type="System.String" DbType="NVARCHAR(50)" CanBeNull="true" UpdateCheck="Never" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="false" ed:Guid="091f4419-c8cf-42d3-bb00-578606a478e4" />
+      <Column Name="Description" Type="System.String" DbType="NVARCHAR(MAX)" CanBeNull="true" UpdateCheck="Never" Unicode="true" ed:ValidateRequired="false" ed:Guid="bf4040fe-cdd2-437e-8852-f8d0834fb91a" />
+      <Column Name="UserId" Type="System.Int32" DbType="INT" CanBeNull="true" UpdateCheck="Never" Precision="10" ed:ValidateRequired="false" ed:Guid="3af86cca-3e67-44af-be62-d3730dfa7826" />
+      <Association Name="OfficeDetail_Employee" ed:AssociationGuid="c2315042-6f6c-4472-935c-28e1dbc7a906" Member="Employees" ed:Guid="b45073a8-02f4-45b8-9081-7b099dfbfcf4" ThisKey="OfficeId" OtherKey="OfficeId" Type="Employee" />
+      <Association Name="OfficeDetail_OfficeAddress" ed:AssociationGuid="63aba890-4fa9-430d-badb-e269936db037" Member="OfficeAddresses" ed:Guid="884e3b1d-b433-4412-a26e-99264eca1b87" ThisKey="OfficeId" OtherKey="OfficeId" Type="OfficeAddress" />
+      <Association Name="User_OfficeDetail" ed:AssociationGuid="f1bae3c6-878e-4e50-af98-4a650d67639e" Member="User" ed:Guid="6120c135-a738-4f0c-8aee-9988a9e3b51b" ThisKey="UserId" OtherKey="UserId" Type="User" DeleteRule="NO ACTION" IsForeignKey="true" />
+      <Association Name="OfficeDetail_OrderMstr" ed:AssociationGuid="a50b5c55-149d-4122-8fdf-67f7a5efe9f4" Member="OrderMstrs" ed:Guid="4ea42022-5b94-4212-96e0-50611701bda9" ThisKey="OfficeId" OtherKey="OfficeId" Type="OrderMstr" />
+      <Association Name="OfficeDetail_Subscriber" ed:AssociationGuid="9296039f-03dc-4d41-a9b3-62b5160a5820" Member="Subscribers" ed:Guid="025a7d12-78f9-4dd8-a482-14a8fb2d3f40" ThisKey="OfficeId" OtherKey="OfficeId" Type="Subscriber" />
     </Type>
   </Table>
   <Table Name="dbo.OrderDetail" Member="OrderDetails">
-    <Type Name="OrderDetail" ed:Guid="43024cb9-077a-406a-bf62-2dbc11e447c8">
-      <Column Name="OrderId" Type="System.Int32" DbType="INT" CanBeNull="true" UpdateCheck="Never" Precision="10" ed:ValidateRequired="false" ed:Guid="a7b6ca65-73a7-4089-8873-1fb960c875a6" />
-      <Column Name="ProductId" Type="System.Int32" DbType="INT" CanBeNull="true" UpdateCheck="Never" Precision="10" ed:ValidateRequired="false" ed:Guid="eea56ed3-e858-4442-a46d-f507cdcc6e89" />
-      <Column Name="Qty" Type="System.Int32" DbType="INT" CanBeNull="true" UpdateCheck="Never" Precision="10" ed:ValidateRequired="false" ed:Guid="e9aa36d1-2363-481b-9f67-0eb5172b7fd2" />
-      <Column Name="Description" Type="System.String" DbType="NVARCHAR(100)" CanBeNull="true" UpdateCheck="Never" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="false" ed:Guid="66da2f29-cd87-4605-8b26-6320c401999d" />
-      <Column Name="OrderTime" Type="System.DateTime" DbType="DATETIME" CanBeNull="true" UpdateCheck="Never" ed:ValidateRequired="false" ed:Guid="45a46d2d-6e29-44b1-8d8d-9163c8ae0cd9" />
-      <Association Name="Product_OrderDetail" ed:AssociationGuid="f7825056-c05c-4cbb-86d2-d6cd34dcf44c" Member="Product" ed:Guid="da195f9a-4709-4048-bbfb-6eb72c3033a1" ThisKey="ProductId" OtherKey="ProductId" Type="Product" DeleteRule="NO ACTION" IsForeignKey="true" />
-      <Association Name="OrderMstr_OrderDetail" ed:AssociationGuid="32fa9702-ef15-4001-9c17-1ef1bd364566" Member="OrderMstr" ed:Guid="09f24d13-cf9f-4dd7-8754-300a3053ccea" ThisKey="OrderId" OtherKey="OrderId" Type="OrderMstr" DeleteRule="NO ACTION" IsForeignKey="true" />
+    <Type Name="OrderDetail" ed:Guid="82427f5f-e9da-494f-81a6-ca2ae8165079">
+      <Column Name="OrderId" Type="System.Int32" DbType="INT" CanBeNull="true" UpdateCheck="Never" Precision="10" ed:ValidateRequired="false" ed:Guid="4f152695-6046-4c29-a708-8bfee44fc9c4" />
+      <Column Name="ProductId" Type="System.Int32" DbType="INT" CanBeNull="true" UpdateCheck="Never" Precision="10" ed:ValidateRequired="false" ed:Guid="78a238d2-e061-4da7-9480-13d09b6756e0" />
+      <Column Name="Qty" Type="System.Int32" DbType="INT" CanBeNull="true" UpdateCheck="Never" Precision="10" ed:ValidateRequired="false" ed:Guid="301aaba3-7592-42e2-a0cd-a1ab1e2f78ff" />
+      <Column Name="Description" Type="System.String" DbType="NVARCHAR(100)" CanBeNull="true" UpdateCheck="Never" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="false" ed:Guid="442d115e-a17a-49b2-aaf4-8376b438a59a" />
+      <Column Name="OrderTime" Type="System.DateTime" DbType="DATETIME" CanBeNull="true" UpdateCheck="Never" ed:ValidateRequired="false" ed:Guid="475de62f-f2bc-437e-ab53-1afe3b7efa55" />
+      <Association Name="Product_OrderDetail" ed:AssociationGuid="775c4faf-fe7e-4401-bb0e-530d235853a7" Member="Product" ed:Guid="9cace41e-be37-454d-b5e1-dcfc6416f5a2" ThisKey="ProductId" OtherKey="ProductId" Type="Product" DeleteRule="NO ACTION" IsForeignKey="true" />
+      <Association Name="OrderMstr_OrderDetail" ed:AssociationGuid="67362a4b-44b0-4f84-8dd0-93c846b369d7" Member="OrderMstr" ed:Guid="0fdc208b-ba8b-437b-8605-6dd2e7c05754" ThisKey="OrderId" OtherKey="OrderId" Type="OrderMstr" DeleteRule="NO ACTION" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.OrderMstr" Member="OrderMstrs">
-    <Type Name="OrderMstr" ed:Guid="7c8a1212-0026-4c6c-b566-28a96bf18c23">
-      <Column Name="OrderId" Type="System.Int32" AutoSync="OnInsert" DbType="INT NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" UpdateCheck="Always" Precision="10" ed:ValidateRequired="true" ed:Guid="26f0da52-556d-4e1b-b3b9-8ea3921fcd78" />
-      <Column Name="ShopId" Type="System.Int32" DbType="INT" CanBeNull="true" UpdateCheck="Never" Precision="10" ed:ValidateRequired="false" ed:Guid="6c893893-98e2-4f51-9046-198ed2437cf3" />
-      <Column Name="OfficeId" Type="System.Int32" DbType="INT" CanBeNull="true" UpdateCheck="Never" Precision="10" ed:ValidateRequired="false" ed:Guid="2216987e-a5d3-4a9a-9dae-e69cfb7038c8" />
-      <Column Name="AcceptTime" Type="System.DateTime" DbType="DATETIME" CanBeNull="true" UpdateCheck="Never" ed:ValidateRequired="false" ed:Guid="d4d338e0-1628-491c-8553-885e938c64f7" />
-      <Column Name="Total" Type="System.Int32" DbType="INT" CanBeNull="true" UpdateCheck="Never" Precision="10" ed:ValidateRequired="false" ed:Guid="d6a3e557-3eee-493e-8c1a-b9af037fa104" />
-      <Column Name="Status" Type="System.String" DbType="NVARCHAR(50)" CanBeNull="true" UpdateCheck="Never" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="false" ed:Guid="8419b68c-8c62-47dc-a73d-2c480171eaea" />
-      <Column Name="Track" Type="System.String" DbType="NVARCHAR(50)" CanBeNull="true" UpdateCheck="Never" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="false" ed:Guid="9b34b7c8-0a1d-4896-b4e1-1297137ec10d" />
-      <Column Name="DeliveryTime" Type="System.DateTime" DbType="DATETIME" CanBeNull="true" UpdateCheck="Never" ed:ValidateRequired="false" ed:Guid="9c7071a8-ec10-4557-b903-eeef3ecbc712" />
-      <Association Name="OrderMstr_OrderDetail" ed:AssociationGuid="32fa9702-ef15-4001-9c17-1ef1bd364566" Member="OrderDetails" ed:Guid="abbae1be-501e-4460-b481-d46fb9dd14c0" ThisKey="OrderId" OtherKey="OrderId" Type="OrderDetail" />
-      <Association Name="OfficeDetail_OrderMstr" ed:AssociationGuid="3fea6380-947a-444f-9fff-a5fea2cb5405" Member="OfficeDetail" ed:Guid="1a19e5f4-6f44-4e50-bd12-05e3aea048b4" ThisKey="OfficeId" OtherKey="OfficeId" Type="OfficeDetail" DeleteRule="NO ACTION" IsForeignKey="true" />
-      <Association Name="ShopDetail_OrderMstr" ed:AssociationGuid="46f16b80-fc01-4139-adc4-3717d143b770" Member="ShopDetail" ed:Guid="84f5931c-f73c-4af6-8d51-8cf864248aca" ThisKey="ShopId" OtherKey="ShopId" Type="ShopDetail" DeleteRule="NO ACTION" IsForeignKey="true" />
+    <Type Name="OrderMstr" ed:Guid="36f96360-e1d8-43e8-9b27-ac8149b95273">
+      <Column Name="OrderId" Type="System.Int32" AutoSync="OnInsert" DbType="INT NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" UpdateCheck="Always" Precision="10" ed:ValidateRequired="true" ed:Guid="d28999d4-66b1-4c06-9c36-978707c36fe1" />
+      <Column Name="ShopId" Type="System.Int32" DbType="INT" CanBeNull="true" UpdateCheck="Never" Precision="10" ed:ValidateRequired="false" ed:Guid="98c57042-f9b9-49d5-a8c9-48e63204e4fb" />
+      <Column Name="OfficeId" Type="System.Int32" DbType="INT" CanBeNull="true" UpdateCheck="Never" Precision="10" ed:ValidateRequired="false" ed:Guid="e91f8ad2-78fe-4eb5-b4c2-78b6940f5484" />
+      <Column Name="AcceptTime" Type="System.DateTime" DbType="DATETIME" CanBeNull="true" UpdateCheck="Never" ed:ValidateRequired="false" ed:Guid="593ae9f9-9c35-4a16-a801-aa7504fc06a7" />
+      <Column Name="Total" Type="System.Int32" DbType="INT" CanBeNull="true" UpdateCheck="Never" Precision="10" ed:ValidateRequired="false" ed:Guid="766b8e1b-e2d5-47d0-9fd4-86900ca71dc6" />
+      <Column Name="Status" Type="System.String" DbType="NVARCHAR(50)" CanBeNull="true" UpdateCheck="Never" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="false" ed:Guid="34dbe16e-47f1-4f5c-8fa2-648c30586b1a" />
+      <Column Name="Track" Type="System.String" DbType="NVARCHAR(50)" CanBeNull="true" UpdateCheck="Never" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="false" ed:Guid="8abaab42-e248-42fd-93a6-c32dcb52cc07" />
+      <Column Name="DeliveryTime" Type="System.DateTime" DbType="DATETIME" CanBeNull="true" UpdateCheck="Never" ed:ValidateRequired="false" ed:Guid="ae15f984-e56b-4758-b085-2d12a27303f1" />
+      <Association Name="OfficeDetail_OrderMstr" ed:AssociationGuid="a50b5c55-149d-4122-8fdf-67f7a5efe9f4" Member="OfficeDetail" ed:Guid="c475cdc7-ab40-4a87-9d6e-22f8e9a560b1" ThisKey="OfficeId" OtherKey="OfficeId" Type="OfficeDetail" DeleteRule="NO ACTION" IsForeignKey="true" />
+      <Association Name="OrderMstr_OrderDetail" ed:AssociationGuid="67362a4b-44b0-4f84-8dd0-93c846b369d7" Member="OrderDetails" ed:Guid="3f1c8f5d-e366-4424-a244-0c6cea7b719f" ThisKey="OrderId" OtherKey="OrderId" Type="OrderDetail" />
+      <Association Name="ShopDetail_OrderMstr" ed:AssociationGuid="0124d6b8-a321-41c1-b575-1037acf21db7" Member="ShopDetail" ed:Guid="31239439-9ec6-4f5b-ad79-e7be0d3472b7" ThisKey="ShopId" OtherKey="ShopId" Type="ShopDetail" DeleteRule="NO ACTION" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Product" Member="Products">
-    <Type Name="Product" ed:Guid="9b516126-e062-4624-9e7a-66ddced0dae4">
-      <Column Name="ProductId" Type="System.Int32" AutoSync="OnInsert" DbType="INT NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" UpdateCheck="Always" Precision="10" ed:ValidateRequired="true" ed:Guid="b204be98-5d9b-4c43-a65b-ecef6c6f52d5" />
-      <Column Name="ProductName" Type="System.String" DbType="NVARCHAR(50)" CanBeNull="true" UpdateCheck="Never" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="false" ed:Guid="cd53f3b0-9960-43ed-ad97-bbee0874edee" />
-      <Column Name="TypeId" Type="System.Int32" DbType="INT" CanBeNull="true" UpdateCheck="Never" Precision="10" ed:ValidateRequired="false" ed:Guid="dda27822-37b3-44c6-9b00-07be1fd7c775" />
-      <Column Name="Price" Type="System.Int32" DbType="INT" CanBeNull="true" UpdateCheck="Never" Precision="10" ed:ValidateRequired="false" ed:Guid="e10532ba-7b8e-4a70-a108-27843a1e5309" />
-      <Column Name="Description" Type="System.String" DbType="NVARCHAR(100)" CanBeNull="true" UpdateCheck="Never" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="false" ed:Guid="84b11e84-b5af-4dc0-b27a-03579198d93b" />
-      <Column Name="Image" Type="System.String" DbType="NVARCHAR(50)" CanBeNull="true" UpdateCheck="Never" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="false" ed:Guid="cffc611e-15db-4cf9-a9aa-03a5984c9b76" />
-      <Column Name="Status" Type="System.Int32" DbType="INT" CanBeNull="true" UpdateCheck="Never" Precision="10" ed:ValidateRequired="false" ed:Guid="4a4580cc-a014-40fb-899d-a4b400098028" />
-      <Association Name="Product_OrderDetail" ed:AssociationGuid="f7825056-c05c-4cbb-86d2-d6cd34dcf44c" Member="OrderDetails" ed:Guid="26a50280-053a-4de1-b970-652ccc2adf2e" ThisKey="ProductId" OtherKey="ProductId" Type="OrderDetail" />
-      <Association Name="ProductType_Product" ed:AssociationGuid="1e635f3f-6ca2-462d-8f76-77531ad2e7c7" Member="ProductType" ed:Guid="ccccf1f0-b42b-491b-a796-d94d3839b21b" ThisKey="TypeId" OtherKey="TypeId" Type="ProductType" DeleteRule="NO ACTION" IsForeignKey="true" />
+    <Type Name="Product" ed:Guid="b7efbce4-c653-4b96-a966-4c5b64fec871">
+      <Column Name="ProductId" Type="System.Int32" AutoSync="OnInsert" DbType="INT NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" UpdateCheck="Always" Precision="10" ed:ValidateRequired="true" ed:Guid="8ce87deb-b270-4769-88d9-3dbe7a355832" />
+      <Column Name="ProductName" Type="System.String" DbType="NVARCHAR(50)" CanBeNull="true" UpdateCheck="Never" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="false" ed:Guid="636b58ab-3f4f-4948-b0dd-dd3f115e5e02" />
+      <Column Name="TypeId" Type="System.Int32" DbType="INT" CanBeNull="true" UpdateCheck="Never" Precision="10" ed:ValidateRequired="false" ed:Guid="b25879b6-4821-4357-90dd-735185ed634c" />
+      <Column Name="Price" Type="System.Int32" DbType="INT" CanBeNull="true" UpdateCheck="Never" Precision="10" ed:ValidateRequired="false" ed:Guid="e71ecee1-0f8e-4b1d-a63f-f9fe4afa366b" />
+      <Column Name="Description" Type="System.String" DbType="NVARCHAR(100)" CanBeNull="true" UpdateCheck="Never" MaxLength="100" Unicode="true" ed:ValidateMaxLength="100" ed:ValidateRequired="false" ed:Guid="095839ec-00f1-4feb-9658-0930a5503aa6" />
+      <Column Name="Image" Type="System.String" DbType="NVARCHAR(50)" CanBeNull="true" UpdateCheck="Never" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="false" ed:Guid="e3a5c468-20ab-4639-b130-f7dcfbfaba88" />
+      <Column Name="Status" Type="System.Int32" DbType="INT" CanBeNull="true" UpdateCheck="Never" Precision="10" ed:ValidateRequired="false" ed:Guid="ed53aebd-5de0-430f-97ac-37eef82738e5" />
+      <Column Name="FoodType" Type="System.String" DbType="NVARCHAR(50)" CanBeNull="true" UpdateCheck="Never" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="false" ed:Guid="8f053477-db4a-4510-aeef-2d44180dcb94" />
+      <Association Name="Product_OrderDetail" ed:AssociationGuid="775c4faf-fe7e-4401-bb0e-530d235853a7" Member="OrderDetails" ed:Guid="e65cd4e5-3ca6-4a59-b83b-ae4ae5de413c" ThisKey="ProductId" OtherKey="ProductId" Type="OrderDetail" />
+      <Association Name="ProductType_Product" ed:AssociationGuid="866c2052-84e9-41ac-ac69-48321d423d96" Member="ProductType" ed:Guid="fc6f76d2-05ae-4c96-9084-eb1d9a0eeb6f" ThisKey="TypeId" OtherKey="TypeId" Type="ProductType" DeleteRule="NO ACTION" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.ProductType" Member="ProductTypes">
-    <Type Name="ProductType" ed:Guid="e81f7503-f527-48d8-b516-f15951053118">
-      <Column Name="TypeId" Type="System.Int32" AutoSync="OnInsert" DbType="INT NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" UpdateCheck="Always" Precision="10" ed:ValidateRequired="true" ed:Guid="7f311b7f-0108-492f-b5de-b46b7b1a3cdc" />
-      <Column Name="Type" Type="System.String" DbType="NVARCHAR(50)" CanBeNull="true" UpdateCheck="Never" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="false" ed:Guid="6fd67664-7892-439c-827d-b9a6f2998e9f" />
-      <Column Name="ShopId" Type="System.Int32" DbType="INT" CanBeNull="true" UpdateCheck="Never" Precision="10" ed:ValidateRequired="false" ed:Guid="78132d75-02e9-455d-a149-7041bc6d64b5" />
-      <Association Name="ProductType_Product" ed:AssociationGuid="1e635f3f-6ca2-462d-8f76-77531ad2e7c7" Member="Products" ed:Guid="fbd5ee86-c378-413c-a3d1-2607b74c9263" ThisKey="TypeId" OtherKey="TypeId" Type="Product" />
-      <Association Name="ShopDetail_ProductType" ed:AssociationGuid="edce0226-03d9-43f4-8bec-bb1b4929812f" Member="ShopDetail" ed:Guid="f6b82654-8305-4be1-9ad2-0a0d381aac81" ThisKey="ShopId" OtherKey="ShopId" Type="ShopDetail" DeleteRule="NO ACTION" IsForeignKey="true" />
+    <Type Name="ProductType" ed:Guid="24af456c-417e-4f3e-84e9-bf31e0afcd66">
+      <Column Name="TypeId" Type="System.Int32" AutoSync="OnInsert" DbType="INT NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" UpdateCheck="Always" Precision="10" ed:ValidateRequired="true" ed:Guid="9def2efc-a407-4ef9-a91a-781439a3e2ce" />
+      <Column Name="Type" Type="System.String" DbType="NVARCHAR(50)" CanBeNull="true" UpdateCheck="Never" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="false" ed:Guid="864cf14c-a7e1-472b-bffc-96b3c580cc91" />
+      <Column Name="ShopId" Type="System.Int32" DbType="INT" CanBeNull="true" UpdateCheck="Never" Precision="10" ed:ValidateRequired="false" ed:Guid="09ce6a04-41f8-4bc7-8b2e-ee27215730e4" />
+      <Association Name="ProductType_Product" ed:AssociationGuid="866c2052-84e9-41ac-ac69-48321d423d96" Member="Products" ed:Guid="0f15e16c-5b7f-4544-acae-98f35cbd36a9" ThisKey="TypeId" OtherKey="TypeId" Type="Product" />
+      <Association Name="ShopDetail_ProductType" ed:AssociationGuid="af0642f2-a7e8-4bf0-a97a-7924e044fff0" Member="ShopDetail" ed:Guid="1cfb1850-8363-4843-b216-e712d4dd976f" ThisKey="ShopId" OtherKey="ShopId" Type="ShopDetail" DeleteRule="NO ACTION" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.RefreshToken" Member="RefreshTokens">
-    <Type Name="RefreshToken" ed:Guid="a821d58f-afe3-4d93-9218-619f1565b3e2">
-      <Column Name="RefreshTokenId" Type="System.Int32" AutoSync="OnInsert" DbType="INT NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" UpdateCheck="Always" Precision="10" ed:ValidateRequired="true" ed:Guid="3178ff6e-3b02-4868-aac1-92121217b9ac" />
-      <Column Name="RToken" Type="System.String" DbType="NVARCHAR(50)" CanBeNull="true" UpdateCheck="Never" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="false" ed:Guid="d25d3357-3f83-42ee-870b-c1cd7d11f9af" />
-      <Association Name="RefreshToken_UserRefresh" ed:AssociationGuid="c4dceb84-f16e-4089-9f57-0a19d18102ac" Member="UserRefreshes" ed:Guid="c8d79ed0-6e50-48ac-9d7d-c111ec96a990" ThisKey="RefreshTokenId" OtherKey="RefreshTokenId" Type="UserRefresh" />
+    <Type Name="RefreshToken" ed:Guid="3ddef68a-84ac-4e08-a435-1ca9b6a4c3f4">
+      <Column Name="RefreshTokenId" Type="System.Int32" AutoSync="OnInsert" DbType="INT NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" UpdateCheck="Always" Precision="10" ed:ValidateRequired="true" ed:Guid="8a3196ca-bc0e-40b0-8470-212aa5978a6b" />
+      <Column Name="RToken" Type="System.String" DbType="NVARCHAR(50)" CanBeNull="true" UpdateCheck="Never" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="false" ed:Guid="5c771c40-82cd-4e1f-ac37-557947a611ba" />
+      <Association Name="RefreshToken_UserRefresh" ed:AssociationGuid="9ad73dcb-5bc5-4bc3-ad8c-3c5b7f7b3417" Member="UserRefreshes" ed:Guid="fd96edce-9753-4682-81b2-209228d468ed" ThisKey="RefreshTokenId" OtherKey="RefreshTokenId" Type="UserRefresh" />
     </Type>
   </Table>
   <Table Name="dbo.Role" Member="Roles">
-    <Type Name="Role" ed:Guid="efcd8cb4-bebb-4576-ad4e-82af4f04ddcc">
-      <Column Name="RoleId" Type="System.Int32" AutoSync="OnInsert" DbType="INT NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" UpdateCheck="Always" Precision="10" ed:ValidateRequired="true" ed:Guid="c6b61707-68d8-4848-9316-72003661238c" />
-      <Column Name="RoleName" Type="System.String" DbType="NVARCHAR(50)" CanBeNull="true" UpdateCheck="Never" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="false" ed:Guid="f26073d5-0852-4c44-8806-98b777f0c6f3" />
-      <Association Name="Role_User" ed:AssociationGuid="128bd5af-aa7d-4822-aa85-2bd3fedfbf5e" Member="Users" ed:Guid="8eee39b8-3d09-4a15-a64a-477d43397cb5" ThisKey="RoleId" OtherKey="RoleId" Type="User" />
+    <Type Name="Role" ed:Guid="131f1cd2-93fc-416c-8ffe-ce57b91c1488">
+      <Column Name="RoleId" Type="System.Int32" AutoSync="OnInsert" DbType="INT NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" UpdateCheck="Always" Precision="10" ed:ValidateRequired="true" ed:Guid="06999a02-2f8c-4985-bcf5-723849959c24" />
+      <Column Name="RoleName" Type="System.String" DbType="NVARCHAR(50)" CanBeNull="true" UpdateCheck="Never" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="false" ed:Guid="b4dd6a48-2d60-4045-867c-68f10753fe36" />
+      <Association Name="Role_User" ed:AssociationGuid="d22971f7-f36f-4769-89b2-0faeb4a21182" Member="Users" ed:Guid="3b829c6c-f178-4cf3-98f9-5ab185bf7a78" ThisKey="RoleId" OtherKey="RoleId" Type="User" />
     </Type>
   </Table>
   <Table Name="dbo.ShopAddress" Member="ShopAddresses">
-    <Type Name="ShopAddress" ed:Guid="25ef6bb8-752d-40cc-b165-2d39cf35e16a">
-      <Column Name="AddressId" Type="System.Int32" AutoSync="OnInsert" DbType="INT NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" UpdateCheck="Always" Precision="10" ed:ValidateRequired="true" ed:Guid="33bd862e-ae6b-489e-b599-da27a4f40a40" />
-      <Column Name="AddressLine" Type="System.String" DbType="NVARCHAR(50)" CanBeNull="true" UpdateCheck="Never" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="false" ed:Guid="eaf4df11-9135-45cf-9b44-57d720b8d255" />
-      <Column Name="Latitude" Type="System.Decimal" DbType="DECIMAL(18,15)" CanBeNull="true" UpdateCheck="Never" Precision="18" Scale="15" ed:ValidateRequired="false" ed:Guid="85ecac34-7f3a-4d90-adfb-86a59a267057" />
-      <Column Name="Longitude" Type="System.Decimal" DbType="DECIMAL(18,15)" CanBeNull="true" UpdateCheck="Never" Precision="18" Scale="15" ed:ValidateRequired="false" ed:Guid="e8dd345c-7d27-4d15-b4a9-182c8cc593af" />
-      <Column Name="ShopId" Type="System.Int32" DbType="INT" CanBeNull="true" UpdateCheck="Never" Precision="10" ed:ValidateRequired="false" ed:Guid="fdaa3572-7ff1-4b08-a851-e67bad13b4b4" />
-      <Association Name="ShopDetail_ShopAddress" ed:AssociationGuid="5fd1a6db-53cd-4fea-b854-af6fccafff14" Member="ShopDetail" ed:Guid="424ab748-f934-4f28-8f06-5b7dc41c0b17" ThisKey="ShopId" OtherKey="ShopId" Type="ShopDetail" DeleteRule="NO ACTION" IsForeignKey="true" />
+    <Type Name="ShopAddress" ed:Guid="29bb5a79-9cc4-43ad-8c50-a343d6fe4ad1">
+      <Column Name="AddressId" Type="System.Int32" AutoSync="OnInsert" DbType="INT NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" UpdateCheck="Always" Precision="10" ed:ValidateRequired="true" ed:Guid="630ef2f7-0367-4453-8119-81436f237370" />
+      <Column Name="AddressLine" Type="System.String" DbType="NVARCHAR(50)" CanBeNull="true" UpdateCheck="Never" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="false" ed:Guid="148a6baf-adc9-4479-83ca-d684ff3e2e68" />
+      <Column Name="Latitude" Type="System.Decimal" DbType="DECIMAL(18,15)" CanBeNull="true" UpdateCheck="Never" Precision="18" Scale="15" ed:ValidateRequired="false" ed:Guid="424be558-b5fd-4cbb-8854-622b50ddf915" />
+      <Column Name="Longitude" Type="System.Decimal" DbType="DECIMAL(18,15)" CanBeNull="true" UpdateCheck="Never" Precision="18" Scale="15" ed:ValidateRequired="false" ed:Guid="e66cc440-8bc7-44af-b232-b42b04d24780" />
+      <Column Name="ShopId" Type="System.Int32" DbType="INT" CanBeNull="true" UpdateCheck="Never" Precision="10" ed:ValidateRequired="false" ed:Guid="ddee4ae3-f8ac-4282-89ff-a3064dc1c1b2" />
+      <Association Name="ShopDetail_ShopAddress" ed:AssociationGuid="638555be-7a5b-44fc-9475-66ca077b025a" Member="ShopDetail" ed:Guid="e127b3d8-2581-4a02-ba56-c7d5cae317a5" ThisKey="ShopId" OtherKey="ShopId" Type="ShopDetail" DeleteRule="NO ACTION" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.ShopDetail" Member="ShopDetails">
-    <Type Name="ShopDetail" ed:Guid="fd469cb3-e805-4246-906f-ea868a205943">
-      <Column Name="ShopId" Type="System.Int32" AutoSync="OnInsert" DbType="INT NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" UpdateCheck="Always" Precision="10" ed:ValidateRequired="true" ed:Guid="2192188c-8679-40a1-91a1-28cf134ff557" />
-      <Column Name="ShopName" Type="System.String" DbType="NVARCHAR(50)" CanBeNull="true" UpdateCheck="Never" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="false" ed:Guid="fde7ddb3-fcc6-4168-b5a9-648456afde94" />
-      <Column Name="PhoneNumber" Type="System.Decimal" DbType="NUMERIC" CanBeNull="true" UpdateCheck="Never" Precision="18" Scale="0" ed:ValidateRequired="false" ed:Guid="c2149c62-b21f-40a3-b621-675a0dbf141f" />
-      <Column Name="AlternateNumber" Type="System.Decimal" DbType="NUMERIC" CanBeNull="true" UpdateCheck="Never" Precision="18" Scale="0" ed:ValidateRequired="false" ed:Guid="c9c66482-ca3d-41bb-abad-0c5c65269fe8" />
-      <Column Name="DeliveryRadius" Type="System.Int32" DbType="INT" CanBeNull="true" UpdateCheck="Never" Precision="10" ed:ValidateRequired="false" ed:Guid="738ea28e-791a-490c-b668-255e7bc72fda" />
-      <Column Name="Logo" Type="System.String" DbType="NVARCHAR(50)" CanBeNull="true" UpdateCheck="Never" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="false" ed:Guid="57d1798d-1cae-4e45-ac2d-7a0629c39eba" />
-      <Column Name="CoverPhoto" Type="System.String" DbType="NVARCHAR(50)" CanBeNull="true" UpdateCheck="Never" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="false" ed:Guid="a6497f5f-a567-48fd-a3be-7a24e8fd89df" />
-      <Column Name="Description" Type="System.String" DbType="NVARCHAR(50)" CanBeNull="true" UpdateCheck="Never" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="false" ed:Guid="8b9bf347-f171-4796-b163-b1ea35023bd4" />
-      <Column Name="Status" Type="System.Int32" DbType="INT" CanBeNull="true" UpdateCheck="Never" Precision="10" ed:ValidateRequired="false" ed:Guid="088d20fb-4f59-4ffc-8d80-8d76ad385729" />
-      <Column Name="UserId" Type="System.Int32" DbType="INT" CanBeNull="true" UpdateCheck="Never" Precision="10" ed:ValidateRequired="false" ed:Guid="354cda12-74a6-4d96-a7af-8b06d05481a5" />
-      <Column Name="CategoryId" Type="System.Int32" DbType="INT" CanBeNull="true" UpdateCheck="Never" Precision="10" ed:ValidateRequired="false" ed:Guid="32d7ce9c-2aab-4594-80da-7a065af998dc" />
-      <Column Name="IsCompleted" Type="System.Int32" DbType="INT" CanBeNull="true" UpdateCheck="Never" Precision="10" ed:ValidateRequired="false" ed:Guid="565328fc-1601-4b3b-b2f8-9ee08df61d45" />
-      <Association Name="ShopDetail_OrderMstr" ed:AssociationGuid="46f16b80-fc01-4139-adc4-3717d143b770" Member="OrderMstrs" ed:Guid="f26dbbba-ee7c-44d0-8be4-e4b6190e633c" ThisKey="ShopId" OtherKey="ShopId" Type="OrderMstr" />
-      <Association Name="ShopDetail_ProductType" ed:AssociationGuid="edce0226-03d9-43f4-8bec-bb1b4929812f" Member="ProductTypes" ed:Guid="3c5d36e7-5033-4c76-9d90-d0340ad2e958" ThisKey="ShopId" OtherKey="ShopId" Type="ProductType" />
-      <Association Name="ShopDetail_ShopAddress" ed:AssociationGuid="5fd1a6db-53cd-4fea-b854-af6fccafff14" Member="ShopAddresses" ed:Guid="bcf7882d-47d5-4e6d-9d9a-5ab7834ea5b5" ThisKey="ShopId" OtherKey="ShopId" Type="ShopAddress" />
-      <Association Name="Category_ShopDetail" ed:AssociationGuid="aa05b241-42fd-432b-bf3e-f5fdf09de27e" Member="Category" ed:Guid="7f125a51-43d7-4e8d-8e42-116244d7abb2" ThisKey="CategoryId" OtherKey="CategoryId" Type="Category" DeleteRule="NO ACTION" IsForeignKey="true" />
-      <Association Name="User_ShopDetail" ed:AssociationGuid="39f163eb-d03a-4593-8466-c8384f1825cb" Member="User" ed:Guid="33054d0b-b3a2-4dae-8b6f-aba6f348fa80" ThisKey="UserId" OtherKey="UserId" Type="User" DeleteRule="NO ACTION" IsForeignKey="true" />
-      <Association Name="ShopDetail_Subscriber" ed:AssociationGuid="771ea96a-7de2-47f5-b9cc-2ea15533ab3b" Member="Subscribers" ed:Guid="3c91cf58-c39b-4bf3-ae67-333879baa48b" ThisKey="ShopId" OtherKey="ShopId" Type="Subscriber" />
+    <Type Name="ShopDetail" ed:Guid="56b01976-479b-42e1-aee6-be858ee0adfb">
+      <Column Name="ShopId" Type="System.Int32" AutoSync="OnInsert" DbType="INT NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" UpdateCheck="Always" Precision="10" ed:ValidateRequired="true" ed:Guid="5438f8a2-d14b-4f1c-ab0e-ddb1fdbe69e9" />
+      <Column Name="ShopName" Type="System.String" DbType="NVARCHAR(50)" CanBeNull="true" UpdateCheck="Never" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="false" ed:Guid="d53434f6-b342-4908-9b04-b6f5593c502d" />
+      <Column Name="PhoneNumber" Type="System.Decimal" DbType="NUMERIC" CanBeNull="true" UpdateCheck="Never" Precision="18" Scale="0" ed:ValidateRequired="false" ed:Guid="c1297bf6-cfa9-499d-9d31-ab05e1dccd95" />
+      <Column Name="AlternateNumber" Type="System.Decimal" DbType="NUMERIC" CanBeNull="true" UpdateCheck="Never" Precision="18" Scale="0" ed:ValidateRequired="false" ed:Guid="b5e9b207-e4b2-4ed0-8747-98d27cc60d23" />
+      <Column Name="DeliveryRadius" Type="System.Int32" DbType="INT" CanBeNull="true" UpdateCheck="Never" Precision="10" ed:ValidateRequired="false" ed:Guid="8985f1af-ed67-4dde-a17b-f795c7e68db1" />
+      <Column Name="Logo" Type="System.String" DbType="NVARCHAR(50)" CanBeNull="true" UpdateCheck="Never" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="false" ed:Guid="c892cee0-ae00-4943-8c6b-7ee1a8aea9e9" />
+      <Column Name="CoverPhoto" Type="System.String" DbType="NVARCHAR(50)" CanBeNull="true" UpdateCheck="Never" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="false" ed:Guid="3c3938b4-c422-434e-ae96-e7e375be7cd2" />
+      <Column Name="Description" Type="System.String" DbType="NVARCHAR(50)" CanBeNull="true" UpdateCheck="Never" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="false" ed:Guid="d553d24f-4634-47d4-b4dc-9691faa493d3" />
+      <Column Name="Status" Type="System.Int32" DbType="INT" CanBeNull="true" UpdateCheck="Never" Precision="10" ed:ValidateRequired="false" ed:Guid="03db8d25-a694-42fd-9093-d3f92faa79b3" />
+      <Column Name="UserId" Type="System.Int32" DbType="INT" CanBeNull="true" UpdateCheck="Never" Precision="10" ed:ValidateRequired="false" ed:Guid="45c77cbe-12eb-4818-b9e7-c8af5969c0cf" />
+      <Column Name="CategoryId" Type="System.Int32" DbType="INT" CanBeNull="true" UpdateCheck="Never" Precision="10" ed:ValidateRequired="false" ed:Guid="4a97933a-f32f-4726-9b03-271b85e9ea73" />
+      <Column Name="IsCompleted" Type="System.Int32" DbType="INT" CanBeNull="true" UpdateCheck="Never" Precision="10" ed:ValidateRequired="false" ed:Guid="f5a894d2-6818-40a7-b6d6-1357a3d8ee23" />
+      <Association Name="Category_ShopDetail" ed:AssociationGuid="e65a7aa0-7bd2-4b43-8e5b-549f2f7946b3" Member="Category" ed:Guid="65c45535-7b81-4b52-acce-382bc70a3d5b" ThisKey="CategoryId" OtherKey="CategoryId" Type="Category" DeleteRule="NO ACTION" IsForeignKey="true" />
+      <Association Name="ShopDetail_OrderMstr" ed:AssociationGuid="0124d6b8-a321-41c1-b575-1037acf21db7" Member="OrderMstrs" ed:Guid="4ac29c77-bc43-464f-9741-65cd6774feff" ThisKey="ShopId" OtherKey="ShopId" Type="OrderMstr" />
+      <Association Name="ShopDetail_ProductType" ed:AssociationGuid="af0642f2-a7e8-4bf0-a97a-7924e044fff0" Member="ProductTypes" ed:Guid="db1fc69e-77d4-426e-b307-eddaff73518c" ThisKey="ShopId" OtherKey="ShopId" Type="ProductType" />
+      <Association Name="ShopDetail_ShopAddress" ed:AssociationGuid="638555be-7a5b-44fc-9475-66ca077b025a" Member="ShopAddresses" ed:Guid="9176e397-b18b-49d4-a01e-8a181635b7a2" ThisKey="ShopId" OtherKey="ShopId" Type="ShopAddress" />
+      <Association Name="User_ShopDetail" ed:AssociationGuid="b3aeedf8-1ed8-4dfe-ae16-ca5ba92d6f80" Member="User" ed:Guid="d32b310a-b16a-4213-9009-74d36e4094f0" ThisKey="UserId" OtherKey="UserId" Type="User" DeleteRule="NO ACTION" IsForeignKey="true" />
+      <Association Name="ShopDetail_Subscriber" ed:AssociationGuid="3ab62f09-fa7f-4c14-a875-8c76cd350701" Member="Subscribers" ed:Guid="8770b122-bb85-4823-bf98-091f4d6c74de" ThisKey="ShopId" OtherKey="ShopId" Type="Subscriber" />
     </Type>
   </Table>
   <Table Name="dbo.Subscriber" Member="Subscribers">
-    <Type Name="Subscriber" ed:Guid="d9d7c163-449b-4dae-af39-f402ec0bf9bf">
-      <Column Name="SubscriberId" Type="System.Int32" AutoSync="OnInsert" DbType="INT NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" UpdateCheck="Always" Precision="10" ed:ValidateRequired="true" ed:Guid="dede3ec9-3466-4c84-a8b0-7ef146a485d9" />
-      <Column Name="OfficeId" Type="System.Int32" DbType="INT" CanBeNull="true" UpdateCheck="Never" Precision="10" ed:ValidateRequired="false" ed:Guid="375d933b-c4d6-46ca-81f9-35e995668b7b" />
-      <Column Name="ShopId" Type="System.Int32" DbType="INT" CanBeNull="true" UpdateCheck="Never" Precision="10" ed:ValidateRequired="false" ed:Guid="efddb5a7-c6e8-496f-bcfb-503a39651b6b" />
-      <Column Name="Status" Type="System.Int32" DbType="INT" CanBeNull="true" UpdateCheck="Never" Precision="10" ed:ValidateRequired="false" ed:Guid="1a3b4258-9cd2-4ce8-a16a-cdff543f278d" />
-      <Association Name="OfficeDetail_Subscriber" ed:AssociationGuid="3e2260df-7532-4ec9-bffc-e873aedbc418" Member="OfficeDetail" ed:Guid="81175b8d-dd64-4c81-9cb4-d0d562480c3e" ThisKey="OfficeId" OtherKey="OfficeId" Type="OfficeDetail" DeleteRule="NO ACTION" IsForeignKey="true" />
-      <Association Name="ShopDetail_Subscriber" ed:AssociationGuid="771ea96a-7de2-47f5-b9cc-2ea15533ab3b" Member="ShopDetail" ed:Guid="e9d5c89f-fac0-4cc1-ba4d-35a20020346c" ThisKey="ShopId" OtherKey="ShopId" Type="ShopDetail" DeleteRule="NO ACTION" IsForeignKey="true" />
+    <Type Name="Subscriber" ed:Guid="21bcbbdc-bc8b-4d77-95b1-d00b07b32d84">
+      <Column Name="SubscriberId" Type="System.Int32" AutoSync="OnInsert" DbType="INT NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" UpdateCheck="Always" Precision="10" ed:ValidateRequired="true" ed:Guid="3fca759f-342e-429b-aa83-ee4fb1d174db" />
+      <Column Name="OfficeId" Type="System.Int32" DbType="INT" CanBeNull="true" UpdateCheck="Never" Precision="10" ed:ValidateRequired="false" ed:Guid="368a9d30-1b07-4b4e-8248-251c87bb7f87" />
+      <Column Name="ShopId" Type="System.Int32" DbType="INT" CanBeNull="true" UpdateCheck="Never" Precision="10" ed:ValidateRequired="false" ed:Guid="b0561d3d-40b3-49c3-a533-fe60dd4e9903" />
+      <Column Name="Status" Type="System.Int32" DbType="INT" CanBeNull="true" UpdateCheck="Never" Precision="10" ed:ValidateRequired="false" ed:Guid="7b948fa4-ed41-445d-af3d-e3096bc6458b" />
+      <Association Name="OfficeDetail_Subscriber" ed:AssociationGuid="9296039f-03dc-4d41-a9b3-62b5160a5820" Member="OfficeDetail" ed:Guid="7ca4e4b6-2833-48ac-89e4-5c384bab1035" ThisKey="OfficeId" OtherKey="OfficeId" Type="OfficeDetail" DeleteRule="NO ACTION" IsForeignKey="true" />
+      <Association Name="ShopDetail_Subscriber" ed:AssociationGuid="3ab62f09-fa7f-4c14-a875-8c76cd350701" Member="ShopDetail" ed:Guid="aabe7c0e-f516-4f04-a614-0916fbb59008" ThisKey="ShopId" OtherKey="ShopId" Type="ShopDetail" DeleteRule="NO ACTION" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.[User]" Member="Users">
-    <Type Name="User" ed:Guid="cd4f873c-406e-415e-820c-fcf1256ed958">
-      <Column Name="UserId" Type="System.Int32" AutoSync="OnInsert" DbType="INT NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" UpdateCheck="Always" Precision="10" ed:ValidateRequired="true" ed:Guid="38015236-1526-4538-80e4-690d4bf9c46f" />
-      <Column Name="EmailId" Type="System.String" DbType="NVARCHAR(50)" CanBeNull="true" UpdateCheck="Never" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="false" ed:Guid="c4d09661-0e4d-4e0c-b0f5-efb57c7a3959" />
-      <Column Name="Password" Type="System.String" DbType="NVARCHAR(50)" CanBeNull="true" UpdateCheck="Never" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="false" ed:Guid="19679b77-c43f-4c9c-9473-5b9635b65c73" />
-      <Column Name="RoleId" Type="System.Int32" DbType="INT" CanBeNull="true" UpdateCheck="Never" Precision="10" ed:ValidateRequired="false" ed:Guid="6dc0e13b-49cb-4dcd-8bfa-15efe9d025b0" />
-      <Association Name="User_OfficeDetail" ed:AssociationGuid="e35b3f28-5387-41a0-b457-1ab6cfc95334" Member="OfficeDetails" ed:Guid="48283f10-fea8-4eb8-9da5-fe380e20376a" ThisKey="UserId" OtherKey="UserId" Type="OfficeDetail" />
-      <Association Name="User_ShopDetail" ed:AssociationGuid="39f163eb-d03a-4593-8466-c8384f1825cb" Member="ShopDetails" ed:Guid="9a7ef4a4-1795-4cb6-9e4a-580840c0e788" ThisKey="UserId" OtherKey="UserId" Type="ShopDetail" />
-      <Association Name="Role_User" ed:AssociationGuid="128bd5af-aa7d-4822-aa85-2bd3fedfbf5e" Member="Role" ed:Guid="19bf552d-4851-4464-86df-50c8c7dd8adc" ThisKey="RoleId" OtherKey="RoleId" Type="Role" DeleteRule="NO ACTION" IsForeignKey="true" />
+    <Type Name="User" ed:Guid="30bf6909-05a1-4246-821a-256382d6631a">
+      <Column Name="UserId" Type="System.Int32" AutoSync="OnInsert" DbType="INT NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" UpdateCheck="Always" Precision="10" ed:ValidateRequired="true" ed:Guid="add427a8-8c68-4f7b-bd21-1a8fe16e3e0f" />
+      <Column Name="EmailId" Type="System.String" DbType="NVARCHAR(50)" CanBeNull="true" UpdateCheck="Never" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="false" ed:Guid="d1152372-ca9a-451f-ae51-2e7f37b5902d" />
+      <Column Name="Password" Type="System.String" DbType="NVARCHAR(50)" CanBeNull="true" UpdateCheck="Never" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="false" ed:Guid="4803cf95-2fd1-4a31-9798-73302adea616" />
+      <Column Name="RoleId" Type="System.Int32" DbType="INT" CanBeNull="true" UpdateCheck="Never" Precision="10" ed:ValidateRequired="false" ed:Guid="f3c9321a-1ac0-4920-8f4f-3cbedd3179ae" />
+      <Association Name="User_Employee" ed:AssociationGuid="eddf0042-8f9f-4fe5-8c60-a20c11e0aadc" Member="Employees" ed:Guid="01b08503-cdf7-4a28-b4e1-7678eeaa63ce" ThisKey="UserId" OtherKey="UserId" Type="Employee" />
+      <Association Name="User_OfficeDetail" ed:AssociationGuid="f1bae3c6-878e-4e50-af98-4a650d67639e" Member="OfficeDetails" ed:Guid="011e7fe3-3fe7-483f-938f-2c92d270e091" ThisKey="UserId" OtherKey="UserId" Type="OfficeDetail" />
+      <Association Name="Role_User" ed:AssociationGuid="d22971f7-f36f-4769-89b2-0faeb4a21182" Member="Role" ed:Guid="46644dd2-005e-4c81-822e-553d4299e981" ThisKey="RoleId" OtherKey="RoleId" Type="Role" DeleteRule="NO ACTION" IsForeignKey="true" />
+      <Association Name="User_ShopDetail" ed:AssociationGuid="b3aeedf8-1ed8-4dfe-ae16-ca5ba92d6f80" Member="ShopDetails" ed:Guid="f19a9030-cd3a-44a2-bfef-ffcb5ab42fdd" ThisKey="UserId" OtherKey="UserId" Type="ShopDetail" />
     </Type>
   </Table>
   <Table Name="dbo.UserRefresh" Member="UserRefreshes">
-    <Type Name="UserRefresh" ed:Guid="0eedaa7a-64da-47e0-91b5-0662477473fe">
-      <Column Name="UserRTokenId" Type="System.Int32" AutoSync="OnInsert" DbType="INT NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" UpdateCheck="Always" Precision="10" ed:ValidateRequired="true" ed:Guid="ff1dba45-9d63-4f9e-8fdd-ef8096340884" />
-      <Column Name="UserEmailId" Type="System.String" DbType="NVARCHAR(50)" CanBeNull="true" UpdateCheck="Never" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="false" ed:Guid="de37f380-19b5-4821-85c5-bff80675bc80" />
-      <Column Name="RefreshTokenId" Type="System.Int32" DbType="INT" CanBeNull="true" UpdateCheck="Never" Precision="10" ed:ValidateRequired="false" ed:Guid="396235db-0bc1-4941-b1b4-8f58dfe98b72" />
-      <Association Name="RefreshToken_UserRefresh" ed:AssociationGuid="c4dceb84-f16e-4089-9f57-0a19d18102ac" Member="RefreshToken" ed:Guid="6cf858a1-ace6-4b5c-9b53-28ce079b7680" ThisKey="RefreshTokenId" OtherKey="RefreshTokenId" Type="RefreshToken" DeleteRule="NO ACTION" IsForeignKey="true" />
+    <Type Name="UserRefresh" ed:Guid="f47f80f1-d8b5-4a9e-90fc-f76edab06564">
+      <Column Name="UserRTokenId" Type="System.Int32" AutoSync="OnInsert" DbType="INT NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" UpdateCheck="Always" Precision="10" ed:ValidateRequired="true" ed:Guid="98e08052-d7a0-40bb-b69e-5f7394b1aef4" />
+      <Column Name="UserEmailId" Type="System.String" DbType="NVARCHAR(50)" CanBeNull="true" UpdateCheck="Never" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="false" ed:Guid="3c5e8297-af1e-43c3-ac68-bde8b05be289" />
+      <Column Name="RefreshTokenId" Type="System.Int32" DbType="INT" CanBeNull="true" UpdateCheck="Never" Precision="10" ed:ValidateRequired="false" ed:Guid="a73828fa-69c2-4d57-a582-2b1036e6d880" />
+      <Association Name="RefreshToken_UserRefresh" ed:AssociationGuid="9ad73dcb-5bc5-4bc3-ad8c-3c5b7f7b3417" Member="RefreshToken" ed:Guid="49fed849-f72a-42ab-9d42-3e1d4bc80902" ThisKey="RefreshTokenId" OtherKey="RefreshTokenId" Type="RefreshToken" DeleteRule="NO ACTION" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

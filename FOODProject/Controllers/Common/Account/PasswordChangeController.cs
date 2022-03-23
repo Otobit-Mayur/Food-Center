@@ -11,11 +11,11 @@ namespace FOODProject.Controllers.Common.Account
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UpadateUserController : ControllerBase
+    public class PasswordChangeController : ControllerBase
     {
         private readonly UpdatePassword _updatePassword;
 
-        public UpadateUserController(Core.Common.Accounts.UpdatePassword updatePassword)
+        public PasswordChangeController(Core.Common.Accounts.UpdatePassword updatePassword)
         {
             _updatePassword = updatePassword;
         }

@@ -21,7 +21,8 @@ namespace FOODProject.Controllers.AccountManager.Employee
         [HttpPost]
         public IActionResult AddEmployee(Model.AccountManager.Employee.AddEmp value)
         {
-            var result = _addEmployees.AddEmployee(value);
+            int UserId = (int)HttpContext.Items["UserId"];
+            var result = _addEmployees.AddEmployee(value, UserId);
             return Ok(result);
 
         }
@@ -29,6 +30,12 @@ namespace FOODProject.Controllers.AccountManager.Employee
         public IActionResult AddempPassword(Model.AccountManager.Employee.AddEmployeePassword value,int Id)
         {
             var result = _addEmployees.AddEmpPassword(value,Id);
+            return Ok(result);
+        }
+        [HttpPut("AddDeatil")]
+        public IActionResult AddEmpDetail(Model.AccountManager.Employee.EmployeeDetail value, int Id)
+        {
+            var result = _addEmployees.AddEmpDetaile(value, Id);
             return Ok(result);
         }
     }

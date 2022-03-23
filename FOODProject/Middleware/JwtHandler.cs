@@ -50,6 +50,8 @@ namespace Shopping.Middleware
                 context.Items["EmailId"] = EmailId;
                 int UserId = int.Parse(jwtToken.Claims.First(x => x.Type == ClaimTypes.Sid).Value);
                 context.Items["UserId"] = UserId;
+                int RoleID = int.Parse(jwtToken.Claims.First(x => x.Type == ClaimTypes.Role).Value);
+                context.Items["RoleID"] = RoleID;
                 /*string RName = jwtToken.Claims.First(x => x.Type == ClaimTypes.Role).Value;
                 context.Items["Rolename"] = RName;*/
 

@@ -134,6 +134,7 @@ namespace FOODProject.Core.Common.Accounts
                   {
                      new Claim(ClaimTypes.Name,result.EmailId),
                      new Claim(ClaimTypes.Sid,qs.ToString()),
+                     new Claim(ClaimTypes.Role,result.RoleId.ToString()),
                      new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString())
                   };
 
