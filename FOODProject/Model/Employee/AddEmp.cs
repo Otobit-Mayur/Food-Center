@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace FOODProject.Model.AccountManager.Employee
+namespace FOODProject.Model.Employee
 {
     public class AddEmp
     {

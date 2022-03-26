@@ -20,6 +20,7 @@ using Shopping.Middleware;
 using FOODProject.Core.AccountManager.OfficeDetails;
 using FOODProject.Core.Common.Accounts;
 using FOODProject.Core.Shop.StoreDetails;
+using FOODProject.Cores.Employee;
 
 namespace FOODProject
 {
@@ -85,7 +86,7 @@ namespace FOODProject
             services.AddTransient<TokenService>();
             services.AddTransient<OfficeDetails>();
             services.AddTransient<Core.Shop.StoreDetails.AddMoreAddress>();
-            services.AddTransient<Core.AccountManager.Employees.AddEmployees>();
+            services.AddTransient<AddEmployees>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "FOODProject", Version = "v1" });
@@ -100,18 +101,18 @@ namespace FOODProject
                 });
                 c.AddSecurityRequirement(new OpenApiSecurityRequirement 
                 {
-                 {
-            new OpenApiSecurityScheme 
-            {
-                Reference = new OpenApiReference 
-                {
-                    Type = ReferenceType.SecurityScheme,
-                        Id = "Bearer"
-                }
-            },
-            new string[] {}
-        }       
-    });
+                     {
+                        new OpenApiSecurityScheme 
+                        {
+                            Reference = new OpenApiReference 
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        new string[] {}
+                     }       
+                 });
             });
 
         }
@@ -129,7 +130,7 @@ namespace FOODProject
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
-            //app.UseMiddleware<ErrorHandler>();
+            app.UseMiddleware<ErrorHandler>();
             app.UseMiddleware<JwtHandler>();
 
             app.UseEndpoints(endpoints =>

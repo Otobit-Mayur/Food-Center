@@ -117,7 +117,7 @@ namespace FOODProject.Core.Shop
                         on oom.OfficeId equals o.OfficeId
                         join oa in db.OfficeAddresses
                         on o.OfficeId equals oa.OfficeId
-                        where oom.ShopId == shop.ShopId 
+                        where oom.ShopId == shop.ShopId
                         select new
                         {
                             Image = prod.Image,
@@ -148,7 +148,7 @@ namespace FOODProject.Core.Shop
             var loc = Math.Round(6371.0 * (2.0 * Math.Atan2(Math.Sqrt(d3), Math.Sqrt(1.0 - d3))));
             return loc;
         }
-       
+
         public Result GetOrderHistory(int UserId)
         {
             var shop = (from sp in db.ShopDetails
@@ -182,7 +182,7 @@ namespace FOODProject.Core.Shop
                             Total = om.Total,
                             Time = om.DeliveryTime
                         }
-                    ).ToList(),    
+                    ).ToList(),
             };
         }
         public Result GetTime()
@@ -217,14 +217,14 @@ namespace FOODProject.Core.Shop
             {
                 Status = Result.ResultStatus.success,
                 Message = string.Format("Get All Detail Successfully"),
-                Data = (from l in db.LookUps
+                Data = (from l in db.LookUps    
                         join fl in db.FixLookUps
                         on l.LookUpId equals fl.LookUpId
                         where fl.LookUpId == 3
                         select fl).ToList(),
             };
         }
-        public Result OrderFilterSort(int UserId,string Filter,int Sorting,int SortingOrder)
+        public Result OrderFilterSort(int UserId, string Filter, int Sorting, int SortingOrder)
         {
             var shop = (from sp in db.ShopDetails
                         where sp.UserId == UserId
@@ -236,31 +236,31 @@ namespace FOODProject.Core.Shop
             var p1 = (from x in db.ShopAddresses where x.ShopId == shop.ShopId select x).FirstOrDefault();
 
             var Res1 = (from oom in db.OrderMstrs
-                          join od in db.OrderDetails
-                          on oom.OrderId equals od.OrderId
-                          join prod in db.Products
-                          on od.ProductId equals prod.ProductId
-                          join o in db.OfficeDetails
-                          on oom.OfficeId equals o.OfficeId
-                          join oa in db.OfficeAddresses
-                          on o.OfficeId equals oa.OfficeId
-                          where oom.ShopId == shop.ShopId && (prod.ProductName.Contains(Filter) || o.OfficeName.Contains(Filter))
-                          select new
-                          {
-                              Image = prod.Image,
-                              ItemName = prod.ProductName,
-                              Qty = od.Qty,
-                              OfficeName = o.OfficeName,
-                              OfficeAddress = oa.AddressLine,
-                              Distance = GetDistanceFromShop(p1, o.OfficeId)
-                          });
+                        join od in db.OrderDetails
+                        on oom.OrderId equals od.OrderId
+                        join prod in db.Products
+                        on od.ProductId equals prod.ProductId
+                        join o in db.OfficeDetails
+                        on oom.OfficeId equals o.OfficeId
+                        join oa in db.OfficeAddresses
+                        on o.OfficeId equals oa.OfficeId
+                        where oom.ShopId == shop.ShopId && (prod.ProductName.Contains(Filter) || o.OfficeName.Contains(Filter))
+                        select new
+                        {
+                            Image = prod.Image,
+                            ItemName = prod.ProductName,
+                            Qty = od.Qty,
+                            OfficeName = o.OfficeName,
+                            OfficeAddress = oa.AddressLine,
+                            Distance = GetDistanceFromShop(p1, o.OfficeId)
+                        });
             if (SortingOrder == 12)
             {
                 return new Result()
                 {
                     Status = Result.ResultStatus.success,
                     Message = string.Format("Get All Detail Successfully"),
-                    Data = Res1.OrderByDescending(od=>od.Qty).ToList(),
+                    Data = Res1.OrderByDescending(od => od.Qty).ToList(),
                 };
             }
             else if (SortingOrder == 13)
@@ -269,7 +269,7 @@ namespace FOODProject.Core.Shop
                 {
                     Status = Result.ResultStatus.success,
                     Message = string.Format("Get All Detail Successfully"),
-                    Data = Res1.OrderBy(od=>od.Qty).ToList(),
+                    Data = Res1.OrderBy(od => od.Qty).ToList(),
                 };
             }
             else
@@ -283,6 +283,22 @@ namespace FOODProject.Core.Shop
 
             }
         }
+      /*  public Result TopOrder(int UserId)
+        {
+            var shop = (from sp in db.ShopDetails
+                        where sp.UserId == UserId
+                        select sp).FirstOrDefault();
+            if (shop is null)
+            {
+                throw new ArgumentException("Shop not found!");
+            }
+           *//* var p1 = (from x in db.ShopAddresses where x.ShopId == shop.ShopId select x).FirstOrDefault();*//*
+
+            var Res1 = (from oom in db.OrderMstrs
+                        join od in db.OrderDetails
+                        on oom.OrderId equals od.OrderId
+                        join prod in db.Products
+        }*/
     }
 }
 

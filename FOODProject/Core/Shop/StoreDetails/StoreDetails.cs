@@ -18,13 +18,12 @@ namespace FOODProject.Core.Shop.StoreDetails
                 using (FoodCenterDataContext context = new FoodCenterDataContext())
                 {
                     ShopDetail sd = new ShopDetail();
-                    
                     sd.ShopName = value.ShopName;
                     sd.PhoneNumber = value.PhoneNumber;
                     sd.AlternateNumber = value.AlternateNumber;
                     sd.DeliveryRadius = value.DeliveryRadius;
                     sd.Logo = value.Logo;
-                    sd.Status = 1;
+                    sd.Status = "ON";
 
                     var ci = context.Categories.SingleOrDefault(c => c.CategoryName == value.CategoryId.String).CategoryId;
 
@@ -85,7 +84,6 @@ namespace FOODProject.Core.Shop.StoreDetails
                                 obj.UserId,
                                 obj.CategoryId,
                                 obj.Status,
-                                obj.IsCompleted,
                                 add.AddressLine
                             }).ToList(),
 
@@ -109,7 +107,6 @@ namespace FOODProject.Core.Shop.StoreDetails
                     shopdetail.Logo = value.Logo;
                     shopdetail.CoverPhoto = value.CoverPhoto;
                     shopdetail.Description = value.Description;
-
 
 
                     context.SubmitChanges();

@@ -6,12 +6,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Transactions;
 
-namespace FOODProject.Core.AccountManager.Employees
+namespace FOODProject.Cores.Employee
 {
     public class AddEmployees
     {
-
-        public Result AddEmployee(Model.AccountManager.Employee.AddEmp value, int UserId)
+        public Result AddEmployee(Model.Employee.AddEmp value, int UserId)
         {
             using (TransactionScope scope = new TransactionScope())
             {
@@ -33,14 +32,14 @@ namespace FOODProject.Core.AccountManager.Employees
                         context.Users.InsertOnSubmit(u);
                         context.SubmitChanges();
                     }
-                    
 
 
-                    Employee e = new Employee();
+
+                    EmployeeDetail e = new EmployeeDetail();
                     e.UserId = u.UserId;
                     e.OfficeId = qes;
 
-                    context.Employees.InsertOnSubmit(e);
+                    context.EmployeeDetails.InsertOnSubmit(e);
                     context.SubmitChanges();
                     scope.Complete();
                     return new Result()
@@ -54,7 +53,7 @@ namespace FOODProject.Core.AccountManager.Employees
 
             }
         }
-        public Result AddEmpPassword(Model.AccountManager.Employee.AddEmployeePassword value, int Id)
+        public Result AddEmpPassword(Model.Employee.AddEmployeePassword value, int Id)
         {
             using (FoodCenterDataContext context = new FoodCenterDataContext())
             {
@@ -77,11 +76,11 @@ namespace FOODProject.Core.AccountManager.Employees
                 };
             }
         }
-        public Result AddEmpDetaile(Model.AccountManager.Employee.EmployeeDetail value,int Id)
+        public Result AddEmpDetaile(Model.Employee.EmployeeDetail value,int Id)
         {
             using (FoodCenterDataContext context = new FoodCenterDataContext())
             {
-                Employee e = context.Employees.FirstOrDefault(x => x.EmployeeId == Id);
+                EmployeeDetail e = context.EmployeeDetails.FirstOrDefault(x => x.EmployeeId == Id);
                 if (e != null)
                 {
                     e.EmployeeName = value.EmployeeName;

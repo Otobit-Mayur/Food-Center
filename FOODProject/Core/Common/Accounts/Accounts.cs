@@ -78,7 +78,7 @@ namespace FOODProject.Core.Common.Accounts
          
             var ms = context.Roles.SingleOrDefault(c => c.RoleName == values.RoleId.String);
            
-            var res = context.Users.FirstOrDefault(x => x.EmailId == values.EmailId);
+            var res = context.Users.FirstOrDefault(x => x.EmailId == values.EmailId && x.RoleId==ms.RoleId);
             if (res != null)
             {
                 throw new ArgumentException("Email Id Already Exist");
@@ -115,9 +115,7 @@ namespace FOODProject.Core.Common.Accounts
 
         public Result Login(Model.Common.Account.Login values)
         {
-            var qs = (from obj in context.Users
-                      where obj.EmailId==values.EmailId
-                      select obj.UserId).SingleOrDefault();
+           
             var result = (from SignUp in context.Users
                           where SignUp.EmailId == values.EmailId && SignUp.Password == values.Password
                           select new 
@@ -127,9 +125,26 @@ namespace FOODProject.Core.Common.Accounts
                               RoleId=SignUp.RoleId
                           }).FirstOrDefault();
 
+            //Check User Details 
+            var q = (from Shop in context.ShopDetails                   
+                     from Office in context.OfficeDetails
+                     from Employee in context.EmployeeDetails
+                     where Shop.UserId == result.UserId || Office.UserId == result.UserId || Employee.UserId == result.UserId
+                     select Shop).Count();
+
+            if (q!=1)
+            {
+                throw new ArgumentException("Details Not Found ");
+            }
+
+
+            //Query To Get Current User Login 
+            var qs = (from obj in context.Users
+                      where obj.EmailId == values.EmailId
+                      select obj.UserId).SingleOrDefault();
+
             if (result != null)
             {
-
                 var authclaims = new List<Claim>
                   {
                      new Claim(ClaimTypes.Name,result.EmailId),
@@ -171,7 +186,19 @@ namespace FOODProject.Core.Common.Accounts
                 throw new ArgumentException("Please Enter Valid Login Details..");
             }
         }
-
+        public Result getsid(string Emailid)
+        {
+            var uid = (from user in context.Users
+                       where user.EmailId == Emailid
+                       select user.UserId).SingleOrDefault();
+            return new Result()
+            {
+                Message = string.Format($"{uid} is Current User"),
+                Status = Result.ResultStatus.success,
+                Data = uid,
+            };
+        }
+       
         public double CalculateDistance(Location point1)
         {
             var d1 = point1.Latitude1 * (Math.PI / 180.0);

@@ -19,7 +19,6 @@ namespace FOODProject.Core.Shop.StoreDetails
                 if(qes == null)
                 {
                     throw new ArgumentException("Shop ID Not Found");
-
                 }
                 else
                 {

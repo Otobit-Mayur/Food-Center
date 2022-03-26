@@ -39,7 +39,7 @@ namespace FOODProject.Core.Shop.Products
                 p.Description = value.Description;
                 p.Image = value.Image;
                 p.TypeId = res.TypeId;
-                p.Status = 1;
+                p.Status = "ON";
                /* p.FoodType = ft.ToString();*/
                 context.Products.InsertOnSubmit(p);
                 context.SubmitChanges();
@@ -51,9 +51,11 @@ namespace FOODProject.Core.Shop.Products
             }
 
         }
-        public Result GetAllProduct()
+        public Result GetAllProduct(int UserId)
         {
-
+            var qes = (from obj in context.ShopDetails
+                       where obj.UserId == UserId
+                       select obj.ShopId).SingleOrDefault();
             return new Result()
             {
                 Message = string.Format("Get All Product Successfully"),
@@ -61,6 +63,7 @@ namespace FOODProject.Core.Shop.Products
                 Data = (from obj in context.Products
                         join pt in context.ProductTypes
                         on obj.TypeId equals pt.TypeId
+                        where obj.ProductType.ShopId==qes
                         select new
                         {
                             ProductId = obj.ProductId,
@@ -107,13 +110,13 @@ namespace FOODProject.Core.Shop.Products
             Product product = context.Products.SingleOrDefault(x => x.ProductId == Id);
             if (product != null)
             {
-                if (product.Status == 1)
+                if (product.Status == "ON")
                 {
-                    product.Status = 0;
+                    product.Status = "OFF";
                 }
                 else
                 {
-                    product.Status = 1;
+                    product.Status = "ON";
                 }
                 context.SubmitChanges();
                 return new Result()
@@ -150,18 +153,7 @@ namespace FOODProject.Core.Shop.Products
                 Status = Result.ResultStatus.warning,
             };
         }
-        public Result getsid(string Emailid)
-        {
-            var uid = (from user in context.Users
-                       where user.EmailId == Emailid
-                       select user.UserId).SingleOrDefault();
-            return new Result()
-            {
-                Message = string.Format($"{uid}"),
-                Status = Result.ResultStatus.success,
-                Data=uid,
-            };
-        }
+        
 
         // Filtering in Product
         public Result GetByType(int TypeId)

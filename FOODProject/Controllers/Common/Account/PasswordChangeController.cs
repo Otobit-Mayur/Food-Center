@@ -1,5 +1,4 @@
-﻿
-using FOODProject.Core.Common.Accounts;
+﻿using FOODProject.Core.Common.Accounts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;

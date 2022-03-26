@@ -1,5 +1,4 @@
-﻿
-using FOODProject.Core.Common.Accounts;
+﻿using FOODProject.Core.Common.Accounts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -19,14 +18,14 @@ namespace FOODProject.Controllers.Common.Account
         {
             _accounts = accounts;
         }
-        [HttpPost("role")]
+       /* [HttpPost("role")]
         public IActionResult Add(Model.Common.Account.Role role)
         {
             //return Ok(new Accounts().AddRole(role));
             var result = _accounts.AddRole(role);
             return Ok(result);
 
-        }
+        }*/
         [HttpGet("role")]
         public IActionResult GetAllRole()
         {
@@ -56,14 +55,22 @@ namespace FOODProject.Controllers.Common.Account
             var result = _accounts.Login(values);
             return Ok(result);
         }
-        [HttpPost("Distance")]
+        /*[HttpPost("Distance")]
         public IActionResult Getdistance(Location point1)
         {
 
             // return Ok(new Accounts().get());
             var result = _accounts.CalculateDistance(point1);
             return Ok(result);
+        }*/
+        [HttpGet("GetCurrentUser")]
+        public IActionResult Getsid()
+        {
+            string EmailId = (string)HttpContext.Items["EmailId"];
+            //return Ok(new Orders().getsid(EmailId));
+            var result = _accounts.getsid(EmailId);
+            return Ok(result);
         }
-
+       
     }
 }

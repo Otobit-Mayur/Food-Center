@@ -39,7 +39,8 @@ namespace FOODProject.Controllers.Shop.Product
         [HttpGet("get")]
         public IActionResult Get()
         {
-            var result = _products.GetAllProduct();
+            int UserId = (int)HttpContext.Items["UserId"];
+            var result = _products.GetAllProduct(UserId);
             return Ok(result);
         }
         [HttpPut("{id}")]
@@ -60,14 +61,8 @@ namespace FOODProject.Controllers.Shop.Product
             var result = _products.UpdateStatus(id);
             return Ok(result);
         }
-        [HttpGet]
-        public IActionResult getsids()
-        {
-            string EmailId = (string)HttpContext.Items["EmailId"];
-            //return Ok(new Orders().getsid(EmailId));
-            var result = _products.getsid(EmailId);
-            return Ok(result);
-        }
+        
+       
         [HttpGet("getbytype")]
         public IActionResult GetByType(int TypeId)
         {

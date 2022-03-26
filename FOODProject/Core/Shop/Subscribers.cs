@@ -37,7 +37,7 @@ namespace FOODProject.Core.Shop
                         on s.OfficeId equals off.OfficeId
                         join oa in db.OfficeAddresses
                         on off.OfficeId equals oa.OfficeId
-                        where s.Status == 1 && s.ShopId == shop.ShopId
+                        where s.Status == "ON" && s.ShopId == shop.ShopId
                         select new
                         {
                             Image = off.Image,
@@ -70,7 +70,7 @@ namespace FOODProject.Core.Shop
                             on off.OfficeId equals oa.OfficeId
                             join u in db.Users
                             on off.UserId equals u.UserId
-                            where s.Status == 1 && s.ShopId == sid && s.OfficeId == Id
+                            where s.Status == "ON" && s.ShopId == sid && s.OfficeId == Id
                             select new
                             {
                                 Image = off.Image,
@@ -116,7 +116,7 @@ namespace FOODProject.Core.Shop
                         on s.OfficeId equals off.OfficeId
                         join oa in db.OfficeAddresses
                         on off.OfficeId equals oa.OfficeId
-                        where s.Status == 0 && s.ShopId == shop.ShopId
+                        where s.Subscription == "Accepted" && s.ShopId == shop.ShopId
                         select new
                         {
                             Image = off.Image,
