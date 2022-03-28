@@ -15,8 +15,8 @@ namespace FOODProject.Core.Shop.StoreDetails
             {
                 var qes = (from obj in context.ShopDetails
                            where obj.UserId == UserId
-                           select obj.ShopId).SingleOrDefault();
-                if(qes == null)
+                           select obj).FirstOrDefault();
+                if(qes is null)
                 {
                     throw new ArgumentException("Shop ID Not Found");
                 }
@@ -27,7 +27,7 @@ namespace FOODProject.Core.Shop.StoreDetails
                         AddressLine = value.AddresssLine,
                         Latitude = value.Latitude,
                         Longitude = value.Longitude,
-                        ShopId = qes,
+                        ShopId = qes.ShopId,
                     };
                     context.ShopAddresses.InsertOnSubmit(add);
                     context.SubmitChanges();

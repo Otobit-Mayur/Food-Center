@@ -34,7 +34,6 @@ namespace FOODProject.Cores.Employee
                     }
 
 
-
                     EmployeeDetail e = new EmployeeDetail();
                     e.UserId = u.UserId;
                     e.OfficeId = qes;
@@ -100,6 +99,41 @@ namespace FOODProject.Cores.Employee
                     Message = string.Format($"User Not Found"),
                     Status = Result.ResultStatus.warning,
                 };
+            }
+        }
+        public Result UpdateEmployeeDetail(Model.Employee.UpdateEmployeeDetail value,int UserId)
+        {
+            using(FoodCenterDataContext context=new FoodCenterDataContext())
+            {
+               
+                var qes = (from obj in context.EmployeeDetails
+                          where obj.UserId == UserId
+                          select obj).FirstOrDefault();
+                EmployeeDetail ED = context.EmployeeDetails.FirstOrDefault(x => x.EmployeeId == qes.EmployeeId);
+                if (ED is not null)
+                {
+                    ED.EmployeeName = value.EmployeeName;
+                    ED.PhoneNumber = value.PhoneNumber;
+                    ED.Photo = value.Photo;
+                    ED.CoverPhoto = value.CoverPhoto;
+                    context.SubmitChanges();
+
+                    return new Result()
+                    {
+
+                        Message = string.Format($"Profile Updated Successfully"),
+                        Status = Result.ResultStatus.success,
+                    };
+                }
+                else
+                {
+                    return new Result()
+                    {
+
+                        Message = string.Format($"Invalid Employee ID"),
+                        Status = Result.ResultStatus.danger,
+                    };
+                }
             }
         }
     }

@@ -58,7 +58,7 @@ namespace FOODProject.Core.Common.Accounts
         }
 
      
-        public Result getallRole()
+        public Result GetallRole()
         {
             return new Result()
             {
@@ -125,17 +125,48 @@ namespace FOODProject.Core.Common.Accounts
                               RoleId=SignUp.RoleId
                           }).FirstOrDefault();
 
+            if(result.RoleId==1)
+            {
+                var q = (from Shop in context.ShopDetails
+                         where Shop.UserId == result.UserId
+                         select Shop.UserId).Count();
+                if (q != 1)
+                {
+                    throw new ArgumentException("Details Not Found ");
+                }
+            }
+            if (result.RoleId == 2)
+            {
+                var q = (from office in context.OfficeDetails
+                         where office.UserId == result.UserId
+                         select office.UserId).Count();
+                if (q != 1)
+                {
+                    throw new ArgumentException("Details Not Found ");
+                }
+            }
+            if (result.RoleId == 3)
+            {
+                var q = (from Employee in context.EmployeeDetails
+                         where Employee.UserId == result.UserId
+                         select Employee.UserId).Count();
+                if (q != 1)
+                {
+                    throw new ArgumentException("Details Not Found ");
+                }
+            }
+
             //Check User Details 
-            var q = (from Shop in context.ShopDetails                   
+            /*var q = (from Shop in context.ShopDetails
                      from Office in context.OfficeDetails
                      from Employee in context.EmployeeDetails
                      where Shop.UserId == result.UserId || Office.UserId == result.UserId || Employee.UserId == result.UserId
-                     select Shop).Count();
+                     select Shop.UserId).Count();
 
             if (q!=1)
             {
                 throw new ArgumentException("Details Not Found ");
-            }
+            }*/
 
 
             //Query To Get Current User Login 
@@ -148,7 +179,7 @@ namespace FOODProject.Core.Common.Accounts
                 var authclaims = new List<Claim>
                   {
                      new Claim(ClaimTypes.Name,result.EmailId),
-                     new Claim(ClaimTypes.Sid,qs.ToString()),
+                     new Claim(ClaimTypes.Sid,result.UserId.ToString()),
                      new Claim(ClaimTypes.Role,result.RoleId.ToString()),
                      new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString())
                   };

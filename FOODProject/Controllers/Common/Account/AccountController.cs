@@ -31,7 +31,7 @@ namespace FOODProject.Controllers.Common.Account
         {
 
             // return Ok(new Accounts().get());
-            var result = _accounts.getallRole();
+            var result = _accounts.GetallRole();
             return Ok(result);
         }
         [HttpPost("Signup")]

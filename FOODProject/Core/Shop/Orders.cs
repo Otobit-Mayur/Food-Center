@@ -1,4 +1,4 @@
-﻿using FoodCenterContext;
+﻿/*using FoodCenterContext;
 using FOODProject.Model.Common;
 using System;
 using System.Collections;
@@ -283,7 +283,7 @@ namespace FOODProject.Core.Shop
 
             }
         }
-      /*  public Result TopOrder(int UserId)
+      *//*  public Result TopOrder(int UserId)
         {
             var shop = (from sp in db.ShopDetails
                         where sp.UserId == UserId
@@ -298,8 +298,9 @@ namespace FOODProject.Core.Shop
                         join od in db.OrderDetails
                         on oom.OrderId equals od.OrderId
                         join prod in db.Products
-        }*/
+        }*//*
     }
 }
 
 
+*/

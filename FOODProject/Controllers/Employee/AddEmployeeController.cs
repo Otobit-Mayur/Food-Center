@@ -38,5 +38,12 @@ namespace FOODProject.Controllers.Employee
             var result = _addEmployees.AddEmpDetaile(value, Id);
             return Ok(result);
         }
+        [HttpPut("UpdateProfile")]
+        public IActionResult UpdateProfile(Model.Employee.UpdateEmployeeDetail value)
+        {
+            int UserId = (int)HttpContext.Items["UserId"];
+            var result = _addEmployees.UpdateEmployeeDetail(value, UserId);
+            return Ok(result);
+        }
     }
 }
