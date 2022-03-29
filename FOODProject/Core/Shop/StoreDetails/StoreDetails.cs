@@ -64,7 +64,7 @@ namespace FOODProject.Core.Shop.StoreDetails
             }
             
         }
-        public Result getallShop()
+        public Result GetallShop()
         {
             using (FoodCenterDataContext context = new FoodCenterDataContext())
             {

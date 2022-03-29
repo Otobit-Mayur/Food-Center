@@ -63,7 +63,7 @@ namespace FOODProject.Core.Shop.Products
                 Data = (from obj in context.Products
                         join pt in context.ProductTypes
                         on obj.TypeId equals pt.TypeId
-                        where obj.ProductType.ShopId==qes
+                        where obj.ProductType.ShopId==qes && obj.Status != "DELETE"
                         select new
                         {
                             ProductId = obj.ProductId,
@@ -132,14 +132,15 @@ namespace FOODProject.Core.Shop.Products
             };
         }
 
-        public Result Delete(Model.Shop.Product.Product value, int Id)
+        public Result Delete(int Id)
         {
             //FoodCenterContext.Product p = new Product();
 
             Product product = context.Products.SingleOrDefault(x => x.ProductId == Id);
             if (product != null)
             {
-                context.Products.DeleteOnSubmit(product);
+                product.Status = "DELETE";
+                //context.Products.DeleteOnSubmit(product);
                 context.SubmitChanges();
                 return new Result()
                 {

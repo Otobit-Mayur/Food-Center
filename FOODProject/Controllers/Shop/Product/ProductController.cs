@@ -36,26 +36,26 @@ namespace FOODProject.Controllers.Shop.Product
             }
         }
        //[Authorize]
-        [HttpGet("get")]
+        [HttpGet("GetAll")]
         public IActionResult Get()
         {
             int UserId = (int)HttpContext.Items["UserId"];
             var result = _products.GetAllProduct(UserId);
             return Ok(result);
         }
-        [HttpPut("{id}")]
+        [HttpPut("UpdateDetail")]
         public IActionResult Update(Model.Shop.Product.Product value,int id)
         {
             var result = _products.Update(value, id);
             return Ok(result);
         }
-        [HttpDelete("{id}")]
-        public IActionResult Delete(Model.Shop.Product.Product value, int id)
+        [HttpPut("Delete Product")]
+        public IActionResult Delete(int Id)
         {
-            var result = _products.Delete(value, id);
+            var result = _products.Delete(Id);
             return Ok(result);
         }
-        [HttpPut]
+        [HttpPut("UpdateStatus")]
         public IActionResult UpdateStatus(int id)
         {
             var result = _products.UpdateStatus(id);
@@ -63,7 +63,7 @@ namespace FOODProject.Controllers.Shop.Product
         }
         
        
-        [HttpGet("getbytype")]
+        [HttpGet("Getbytype")]
         public IActionResult GetByType(int TypeId)
         {
             var result = _products.GetByType(TypeId);

@@ -233,6 +233,7 @@ namespace FOODProject.Core.Employee
             using (FoodCenterDataContext context = new FoodCenterDataContext())
             {
                 OrderMstr orderMstr = context.OrderMstrs.FirstOrDefault(x => x.OrderId == Id);
+
                 if(orderMstr is not null)
                 {
                     if (orderMstr.Status == "Not Requested")

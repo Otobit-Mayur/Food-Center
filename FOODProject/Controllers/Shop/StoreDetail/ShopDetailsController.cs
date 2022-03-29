@@ -27,7 +27,7 @@ namespace FOODProject.Controllers.Shop.StoreDetail
         [HttpGet]
         public IActionResult GetAllShop()
         {
-            var result = _storeDetails.getallShop();
+            var result = _storeDetails.GetallShop();
             return Ok(result);
         }
         [HttpPut]

@@ -23,6 +23,7 @@ namespace FOODProject.Cores.Employee
                     u.EmailId = value.EmailId;
                     u.RoleId = 3;
                     var res = context.Users.FirstOrDefault(x => x.EmailId == value.EmailId);
+
                     if (res != null)
                     {
                         throw new ArgumentException("Email Id Already Exist");
@@ -31,11 +32,11 @@ namespace FOODProject.Cores.Employee
                     {
                         context.Users.InsertOnSubmit(u);
                         context.SubmitChanges();
-                    }
-
+                    }   
 
                     EmployeeDetail e = new EmployeeDetail();
                     e.UserId = u.UserId;
+                    e.OfficeLocation = value.OfficeLocation;
                     e.OfficeId = qes;
 
                     context.EmployeeDetails.InsertOnSubmit(e);
@@ -48,7 +49,6 @@ namespace FOODProject.Cores.Employee
                         Data = e.EmployeeId,
                     };
                 }
-
 
             }
         }
@@ -70,6 +70,9 @@ namespace FOODProject.Cores.Employee
                 }
                 return new Result()
                 {
+
+
+
                     Message = string.Format($"User Not Found"),
                     Status = Result.ResultStatus.warning,
                 };

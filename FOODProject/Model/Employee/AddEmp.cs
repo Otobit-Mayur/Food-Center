@@ -8,6 +8,7 @@ namespace FOODProject.Model.Employee
     public class AddEmp
     {
         public string EmailId { get; set; }
+        public string OfficeLocation { get; set; }
         //public Model.Shop.ShopDetail.ShopAddress Address { get; set; } = new Model.Shop.ShopDetail.ShopAddress();
         //public Model.AccountManager.Employee.EmployeeDetail Detail { get; set; } = new Model.AccountManager.Employee.EmployeeDetail();
     }

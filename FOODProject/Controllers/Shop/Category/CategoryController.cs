@@ -30,7 +30,7 @@ namespace FOODProject.Controllers.Shop.Category
         {
 
             // return Ok(new Accounts().get());
-            var result = _categories.get();
+            var result = _categories.Get();
             return Ok(result);
         }
        

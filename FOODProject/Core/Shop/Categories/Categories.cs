@@ -12,11 +12,12 @@ namespace FOODProject.Core.Shop.Categories
     {
      
         FoodCenterDataContext context = new FoodCenterDataContext();
-
+           
 
         public Result AddCategory(Model.Shop.Category.Category value)
         {   
             Category c = new Category();
+
             c.CategoryName = value.CategoryName;
             var check = context.Categories.FirstOrDefault(x => x.CategoryName == value.CategoryName);
             if(check!=null)
@@ -39,7 +40,8 @@ namespace FOODProject.Core.Shop.Categories
             }
 
         }
-        public Result get()
+        public Result Get()
+        
         {
             return new Result()
             {

@@ -125,14 +125,18 @@ namespace FOODProject.Core.Common.Accounts
                               RoleId=SignUp.RoleId
                           }).FirstOrDefault();
 
-            if(result.RoleId==1)
+            if(result.RoleId == 1)
             {
                 var q = (from Shop in context.ShopDetails
                          where Shop.UserId == result.UserId
                          select Shop.UserId).Count();
                 if (q != 1)
                 {
-                    throw new ArgumentException("Details Not Found ");
+                    return new Result()
+                    {
+                        Message = string.Format("Shop Detail Not Found"),
+                        Status = Result.ResultStatus.none,
+                    };
                 }
             }
             if (result.RoleId == 2)
@@ -142,7 +146,11 @@ namespace FOODProject.Core.Common.Accounts
                          select office.UserId).Count();
                 if (q != 1)
                 {
-                    throw new ArgumentException("Details Not Found ");
+                    return new Result()
+                    {
+                        Message = string.Format("Office Detail Not Found"),
+                        Status = Result.ResultStatus.none,
+                    };
                 }
             }
             if (result.RoleId == 3)
@@ -152,7 +160,11 @@ namespace FOODProject.Core.Common.Accounts
                          select Employee.UserId).Count();
                 if (q != 1)
                 {
-                    throw new ArgumentException("Details Not Found ");
+                    return new Result()
+                    {
+                        Message = string.Format("Employee Detail Not Found"),
+                        Status = Result.ResultStatus.none,
+                    };
                 }
             }
 
@@ -177,12 +189,12 @@ namespace FOODProject.Core.Common.Accounts
             if (result != null)
             {
                 var authclaims = new List<Claim>
-                  {
+                {
                      new Claim(ClaimTypes.Name,result.EmailId),
                      new Claim(ClaimTypes.Sid,result.UserId.ToString()),
                      new Claim(ClaimTypes.Role,result.RoleId.ToString()),
                      new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString())
-                  };
+                };
 
                 var jwtToken = _tokenService.GenerateAccessToken(authclaims);
                 var refreshToken = _tokenService.GenerateRefreshToken();
