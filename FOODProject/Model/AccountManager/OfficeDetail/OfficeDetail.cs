@@ -20,7 +20,7 @@ namespace FOODProject.Model.AccountManager.OfficeDetail
         public ulong AlternateNumber { get; set; }
         public string Image { get; set; }
 
-        public Model.Common.IntegerNullString UserId { get; set; } = new Model.Common.IntegerNullString();
+        public Model.Common.IntegerNullString User { get; set; } = new Model.Common.IntegerNullString();
         [Required(ErrorMessage = "Address is required!")]
 
         public Model.AccountManager.OfficeDetail.OfficeAddress Address { get; set; } = new Model.AccountManager.OfficeDetail.OfficeAddress();

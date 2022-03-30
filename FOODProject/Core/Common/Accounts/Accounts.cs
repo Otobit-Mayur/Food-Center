@@ -65,7 +65,7 @@ namespace FOODProject.Core.Common.Accounts
                 Message = string.Format("Get All  Role Successfully"),
                 Status = Result.ResultStatus.none,
                 Data =(from obj in context.Roles
-                       select new { obj.RoleId, obj.RoleName }).ToList(),
+                       select new { obj.RoleId, obj.RoleName }).Take(2),
             };
             
       
@@ -95,7 +95,7 @@ namespace FOODProject.Core.Common.Accounts
                 {
                     Message = string.Format($"{values.EmailId} Signup Successfully"),
                     Status = Result.ResultStatus.success,
-                    Data=sp.UserId,
+                    Data=sp.EmailId,
                 };
                 /*return "Signup Successfully";*/
             }
@@ -155,9 +155,18 @@ namespace FOODProject.Core.Common.Accounts
             }
             if (result.RoleId == 3)
             {
+                var check = (from Employee in context.EmployeeDetails
+                             where Employee.UserId == result.UserId && Employee.IsDeleted == "True"
+                             select Employee.UserId).FirstOrDefault();
+                if(check is not null)
+                {
+                    throw new ArgumentException("Employee Deleted");
+                }
+
                 var q = (from Employee in context.EmployeeDetails
-                         where Employee.UserId == result.UserId
+                         where Employee.UserId == result.UserId 
                          select Employee.UserId).Count();
+
                 if (q != 1)
                 {
                     return new Result()

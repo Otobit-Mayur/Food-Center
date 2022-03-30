@@ -25,9 +25,9 @@ namespace FOODProject.Core.Shop.StoreDetails
                     sd.Logo = value.Logo;
                     sd.Status = "ON";
 
-                    var ci = context.Categories.SingleOrDefault(c => c.CategoryName == value.CategoryId.String).CategoryId;
+                    var ci = context.Categories.SingleOrDefault(c => c.CategoryName == value.Category.String).CategoryId;
 
-                    var ui = context.Users.SingleOrDefault(c => c.EmailId == value.UserId.String);
+                    var ui = context.Users.SingleOrDefault(c => c.EmailId == value.User.String);
                     var check = context.ShopDetails.SingleOrDefault(c => c.UserId == ui.UserId);
                     if (check != null)
                     {

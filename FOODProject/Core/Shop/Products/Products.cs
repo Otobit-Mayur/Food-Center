@@ -16,7 +16,7 @@ namespace FOODProject.Core.Shop.Products
         {
             FoodCenterContext.Product p = new Product();
 
-            var res = context.ProductTypes.SingleOrDefault(x => x.Type == value.TypeId.String);
+            var res = context.ProductTypes.SingleOrDefault(x => x.Type == value.Type.String);
             /* var ft = context.FixLookUps.FirstOrDefault(x => x.FixName == value.FoodType.Id);*/
             //.EmailId == value.UserId.String
            /* var ft = from od in context.FixLookUps
@@ -89,7 +89,7 @@ namespace FOODProject.Core.Shop.Products
                 product.Price = value.Price;
                 product.Description = value.Description;
                 product.Image = value.Image;
-                product.TypeId = value.TypeId.Id;
+                product.TypeId = value.Type.Id;
 
                 context.SubmitChanges();
                 return new Result()

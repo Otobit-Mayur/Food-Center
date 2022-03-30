@@ -21,6 +21,7 @@ namespace FOODProject.Cores.Employee
                                select obj.OfficeId).SingleOrDefault();
                     User u = new User();
                     u.EmailId = value.EmailId;
+                    u.Password = value.Password;
                     u.RoleId = 3;
                     var res = context.Users.FirstOrDefault(x => x.EmailId == value.EmailId);
 
@@ -38,7 +39,8 @@ namespace FOODProject.Cores.Employee
                     e.UserId = u.UserId;
                     e.OfficeLocation = value.OfficeLocation;
                     e.OfficeId = qes;
-
+                    e.IsDeleted = "False";
+                    e.IsActive = "True";
                     context.EmployeeDetails.InsertOnSubmit(e);
                     context.SubmitChanges();
                     scope.Complete();
@@ -70,9 +72,6 @@ namespace FOODProject.Cores.Employee
                 }
                 return new Result()
                 {
-
-
-
                     Message = string.Format($"User Not Found"),
                     Status = Result.ResultStatus.warning,
                 };

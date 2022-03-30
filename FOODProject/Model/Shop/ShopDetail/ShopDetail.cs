@@ -17,15 +17,15 @@ namespace FOODProject.Model.Shop.ShopDetail
 
         public ulong AlternateNumber { get; set; }
 
-        [Required, Range(1, 10)]
+        [Required, Range(0, 10)]
         public int DeliveryRadius { get; set; }
 
         public string Logo { get; set; }
 
 
-        public Model.Common.IntegerNullString CategoryId { get; set; } = new Model.Common.IntegerNullString();
+        public Model.Common.IntegerNullString Category { get; set; } = new Model.Common.IntegerNullString();
 
-        public Model.Common.IntegerNullString UserId { get; set; } = new Model.Common.IntegerNullString();
+        public Model.Common.IntegerNullString User { get; set; } = new Model.Common.IntegerNullString();
 
 
         [Required(ErrorMessage = "Address is required!")]
@@ -35,7 +35,10 @@ namespace FOODProject.Model.Shop.ShopDetail
     }
     public class UpdateShopDetails 
     {
+        [Required(ErrorMessage = "Shop Name is required")]
         public string ShopName { get; set; }
+
+        [Required(ErrorMessage = "PhoneNumber is required")]
         public ulong PhoneNumber { get; set; }
         public string Logo { get; set; }
         public string CoverPhoto { get; set; }

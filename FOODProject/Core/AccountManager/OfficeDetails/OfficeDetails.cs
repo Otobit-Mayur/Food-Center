@@ -22,12 +22,12 @@ namespace FOODProject.Core.AccountManager.OfficeDetails
                     OfficeDetail OD = new OfficeDetail();
 
                     OD.OfficeName = value.OfficeName;
-                    OD.ManagerName = value.OfficeName;
+                    OD.ManagerName = value.Managername;
                     OD.PhoneNumber = value.PhoneNumber;
                     OD.AlternateNumber = value.PhoneNumber;
                     OD.Image = value.Image;
 
-                    var ui = context.Users.SingleOrDefault(c => c.EmailId == value.UserId.String);
+                    var ui = context.Users.SingleOrDefault(c => c.EmailId == value.User.String);
 
                     var check = context.OfficeDetails.SingleOrDefault(c => c.UserId == ui.UserId);
                     if (check != null)
@@ -48,6 +48,15 @@ namespace FOODProject.Core.AccountManager.OfficeDetails
                     };
                     context.OfficeAddresses.InsertOnSubmit(add);
                     context.SubmitChanges();
+
+                    WalletDetail wallet = new WalletDetail()
+                    {
+                        OfficeId = OD.OfficeId,
+                        Balance=0,
+                    };
+                    context.WalletDetails.InsertOnSubmit(wallet);
+                    context.SubmitChanges();
+
                     scope.Complete();
                     return new Result()
                     {

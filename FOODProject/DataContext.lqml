@@ -18,6 +18,8 @@
       <Column Name="OfficeLocation" Type="System.String" DbType="NVARCHAR(50)" CanBeNull="true" UpdateCheck="Never" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="false" ed:Guid="047eb2d3-8201-4273-b73c-5c87328b9943" />
       <Column Name="UserId" Type="System.Int32" DbType="INT" CanBeNull="true" UpdateCheck="Never" Precision="10" ed:ValidateRequired="false" ed:Guid="c34f39f1-3dfe-4c09-9187-9b0ccaa1910a" />
       <Column Name="OfficeId" Type="System.Int32" DbType="INT" CanBeNull="true" UpdateCheck="Never" Precision="10" ed:ValidateRequired="false" ed:Guid="c2ebc511-f9a5-4137-9547-e3ea5eff2245" />
+      <Column Name="IsDeleted" Type="System.String" DbType="NVARCHAR(50)" CanBeNull="true" UpdateCheck="Never" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="false" ed:Guid="766d431e-49c2-42d5-8965-92cb6ed24c8b" />
+      <Column Name="IsActive" Type="System.String" DbType="NVARCHAR(50)" CanBeNull="true" UpdateCheck="Never" MaxLength="50" Unicode="true" ed:ValidateMaxLength="50" ed:ValidateRequired="false" ed:Guid="29e6d3d0-2dcf-479f-a997-bb4664cd747d" />
       <Association Name="User_EmployeeDetail" ed:AssociationGuid="4f88901b-c30d-4580-9f00-9ef6180bc9f3" Member="User" ed:Guid="bb24ce96-3d69-49a5-a6c5-1175a5666b8a" ThisKey="UserId" OtherKey="UserId" Type="User" DeleteRule="NO ACTION" IsForeignKey="true" />
       <Association Name="OfficeDetail_EmployeeDetail" ed:AssociationGuid="b9266863-2633-4478-88fc-edeaa4beeb43" Member="OfficeDetail" ed:Guid="c1e08b2a-2df6-4269-9e9e-9b3e97d34502" ThisKey="OfficeId" OtherKey="OfficeId" Type="OfficeDetail" DeleteRule="NO ACTION" IsForeignKey="true" />
       <Association Name="EmployeeDetail_OrderMstr" ed:AssociationGuid="44b471c7-ea1e-4761-8728-0a674ae8b5ad" Member="OrderMstrs" ed:Guid="05ed03ea-a5f1-4926-9cb5-8383f7916318" ThisKey="EmployeeId" OtherKey="EmployeeId" Type="OrderMstr" />
@@ -65,8 +67,7 @@
       <Association Name="User_OfficeDetail" ed:AssociationGuid="4cc86daa-fbcf-402d-877c-a3579f40b9fd" Member="User" ed:Guid="18b84820-f87c-4328-af47-1cce79ccb76e" ThisKey="UserId" OtherKey="UserId" Type="User" DeleteRule="NO ACTION" IsForeignKey="true" />
       <Association Name="OfficeDetail_OrderMstr" ed:AssociationGuid="d1352c8f-f137-4654-a871-6ffb07171084" Member="OrderMstrs" ed:Guid="3e3a1bb7-7f47-4319-be8d-8e8a8ca787a8" ThisKey="OfficeId" OtherKey="OfficeId" Type="OrderMstr" />
       <Association Name="OfficeDetail_Subscriber" ed:AssociationGuid="fa1fe6ab-56de-4807-b7f8-70487750d0c6" Member="Subscribers" ed:Guid="0f06a2f7-168e-4cfd-a6bc-bb16eb679afb" ThisKey="OfficeId" OtherKey="OfficeId" Type="Subscriber" />
-      <Association Name="OfficeDetail_WalletDetail" ed:AssociationGuid="b6da0e64-8f8b-4aa9-90ef-f46a30fa7f09" Member="Wallets" ed:Guid="07fd5583-5362-4be7-a658-92ef848a7083" ThisKey="OfficeId" OtherKey="OfficeId" Type="WalletDetail" />
-      <Association Name="OfficeDetail_WalletDetail1" ed:AssociationGuid="8a47e4da-ee55-47a3-9b7f-99ff54770c7c" Member="WalletDetails_OfficeId" ed:Guid="3bc680db-7d6a-4525-8ae0-ba4e0bab3d8a" ThisKey="OfficeId" OtherKey="OfficeId" Type="WalletDetail" />
+      <Association Name="OfficeDetail_WalletDetail" ed:AssociationGuid="255b9e30-05eb-4180-a6e0-c6d28b396059" Member="WalletDetails" ed:Guid="8c7ea8b2-f710-4e8c-ac63-d16b6f1af05f" ThisKey="OfficeId" OtherKey="OfficeId" Type="WalletDetail" />
     </Type>
   </Table>
   <Table Name="dbo.OrderDetail" Member="OrderDetails">
@@ -201,10 +202,9 @@
   <Table Name="dbo.WalletDetail" Member="WalletDetails">
     <Type Name="WalletDetail" ed:Guid="80112761-dd7c-4c55-b5ed-44ca558a35b7">
       <Column Name="WalletId" Type="System.Int32" AutoSync="OnInsert" DbType="INT NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" UpdateCheck="Always" Precision="10" ed:ValidateRequired="true" ed:Guid="8852068c-1101-46fb-960b-cb480eceee73" />
-      <Column Name="Balance" Type="System.Decimal" DbType="DECIMAL(7)" CanBeNull="true" UpdateCheck="Never" Precision="7" Scale="0" ed:ValidateRequired="false" ed:Guid="0bae780c-7e53-413e-9667-237aa2f36808" />
+      <Column Name="Balance" Type="System.Double" DbType="FLOAT" CanBeNull="true" UpdateCheck="Never" Precision="53" ed:ValidateRequired="false" ed:Guid="0bae780c-7e53-413e-9667-237aa2f36808" />
       <Column Name="OfficeId" Type="System.Int32" DbType="INT" CanBeNull="true" UpdateCheck="Never" Precision="10" ed:ValidateRequired="false" ed:Guid="27c5a4c9-630d-4f45-ae36-0fc111d90be7" />
-      <Association Name="OfficeDetail_WalletDetail" ed:AssociationGuid="b6da0e64-8f8b-4aa9-90ef-f46a30fa7f09" Member="OfficeDetail" ed:Guid="78aa1327-0960-42e6-8536-5f3784d11cde" ThisKey="OfficeId" OtherKey="OfficeId" Type="OfficeDetail" DeleteRule="NO ACTION" IsForeignKey="true" />
-      <Association Name="OfficeDetail_WalletDetail1" ed:AssociationGuid="8a47e4da-ee55-47a3-9b7f-99ff54770c7c" Member="OfficeDetail_OfficeId" ed:Guid="b68a658f-8b02-4f1b-9f74-f996007d7413" ThisKey="OfficeId" OtherKey="OfficeId" Type="OfficeDetail" DeleteRule="NO ACTION" IsForeignKey="true" />
+      <Association Name="OfficeDetail_WalletDetail" ed:AssociationGuid="255b9e30-05eb-4180-a6e0-c6d28b396059" Member="OfficeDetail" ed:Guid="1b25b8dc-82ce-4420-900a-4137242581c4" ThisKey="OfficeId" OtherKey="OfficeId" Type="OfficeDetail" DeleteRule="NO ACTION" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>
