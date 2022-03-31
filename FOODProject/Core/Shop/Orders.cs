@@ -1,4 +1,4 @@
-﻿/*using FoodCenterContext;
+﻿using FoodCenterContext;
 using FOODProject.Model.Common;
 using System;
 using System.Collections;
@@ -12,81 +12,72 @@ namespace FOODProject.Core.Shop
     {
 
         FoodCenterDataContext db = new FoodCenterDataContext();
-        OrderDetail od = new OrderDetail();
-        OrderMstr om = new OrderMstr();
 
-        public Result UpdateStatus(int Id, Model.Shop.Order value)
+        public Result UpdateStatus(int Id, Model.Employee.Ordertime value)
         {
             OrderMstr om = db.OrderMstrs.FirstOrDefault(x => x.OrderId == Id);
-            if (om != null)
+            WalletDetail wallet = db.WalletDetails.FirstOrDefault(x => x.OfficeId == om.OfficeId);
+            if (om is null)
             {
-                if (om.Track == null)
-                {
-                    var t = value.Time.Id * 10;
-                    om.Status = "Accepted";
-                    om.DeliveryTime = DateTime.Now.AddMinutes(t);
-                    om.Track = "Not Done";
-                    om.AcceptTime = DateTime.Now;
-                    db.SubmitChanges();
+                throw new ArgumentException("This Order is not available  ");
+            }
+            if (om.Track != null)
+            {
+                throw new ArgumentException("Once you accept the order than you can not cancel that  ");
+            }
+            if (Id == 0)
+            {
+                throw new ArgumentException("You have to Give Time For Delivery");
+            }
+            if (om.Track is null && om.Status == "Approved" && wallet.Balance>=om.Total)
+            { 
+                var t = value.Time.Id * 10;
+                om.Status = "Accepted";
+                om.DeliveryTime = DateTime.Now.AddMinutes(t);
+                om.Track = "Not Done";
+                om.AcceptTime = DateTime.Now;
+                wallet.Balance = wallet.Balance - (int)om.Total;
+                db.SubmitChanges();
 
-                    return new Result()
-                    {
-                        Message = string.Format("Status Updated Successfully"),
-                        Status = Result.ResultStatus.success,
-                    };
-                }
-                else
+                return new Result()
                 {
-                    return new Result()
-                    {
-                        Message = string.Format("Once you accept the order than you can not cancel that  "),
-                        Status = Result.ResultStatus.warning,
-                    };
-                }
+                    Message = string.Format($"Status Updated Successfully"),
+                    Status = Result.ResultStatus.success,
+                    Data = om.OrderId,
+                };
             }
             else
             {
-                return new Result()
-                {
-                    Message = string.Format("Data not available  "),
-                    Status = Result.ResultStatus.warning,
-                };
+                throw new ArgumentException("Some Unknown Error is Occure");
             }
         }
+       
         public Result UpdateTrack(int Id)
         {
             OrderMstr om = db.OrderMstrs.FirstOrDefault(x => x.OrderId == Id);
-            if (om != null)
+            if (om is null)
             {
-                if (om.Status == "Accepted")
-                {
-                    om.Track = "Done";
-                    om.AcceptTime = DateTime.Now;
-                    db.SubmitChanges();
+                throw new ArgumentException("This Order Is not available  ");
+            }
+            if (om.Track is null && om.Status != "Accepted")
+            {
+                throw new ArgumentException("You Are Not Accepted This Order ");
+            }
+            if (om.Status == "Accepted" && om.Track == "Not Done")
+            {
+                om.Track = "Done";
+                om.AcceptTime = DateTime.Now;
+                db.SubmitChanges();
 
-                    return new Result()
-                    {
-                        Message = string.Format("Track Updated Successfully"),
-                        Status = Result.ResultStatus.success,
-                    };
-                }
-                else
+                return new Result()
                 {
-                    return new Result()
-                    {
-                        Message = string.Format("You Are Not Accepted This Order "),
-                        Status = Result.ResultStatus.warning,
-                    };
-                }
+                    Message = string.Format("Track Updated Successfully"),
+                    Status = Result.ResultStatus.success,
+                };
             }
             else
             {
-                return new Result()
-                {
-                    Message = string.Format("Data not available  "),
-                    Status = Result.ResultStatus.warning,
-                };
-
+                throw new ArgumentException("Some Unknown Error is Occure");
             }
         }
         public Result GetAllOrder(int UserId)
@@ -117,15 +108,23 @@ namespace FOODProject.Core.Shop
                         on oom.OfficeId equals o.OfficeId
                         join oa in db.OfficeAddresses
                         on o.OfficeId equals oa.OfficeId
-                        where oom.ShopId == shop.ShopId
+                        join e in db.EmployeeDetails
+                        on oom.EmployeeId equals e.EmployeeId
+                        where oom.ShopId == shop.ShopId && oom.Status == "Approved"
                         select new
                         {
+                            OrderId=oom.OrderId,
+                            OfficeId = o.OfficeId,
+                            OfficeName = o.OfficeName,
+                            EmployeeId = e.EmployeeId,
+                            EmployeeName = e.EmployeeName,
+                            OfficeAddress = oa.AddressLine,
+                            Distance = GetDistanceFromShop(p1, o.OfficeId),
                             Image = prod.Image,
                             ItemName = prod.ProductName,
-                            Qty = od.Qty,
-                            OfficeName = o.OfficeName,
-                            OfficeAddress = oa.AddressLine,
-                            Distance = GetDistanceFromShop(p1, o.OfficeId)
+                            ProductType = prod.ProductType.Type,
+                            Total=oom.Total,
+                          
                         }).ToList(),
             };
 
@@ -148,7 +147,7 @@ namespace FOODProject.Core.Shop
             var loc = Math.Round(6371.0 * (2.0 * Math.Atan2(Math.Sqrt(d3), Math.Sqrt(1.0 - d3))));
             return loc;
         }
-
+       
         public Result GetOrderHistory(int UserId)
         {
             var shop = (from sp in db.ShopDetails
@@ -182,7 +181,7 @@ namespace FOODProject.Core.Shop
                             Total = om.Total,
                             Time = om.DeliveryTime
                         }
-                    ).ToList(),
+                    ).ToList(),    
             };
         }
         public Result GetTime()
@@ -217,14 +216,14 @@ namespace FOODProject.Core.Shop
             {
                 Status = Result.ResultStatus.success,
                 Message = string.Format("Get All Detail Successfully"),
-                Data = (from l in db.LookUps    
+                Data = (from l in db.LookUps
                         join fl in db.FixLookUps
                         on l.LookUpId equals fl.LookUpId
                         where fl.LookUpId == 3
                         select fl).ToList(),
             };
         }
-        public Result OrderFilterSort(int UserId, string Filter, int Sorting, int SortingOrder)
+        public Result OrderFilterSort(int UserId,Model.Common.FilterSort Value)
         {
             var shop = (from sp in db.ShopDetails
                         where sp.UserId == UserId
@@ -237,14 +236,14 @@ namespace FOODProject.Core.Shop
 
             var Res1 = (from oom in db.OrderMstrs
                         join od in db.OrderDetails
-                        on oom.OrderId equals od.OrderId
+                          on oom.OrderId equals od.OrderId
                         join prod in db.Products
                         on od.ProductId equals prod.ProductId
                         join o in db.OfficeDetails
                         on oom.OfficeId equals o.OfficeId
                         join oa in db.OfficeAddresses
                         on o.OfficeId equals oa.OfficeId
-                        where oom.ShopId == shop.ShopId && (prod.ProductName.Contains(Filter) || o.OfficeName.Contains(Filter))
+                        where oom.ShopId == shop.ShopId && (prod.ProductName.Contains(Value.Filter) || o.OfficeName.Contains(Value.Filter))
                         select new
                         {
                             Image = prod.Image,
@@ -254,22 +253,24 @@ namespace FOODProject.Core.Shop
                             OfficeAddress = oa.AddressLine,
                             Distance = GetDistanceFromShop(p1, o.OfficeId)
                         });
-            if (SortingOrder == 12)
+            if (Value.SortingOrder == 12)
             {
+
+
                 return new Result()
                 {
                     Status = Result.ResultStatus.success,
                     Message = string.Format("Get All Detail Successfully"),
-                    Data = Res1.OrderByDescending(od => od.Qty).ToList(),
+                    Data = Value.Sorting == (int)Sort.Quantity ? Res1.OrderByDescending(od => od.Qty).ToList() : Value.Sorting == (int)Sort.Distance ? Res1.OrderByDescending(od => od.Distance).ToList() : Res1,
                 };
             }
-            else if (SortingOrder == 13)
+            else if (Value.SortingOrder == 13)
             {
                 return new Result()
                 {
                     Status = Result.ResultStatus.success,
                     Message = string.Format("Get All Detail Successfully"),
-                    Data = Res1.OrderBy(od => od.Qty).ToList(),
+                    Data = Value.Sorting == (int)Sort.Quantity ? Res1.OrderBy(od => od.Qty).ToList() : Value.Sorting == (int)Sort.Distance ? Res1.OrderBy(od => od.Distance).ToList() : Res1,
                 };
             }
             else
@@ -283,7 +284,28 @@ namespace FOODProject.Core.Shop
 
             }
         }
-      *//*  public Result TopOrder(int UserId)
+        public Result TodaysOrder(int UserId)
+        {
+            var shop = (from sp in db.ShopDetails
+                        where sp.UserId == UserId
+                        select sp).FirstOrDefault();
+            if (shop is null)
+            {
+                throw new ArgumentException("Shop not found!");
+            }  
+            return new Result()
+            {
+                Status = Result.ResultStatus.success,
+                Message = string.Format("Get All Detail Successfully"),
+                Data = (from oom in db.OrderMstrs
+                        join od in db.OrderDetails
+                        on oom.OrderId equals od.OrderId
+                        where Convert.ToDateTime(od.OrderTime).Date == DateTime.Now.Date && oom.ShopId == shop.ShopId && oom.Status == "Approved"
+                        select oom).Count(),
+            };
+
+        }
+        public Result TodaysDeliveredOrder(int UserId)
         {
             var shop = (from sp in db.ShopDetails
                         where sp.UserId == UserId
@@ -292,15 +314,78 @@ namespace FOODProject.Core.Shop
             {
                 throw new ArgumentException("Shop not found!");
             }
-           *//* var p1 = (from x in db.ShopAddresses where x.ShopId == shop.ShopId select x).FirstOrDefault();*//*
-
-            var Res1 = (from oom in db.OrderMstrs
+            return new Result()
+            {
+                Status = Result.ResultStatus.success,
+                Message = string.Format("Get All Detail Successfully"),
+                Data = (from oom in db.OrderMstrs
                         join od in db.OrderDetails
                         on oom.OrderId equals od.OrderId
-                        join prod in db.Products
-        }*//*
+                        where Convert.ToDateTime(od.OrderTime).Date == DateTime.Now.Date && oom.ShopId == shop.ShopId && oom.Track == "Done"
+                        select oom).Count(),
+            };
+
+        }
+        public Result GetTopOrder(int UserId)
+        {
+            var shop = (from sp in db.ShopDetails
+                        where sp.UserId == UserId
+                        select sp).FirstOrDefault();
+            if (shop is null)
+            {
+                throw new ArgumentException("Shop not found!");
+            }
+            // var items = db.OrderDetails.SelectMany(o => o.ProductId);
+            //var products = (from product in db.Products
+            //                join order in db.OrderDetails 
+            //                on product.ProductId equals order.ProductId into matchingItems
+            //                orderby matchingItems.Sum(oi => oi.Qty)
+            //                select new
+            //                {
+            //                    Image = product.Image,
+            //                    ItemName = product.ProductName,
+            //                }).Take(5);
+            var products = (from order in db.OrderDetails
+                            group order by order.ProductId into ans
+                            orderby ans.Key descending
+                            select new
+                            {
+                                ProductId = ans.Key,
+                                Order = ans.OrderBy(x=>x.OrderDetailId)
+                            });
+           
+            foreach (var group in products)
+            {
+                Console.WriteLine(group.ProductId + " : " + group.Order.Count());
+                foreach (var o in group.Order)
+                {
+                    Console.WriteLine("  OrderId :" + o.OrderDetailId );
+                }
+            }
+            return new Result()
+            {
+                Status = Result.ResultStatus.success,
+                Message = string.Format("Get All Detail Successfully"),
+                Data = products,
+            };
+
+        }
+  
     }
 }
+//from l in logins
+//group l by l.Date into g
+//select new
+//{
+//    Date = g.Key,
+//    Count = (from l in g select l.Login).Distinct().Count()
+//};
+//For a side by side comparison to the original method syntax (which personally I like better) here you go...
 
-
-*/
+//logins
+//  .GroupBy(l => l.Date)
+//  .Select(g => new
+//   {
+//       Date = g.Key,
+//       Count = g.Select(l => l.Login).Distinct().Count()
+//   });

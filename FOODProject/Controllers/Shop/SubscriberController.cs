@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace FOODProject.Controllers.Shop
 {
-    [Route("Common/[controller]/[action]")]
+    [Route("Shop/[controller]/[action]")]
     [ApiController]
     public class SubscriberController : ControllerBase
     {
@@ -35,6 +35,12 @@ namespace FOODProject.Controllers.Shop
         {
             int UserId = (int)HttpContext.Items["UserId"];
             return Ok(new Subscribers().GetResentOrder(UserId, Id));
+        }
+        [HttpPut("{Id}")]
+        public IActionResult CancelSubscription([FromRoute] int Id)
+        {
+            int UserId = (int)HttpContext.Items["UserId"];
+            return Ok(new Subscribers().CancelSubscription(Id, UserId));
         }
     }
 }

@@ -41,6 +41,12 @@ namespace FOODProject.Controllers.Common.Account
             var result = _accounts.SignUp(values);
             return Ok(result);
         }
+        [HttpPost("CheckMail")]
+        public IActionResult MailCheck(Model.Common.Account.CheckEmail value)
+        {
+            var result = _accounts.CheckEmail(value);
+            return Ok(result);
+        }
         [HttpGet("User")]
         public IActionResult GetAllUser()
         {

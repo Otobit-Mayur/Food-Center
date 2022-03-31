@@ -8,11 +8,16 @@ using System.Threading.Tasks;
 
 namespace FOODProject.Controllers.Employee
 {
-    [Route("api/[controller]")]
+    [Route("Employee/[controller]/[action]")]
     [ApiController]
     public class OrderController : ControllerBase
     {
-       
+        [HttpPost("{Id}")]
+        public IActionResult AddOrder([FromRoute] int Id,Model.Employee.Order Value)
+        {
+            int UserId = (int)HttpContext.Items["UserId"];
+            return Ok(new Orders().AddOrder(Value, UserId, Id));
+        }
         [HttpGet]
         public IActionResult GetAllSubscriber()
         {
@@ -24,23 +29,6 @@ namespace FOODProject.Controllers.Employee
         {
             return Ok(new Orders().GetAllProduct(Id));
         }
-        [HttpPost("{Id}")]
-        public IActionResult AddOrder([FromRoute] int Id, Model.Employee.Order Value)
-        {
-            int UserId = (int)HttpContext.Items["UserId"];
-            return Ok(new Orders().AddOrder(Value, UserId, Id));
-        }
-        [HttpGet("GetCard")]
-        public IActionResult GetCard()
-        {
-            int UserId = (int)HttpContext.Items["UserId"];
-            return Ok(new Orders().GetCart(UserId));
-        }
-        [HttpPut("UpdateStatus")]
-        public IActionResult UpdateStatus(int Id)
-        {
-            int UserId = (int)HttpContext.Items["UserId"];
-            return Ok(new Orders().UpdateStatus(UserId,Id));
-        }
     }
 }
+

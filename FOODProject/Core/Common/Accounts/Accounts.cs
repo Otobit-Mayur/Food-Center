@@ -58,17 +58,12 @@ namespace FOODProject.Core.Common.Accounts
         }
 
      
-        public Result GetallRole()
+        public IEnumerable GetallRole()
         {
-            return new Result()
-            {
-                Message = string.Format("Get All  Role Successfully"),
-                Status = Result.ResultStatus.none,
-                Data =(from obj in context.Roles
-                       select new { obj.RoleId, obj.RoleName }).Take(2),
-            };
-            
-      
+            var qs = (from obj in context.Roles
+                      select new { obj.RoleId, obj.RoleName }).Take(2);
+            return qs;
+
         }
 
         public Result SignUp(Model.Common.Account.User values)
@@ -76,12 +71,17 @@ namespace FOODProject.Core.Common.Accounts
             User sp = new User();
             Role role = new Role();
          
-            var ms = context.Roles.SingleOrDefault(c => c.RoleName == values.RoleId.String);
+            var ms = context.Roles.SingleOrDefault(c => c.RoleName == values.Role.String);
            
-            var res = context.Users.FirstOrDefault(x => x.EmailId == values.EmailId && x.RoleId==ms.RoleId);
+            var res = context.Users.FirstOrDefault(x => x.EmailId == values.EmailId);
             if (res != null)
             {
-                throw new ArgumentException("Email Id Already Exist");
+                //throw new ArgumentException("Email Id Already Exist");
+                return new Result()
+                {
+                    Message = string.Format($"Email Id Already Exist"),
+                    Status = Result.ResultStatus.warning,
+                };
             }
             else
             {
@@ -95,11 +95,28 @@ namespace FOODProject.Core.Common.Accounts
                 {
                     Message = string.Format($"{values.EmailId} Signup Successfully"),
                     Status = Result.ResultStatus.success,
-                    Data=sp.EmailId,
+                    Data =sp.EmailId,
                 };
-                /*return "Signup Successfully";*/
+                    /*return "Signup Successfully";*/
             }
 
+        }
+        public Result CheckEmail(Model.Common.Account.CheckEmail value)
+        {
+            var res = context.Users.FirstOrDefault(x => x.EmailId == value.EmailId);
+            if (res != null)
+            {
+                return new Result()
+                {
+                    Message = string.Format($"EmailId Already Exists"),
+                    Status = Result.ResultStatus.danger,
+                };
+            }
+            return new Result()
+            {
+                Message = string.Format($"Success"),
+                Status = Result.ResultStatus.success,
+            };
         }
         public Result getallUser()
         {

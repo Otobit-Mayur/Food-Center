@@ -64,6 +64,21 @@ namespace FOODProject
                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:Secret"]))
                    };
                });
+
+
+                               services.AddCors(options =>
+                              {
+                                  options.AddPolicy("MyPolicy",
+                       builder =>
+                       {
+                                  builder.SetIsOriginAllowed(host => true)
+                       .AllowAnyMethod()
+                       .AllowAnyHeader()
+                       .AllowCredentials();
+                              });
+                              });
+
+
             //JSON Serializer
 
 
@@ -120,12 +135,15 @@ namespace FOODProject
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseCors("MyPolicy");
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "FOODProject v1"));
             }
+            
+
 
             app.UseRouting();
             app.UseAuthentication();

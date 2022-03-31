@@ -1,4 +1,4 @@
-﻿/*using FOODProject.Core.Common;
+﻿using FOODProject.Core.Common;
 using FOODProject.Core.Shop;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -9,16 +9,12 @@ using System.Threading.Tasks;
 
 namespace FOODProject.Controllers.Shop
 {
-    [Route("Common/[controller]/[action]")]
+    [Route("Shop/[controller]/[action]")]
     [ApiController]
     public class OrderController : ControllerBase
     {
         [HttpPut("{Id}")]
-        public 
-            
-            
-            
-            IActionResult UpdateStatus([FromRoute] int Id, Model.Shop.Order value)
+        public IActionResult UpdateStatus([FromRoute] int Id, Model.Employee.Ordertime value)
         {
             return Ok(new Orders().UpdateStatus(Id,value));
         }
@@ -56,11 +52,28 @@ namespace FOODProject.Controllers.Shop
             return Ok(new Orders().GetTrack());
         }
         [HttpGet]
-        public IActionResult OrderFilterSort([FromBody] string Filter, int Sorting, int SortingOrder)
+        public IActionResult OrderFilterSort(Model.Common.FilterSort Value)
         {
             int UserId = (int)HttpContext.Items["UserId"];
-            return Ok(new Orders().OrderFilterSort(UserId,Filter,Sorting,SortingOrder));
+            return Ok(new Orders().OrderFilterSort(UserId,Value));
+        }
+        [HttpGet]
+        public IActionResult TodaysOrder()
+        {
+            int UserId = (int)HttpContext.Items["UserId"];
+            return Ok(new Orders().TodaysOrder(UserId));
+        }
+        [HttpGet]
+        public IActionResult TodaysDeliveredOrder()
+        {
+            int UserId = (int)HttpContext.Items["UserId"];
+            return Ok(new Orders().TodaysDeliveredOrder(UserId));
+        }
+        [HttpGet]
+        public IActionResult GetTopOrder()
+        {
+            int UserId = (int)HttpContext.Items["UserId"];
+            return Ok(new Orders().GetTopOrder(UserId));
         }
     }
 }
-*/

@@ -11,92 +11,12 @@ namespace FOODProject.Core.Shop
     public class Subscribers
     {
         FoodCenterDataContext db = new FoodCenterDataContext();
-        OfficeDetail of = new OfficeDetail();
 
         public Result GetAllSubscriber(int UserId)
         {
             var shop = (from sp in db.ShopDetails
                         where sp.UserId == UserId
                         select sp).FirstOrDefault();
-            if (shop is null)
-            {
-                throw new ArgumentException("Shop not found!");
-            }
-            var p1 = (from x in db.ShopAddresses where x.ShopId == shop.ShopId select x).FirstOrDefault();
-
-            if (p1 is null)
-            {
-                throw new ArgumentException("Shop Address not found!");
-            }
-            return new Result()
-            {
-                Status = Result.ResultStatus.success,
-                Message = string.Format("Get All Detail Successfully"),
-                Data = (from s in db.Subscribers
-                        join off in db.OfficeDetails
-                        on s.OfficeId equals off.OfficeId
-                        join oa in db.OfficeAddresses
-                        on off.OfficeId equals oa.OfficeId
-                        where s.Status == "ON" && s.ShopId == shop.ShopId
-                        select new
-                        {
-                            Image = off.Image,
-                            Name = off.OfficeName,
-                            Address = oa.AddressLine,
-                            Staff = off.Staff,
-                            Distance = GetDistanceFromShop(p1, off.OfficeId)
-                        }).ToList(),
-            };
-        }
-        public Result GetById(int UserId, int Id)
-        {
-            OfficeDetail of = db.OfficeDetails.SingleOrDefault(x => x.OfficeId == Id);
-            if (of != null)
-            {
-                var sid = (from sp in db.ShopDetails
-                           where sp.UserId == UserId
-                           select sp.ShopId).SingleOrDefault();
-                
-                return new Result()
-                {
-                    Status = Result.ResultStatus.success,
-                    Message = string.Format("Get All Detail Successfully"),
-                    Data = (from s in db.Subscribers
-                            join off in db.OfficeDetails
-                            on s.OfficeId equals off.OfficeId
-                            join sp in db.ShopDetails
-                            on s.ShopId equals sp.ShopId
-                            join oa in db.OfficeAddresses
-                            on off.OfficeId equals oa.OfficeId
-                            join u in db.Users
-                            on off.UserId equals u.UserId
-                            where s.Status == "ON" && s.ShopId == sid && s.OfficeId == Id
-                            select new
-                            {
-                                Image = off.Image,
-                                Name = off.OfficeName,
-                                Address = oa.AddressLine,
-                                Staff = off.Staff,
-                                Phone = off.PhoneNumber,
-                                Email = u.EmailId
-                            }).ToList(),
-                };
-            }
-            else
-            {
-                return new Result()
-                {
-                    Message = string.Format("Data not available  "),
-                    Status = Result.ResultStatus.warning,
-                };
-            }
-        }
-        
-        public Result GetAllRequest(int UserId)
-        {
-            var shop = (from sp in db.ShopDetails
-                       where sp.UserId == UserId
-                       select sp).FirstOrDefault();
             if (shop is null)
             {
                 throw new ArgumentException("Shop not found!");
@@ -127,6 +47,89 @@ namespace FOODProject.Core.Shop
                         }).ToList(),
             };
         }
+        public Result GetById(int UserId, int Id)
+        {
+            if(Id == 0)
+            {
+                throw new ArgumentException("Id Not Found");
+            }
+            OfficeDetail of = db.OfficeDetails.SingleOrDefault(x => x.OfficeId == Id);
+            if(of is null)
+            {
+                throw new ArgumentException("Office Is Not Found!");
+            }
+            if (of != null)
+            {
+                var sid = (from sp in db.ShopDetails
+                           where sp.UserId == UserId          
+                           select sp.ShopId).SingleOrDefault();
+                
+                return new Result()
+                {
+                    Status = Result.ResultStatus.success,
+                    Message = string.Format("Get All Detail Successfully"),
+                    Data = (from s in db.Subscribers
+                            join off in db.OfficeDetails
+                            on s.OfficeId equals off.OfficeId
+                            join sp in db.ShopDetails
+                            on s.ShopId equals sp.ShopId
+                            join oa in db.OfficeAddresses
+                            on off.OfficeId equals oa.OfficeId
+                            join u in db.Users
+                            on off.UserId equals u.UserId
+                            where s.Subscription == "Accepted" && s.ShopId == sid && s.OfficeId == Id
+                            select new
+                            {
+                                Image = off.Image,
+                                Name = off.OfficeName,
+                                Address = oa.AddressLine,
+                                Staff = off.Staff,
+                                Phone = off.PhoneNumber,
+                                Email = u.EmailId
+                            }).ToList(),
+                };
+            }
+            else
+            {
+                throw new ArgumentException("Some Unknown Error Is Occure");
+            }
+        }
+        
+        public Result GetAllRequest(int UserId)
+        {
+            var shop = (from sp in db.ShopDetails
+                       where sp.UserId == UserId
+                       select sp).FirstOrDefault();
+            if (shop is null)
+            {
+                throw new ArgumentException("Shop not found!");
+            }
+            var p1 = (from x in db.ShopAddresses where x.ShopId == shop.ShopId select x).FirstOrDefault();
+
+            if (p1 is null)
+            {
+                throw new ArgumentException("Shop Address not found!");
+            }
+            return new Result()
+            {
+                Status = Result.ResultStatus.success,
+                Message = string.Format("Get All Detail Successfully"),
+                Data = (from s in db.Subscribers
+                        join off in db.OfficeDetails
+                        on s.OfficeId equals off.OfficeId
+                        join oa in db.OfficeAddresses
+                        on off.OfficeId equals oa.OfficeId
+                        where s.Subscription == "Not Accepted" && s.ShopId == shop.ShopId
+                        select new
+                        {
+                            Image = off.Image,
+                            Name = off.OfficeName,
+                            Address = oa.AddressLine,
+                            Staff = off.Staff,
+                            Distance = GetDistanceFromShop(p1, off.OfficeId)
+                        }).ToList(),
+            };
+        }
         public double GetDistanceFromShop(ShopAddress p1 ,int OfficeId ) {
             var p2 = (from x in db.OfficeAddresses where x.OfficeId == OfficeId select x).SingleOrDefault();
 
@@ -134,8 +137,6 @@ namespace FOODProject.Core.Shop
             {
                 return 0.0;
             }
-
-
             var d1 = (double)p1.Latitude * (Math.PI / 180.0);
             var num1 = (double)p1.Longitude * (Math.PI / 180.0);
             var d2 = (double)p2.Latitude * (Math.PI / 180.0);
@@ -148,6 +149,10 @@ namespace FOODProject.Core.Shop
         public Result GetResentOrder(int UserId, int Id)
         {
             OfficeDetail of = db.OfficeDetails.SingleOrDefault(x => x.OfficeId == Id);
+            if(of is null)
+            {
+                throw new ArgumentException("Office Is Not Found");
+            }
             if (of != null)
             {
                 var sid = (from sp in db.ShopDetails
@@ -177,12 +182,50 @@ namespace FOODProject.Core.Shop
             }
             else
             {
+                throw new ArgumentException("Some Unknown Error Is Occured");
+            }
+        }
+        public Result CancelSubscription(int Id, int UserId)
+        {
+            OfficeDetail office = db.OfficeDetails.FirstOrDefault(x => x.OfficeId == Id);
+            if (office is null)
+            {
+                throw new ArgumentException("Office Not Found!");
+            }
+            var shop = (from obj in db.ShopDetails
+                          where obj.UserId == UserId
+                          select obj).SingleOrDefault();
+            if (shop is null)
+            {
+                throw new ArgumentException("Shop not found!");
+            }
+            var sub = (from s in db.Subscribers
+                       where s.ShopId == shop.ShopId && s.OfficeId == office.OfficeId
+                       select s).FirstOrDefault();
+            if (sub is null)
+            {
+                throw new ArgumentException("There Is No Subscription!");
+            }
+            if (sub.Subscription == "Cancel By Shop" || sub.Subscription == "Cancel By Office")
+            {
+                throw new ArgumentException("Subscription is Already Cancel!");
+            }
+            if (sub.Subscription == "Accepted")
+            {
+                sub.Subscription = "Cancel By Shop";
+                db.SubmitChanges();
                 return new Result()
                 {
-                    Message = string.Format("Data not available  "),
-                    Status = Result.ResultStatus.warning,
+                    Message = string.Format($"Cancel Subscription Successfully"),
+                    Status = Result.ResultStatus.success,
+                    Data = office.OfficeId,
                 };
             }
+            else
+            {
+                throw new ArgumentException("Some Unknown Error Occure");
+            }
+
         }
     }
     

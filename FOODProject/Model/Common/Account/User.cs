@@ -20,7 +20,7 @@ namespace FOODProject.Model.Common.Account
         public string Confirm_Password { get; set; }
 
         [Required(ErrorMessage = "RoleName is required")]
-        public Model.Common.IntegerNullString RoleId { get; set; } = new Model.Common.IntegerNullString();
+        public Model.Common.IntegerNullString Role { get; set; } = new Model.Common.IntegerNullString();
 
     }
     public class Changepassword
@@ -35,5 +35,11 @@ namespace FOODProject.Model.Common.Account
         [Compare("NewPassword")]
         public string ConfirmPassword { get; set; }
 
+    }
+    public class CheckEmail
+    {
+        [Required(ErrorMessage = "Email required")]
+        [EmailAddress]
+        public string EmailId { get; set; }
     }
 }
