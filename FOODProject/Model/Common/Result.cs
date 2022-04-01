@@ -20,7 +20,7 @@ namespace FOODProject.Model.Common
 
         // public Guid? LogId { get; set; }
 
-        [JsonProperty("Status")]
+        [JsonProperty("Result")]
         public string StatusString
         {
             get

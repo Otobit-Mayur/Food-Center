@@ -20,6 +20,7 @@ namespace Shopping.Middleware
         public async Task Invoke(HttpContext context)
         {
             Result result = new Result();
+            context.Response.ContentType = "application/json";
             var hasError = false;
             try
             {
@@ -29,8 +30,28 @@ namespace Shopping.Middleware
             {
                 hasError = true;
                 var response = context.Response;
-                
-                response.ContentType = "application/json";
+                response.StatusCode = (int)HttpStatusCode.BadRequest;
+                result = new Result()
+                {
+                    Message = e.Message,
+                    Status = Result.ResultStatus.warning,
+                };
+            }
+            catch (MethodAccessException e)
+            {
+                hasError = true;
+                var response = context.Response;
+                response.StatusCode = (int)HttpStatusCode.NotModified;
+                result = new Result()
+                {
+                    Message = e.Message,
+                    Status = Result.ResultStatus.warning,
+                };
+            }
+            catch (UnauthorizedAccessException e)
+            {
+                hasError = true;
+                var response = context.Response;
                 response.StatusCode = (int)HttpStatusCode.BadRequest;
                 result = new Result()
                 {
@@ -42,7 +63,6 @@ namespace Shopping.Middleware
             {
                 hasError = true;
                 var response = context.Response;
-                response.ContentType = "application/json";
                 response.StatusCode = (int)HttpStatusCode.BadRequest;
                 result = new Result()
                 {

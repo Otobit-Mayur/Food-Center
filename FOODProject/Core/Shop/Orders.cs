@@ -34,6 +34,9 @@ namespace FOODProject.Core.Shop
                 var t = value.Time.Id * 10;
                 om.Status = "Accepted";
                 om.DeliveryTime = DateTime.Now.AddMinutes(t);
+
+
+
                 om.Track = "Not Done";
                 om.AcceptTime = DateTime.Now;
                 wallet.Balance = wallet.Balance - (int)om.Total;
@@ -44,6 +47,15 @@ namespace FOODProject.Core.Shop
                     Message = string.Format($"Status Updated Successfully"),
                     Status = Result.ResultStatus.success,
                     Data = om.OrderId,
+                };
+            }
+            if(wallet.Balance <= om.Total)
+            {
+                // throw new ArgumentException("Office Does not Have Sufficient Balance");
+                return new Result()
+                {
+                    Message = string.Format($"Office Does not Have Sufficient Balance"),
+                    Status = Result.ResultStatus.success,
                 };
             }
             else

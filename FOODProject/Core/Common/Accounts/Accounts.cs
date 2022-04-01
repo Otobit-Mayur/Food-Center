@@ -56,8 +56,6 @@ namespace FOODProject.Core.Common.Accounts
                 };
             }
         }
-
-     
         public IEnumerable GetallRole()
         {
             var qs = (from obj in context.Roles
@@ -106,11 +104,8 @@ namespace FOODProject.Core.Common.Accounts
             var res = context.Users.FirstOrDefault(x => x.EmailId == value.EmailId);
             if (res != null)
             {
-                return new Result()
-                {
-                    Message = string.Format($"EmailId Already Exists"),
-                    Status = Result.ResultStatus.danger,
-                };
+                throw new ArgumentException("EmailId Already Exists");
+               
             }
             return new Result()
             {
