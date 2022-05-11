@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace FOODProject.Controllers.AccountManager
 {
-    [Route("AccountManager/[controller]/[action]")]
+    [Route("Office/[controller]/[action]")]
     [ApiController]
     public class OrderController : ControllerBase
     {
@@ -28,11 +28,29 @@ namespace FOODProject.Controllers.AccountManager
         {
             return Ok(new Orders().ApproveOrder(Id));
         }
+        [HttpPut]
+        public IActionResult Checkout()
+        {
+            int UserId = (int)HttpContext.Items["UserId"];
+            return Ok(new Orders().Checkout(UserId));
+        }
         [HttpPut("{Id}")]
         public IActionResult RejectOrder([FromRoute] int Id)
         {
             return Ok(new Orders().RejectOrder(Id));
         }
+        [HttpGet]
+        public IActionResult GetAllApproved()
+        {
+            int UserId = (int)HttpContext.Items["UserId"];
+            return Ok(new Orders().GetAllApproved(UserId));
+        }
+        /*[HttpPut]
+        public IActionResult Ckeckout()
+        {
+            int UserId = (int)HttpContext.Items["UserId"];
+            return Ok(new Orders().Checkout(UserId));
+        }*/
     }
 }
 

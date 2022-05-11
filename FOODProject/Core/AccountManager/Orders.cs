@@ -10,7 +10,6 @@ namespace FOODProject.Core.AccountManager
     public class Orders
     {
         FoodCenterDataContext context = new FoodCenterDataContext();
-
         public Result GetAllOrderRequest(int UserId)
         {
             var office = (from obj in context.OfficeDetails
@@ -41,6 +40,7 @@ namespace FOODProject.Core.AccountManager
                                 where om.OfficeId == office.OfficeId && e.OfficeId == office.OfficeId && om.Status == "Requested" && od.IsRejected == "False"
                                 select new
                                 {
+                                    OrderMasterId = om.OrderId,
                                     EmployeeId = e.EmployeeId,
                                     EmployeeName = e.EmployeeName,
                                     EmployeePhoto = e.Photo,
@@ -83,20 +83,20 @@ namespace FOODProject.Core.AccountManager
             {
                 throw new ArgumentException("Once you Approve the order than you can not Change that  ");
             }
-           
+
             if (od.IsRejected == "True")
             {
                 throw new ArgumentException("Once you Delete the order than you can not Accept that  ");
             }
-          
+
             if (od.IsRejected == "False")
             {
                 od.IsRejected = "True";
                 context.SubmitChanges();
                 var c = (from o in context.OrderDetails
-                         where o.OrderId == od.OrderId && o.IsRejected == "False" 
+                         where o.OrderId == od.OrderId && o.IsRejected == "False"
                          select o).SingleOrDefault();
-                if(c is null)
+                if (c is null)
                 {
                     om.Status = "Not Approved";
                     context.SubmitChanges();
@@ -132,7 +132,6 @@ namespace FOODProject.Core.AccountManager
             {
                 om.Status = "Approved";
                 context.SubmitChanges();
-       
                 return new Result()
                 {
                     Message = string.Format($"Order Approved Successfully"),
@@ -144,6 +143,50 @@ namespace FOODProject.Core.AccountManager
             {
                 throw new ArgumentException("Some Unknown Error is Occure");
             }
+        }
+        public Result Checkout(int UserId)
+        {
+            var office = (from obj in context.OfficeDetails
+                          where obj.UserId == UserId
+                          select obj).SingleOrDefault();
+            if (office is null)
+            {
+                throw new ArgumentException("office not found!");
+            }
+            var om = (from x in context.OrderMstrs
+                      where x.Status == "Approved" && x.OfficeId == office.OfficeId
+                      select new
+                      {
+                          OrderId = x.OrderId,
+                          Status = ChangeStatus(x.OrderId)
+                      }).ToList();
+            //context.SubmitChanges();
+            if (om is null)
+            {
+                throw new ArgumentException("Dont Have Any Order To checkout ");
+            }
+
+
+            return new Result()
+            {
+                Message = string.Format($"Checkout Successfully"),
+                Status = Result.ResultStatus.success,
+               // Data = om.,
+            };
+        }
+        public string ChangeStatus(int Id)
+        
+        
+        {
+            var om = context.OrderMstrs.Where(x => x.OrderId == Id).FirstOrDefault();
+            if(om is null)
+            {
+                throw new ArgumentException("order not found!");
+            }
+            om.Status = "Ordered";
+            context.SubmitChanges();
+            return "Ok";
+
         }
         public Result RejectOrder(int Id)
         {
@@ -175,6 +218,97 @@ namespace FOODProject.Core.AccountManager
             else
             {
                 throw new ArgumentException("Some Unknown Error is Occure");
+            }
+        }
+       /* public Result Checkout(int UserId)
+        {
+            var office = (from obj in context.OfficeDetails
+                          where obj.UserId == UserId
+                          select obj).SingleOrDefault();
+            //OrderDetail od = context.OrderDetails.FirstOrDefault(x => x.OrderDetailId == Id);
+            //if (od is null)
+            //{
+            //    throw new ArgumentException("This Order Detail is not available  ");
+            //}
+           // OrderMstr om = context.OrderMstrs.FirstOrDefault(x => x.OfficeId==office.OfficeId);
+            var list = (from ol in context.OrderMstrs
+                        where ol.OfficeId == office.OfficeId && ol.Status == "Approved"
+                        select ol).ToList();
+            foreach (var cat in list)
+            {
+                cat.Status = "Ordered";
+                context.SubmitChanges();
+            }
+            return new Result()
+            {
+                Message = string.Format($"Status Updated Successfully"),
+                Status = Result.ResultStatus.success,
+            };
+            //else
+            //{
+            //    throw new ArgumentException("Some Unknown Error is Occure");
+            //}
+        }*/
+
+        public Result GetAllApproved(int UserId)
+        {
+            var office = (from obj in context.OfficeDetails
+                          where obj.UserId == UserId
+                          select obj).SingleOrDefault();
+            if (office is null)
+            {
+                throw new ArgumentException("Office not found!");
+            }
+            if (office != null)
+            {
+                var count = (from om in context.OrderMstrs
+                             where om.OfficeId == office.OfficeId && om.Status == "Approved"
+                             select om).Count();
+                if (count != 0)
+                {
+                    return new Result()
+                    {
+                        Status = Result.ResultStatus.success,
+                        Message = string.Format("Get All Order Request Successfully"),
+                        Data = (from om in context.OrderMstrs
+                                join od in context.OrderDetails
+                                on om.OrderId equals od.OrderId
+                                join p in context.Products
+                                on od.ProductId equals p.ProductId
+                                join e in context.EmployeeDetails
+                                on om.EmployeeId equals e.EmployeeId
+                                where om.OfficeId == office.OfficeId && e.OfficeId == office.OfficeId && om.Status == "Approved" && od.IsRejected == "False"
+                                select new
+                                {
+                                    OrderMasterId = om.OrderId,
+                                    EmployeeId = e.EmployeeId,
+                                    EmployeeName = e.EmployeeName,
+                                    EmployeePhoto = e.Photo,
+                                    OfficeLocaqtion = e.OfficeLocation,
+                                    ShopName = om.ShopDetail.ShopName,
+                                    ProductName = p.ProductName,
+                                    Price = p.Price,
+                                    ProductImage = p.Image,
+                                    OrderDetailId = od.OrderDetailId,
+                                    OrderId = om.OrderId,
+                                }
+                                ).ToList(),
+                    };
+                }
+                else
+                {
+                    return new Result()
+                    {
+                        Message = string.Format($"You Dont Have Any Order Request"),
+                        Status = Result.ResultStatus.success,
+                        Data = office.OfficeId,
+                    };
+                }
+
+            }
+            else
+            {
+                throw new ArgumentException("Some Unknown Error Is Occure");
             }
         }
     }

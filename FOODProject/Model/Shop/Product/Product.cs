@@ -14,7 +14,8 @@ namespace FOODProject.Model.Shop.Product
         [Required(ErrorMessage = "Price is required")]
         public int Price { get; set; }
         public string Description { get; set; }
-        public string Image { get; set; }
+        // public int Image { get; set; }
+        public Model.Common.IntegerNullString Image { get; set; } = new Model.Common.IntegerNullString();
 
         public Model.Common.IntegerNullString Type { get; set; } = new Model.Common.IntegerNullString();
        // public Model.Common.IntegerNullString FoodType { get; set; } = new Model.Common.IntegerNullString();

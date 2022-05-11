@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace FOODProject.Controllers.Shop.Product
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
    
     public class ProductController : ControllerBase
@@ -43,13 +43,19 @@ namespace FOODProject.Controllers.Shop.Product
             var result = _products.GetAllProduct(UserId);
             return Ok(result);
         }
+        [HttpGet("GetById")]
+        public IActionResult GetById(int Id)
+        {
+            var result = _products.GetById(Id);
+            return Ok(result);
+        }
         [HttpPut("UpdateDetail")]
         public IActionResult Update(Model.Shop.Product.Product value,int id)
         {
             var result = _products.Update(value, id);
             return Ok(result);
         }
-        [HttpPut("Delete Product")]
+        [HttpPut("Delete")]
         public IActionResult Delete(int Id)
         {
             var result = _products.Delete(Id);

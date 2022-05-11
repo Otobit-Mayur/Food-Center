@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace FOODProject.Controllers.AccountManager.OfficeDetail
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class OfficeDetailController : ControllerBase
     {
@@ -24,10 +24,11 @@ namespace FOODProject.Controllers.AccountManager.OfficeDetail
             var result = _officeDetail.AddOfficeDetail(value);
             return Ok(result);
         }
-        [HttpGet("GetAll")]
-        public IActionResult GetAllOffice()
+        [HttpGet("Get")]
+        public IActionResult GetCurrentOffice()
         {
-            var result = _officeDetail.GetAllOfficeDetail();
+            int UserId = (int)HttpContext.Items["UserId"];
+            var result = _officeDetail.GetCurrentOfficeDetail(UserId);
             return Ok(result);
         }
         [HttpPut]
@@ -37,8 +38,5 @@ namespace FOODProject.Controllers.AccountManager.OfficeDetail
             var result = _officeDetail.UpdateProfile(value, UserId);
             return Ok(result);
         }
-
-        
-
     }
 }

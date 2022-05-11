@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace FOODProject.Controllers.Employee
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class AddEmployeeController : ControllerBase
     {
@@ -26,16 +26,23 @@ namespace FOODProject.Controllers.Employee
             return Ok(result);
 
         }
-        [HttpPut("{Id}")]
+       /* [HttpPut("{Id}")]
         public IActionResult AddempPassword(Model.Employee.AddEmployeePassword value,int Id)
         {
             var result = _addEmployees.AddEmpPassword(value,Id);
             return Ok(result);
-        }
-        [HttpPut("AddDeatil")]
+        }*/
+        [HttpPut("AddDetail")]
         public IActionResult AddEmpDetail(Model.Employee.EmployeeDetail value, int Id)
         {
             var result = _addEmployees.AddEmpDetaile(value, Id);
+            return Ok(result);
+        }
+        [HttpGet("GetCurrent")]
+        public IActionResult GetCurrentEmployee()
+        {
+            int UserId = (int)HttpContext.Items["UserId"];
+            var result = _addEmployees.GetCurrentEmployee(UserId);
             return Ok(result);
         }
         [HttpPut("UpdateProfile")]

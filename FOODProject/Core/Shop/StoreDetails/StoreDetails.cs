@@ -22,27 +22,34 @@ namespace FOODProject.Core.Shop.StoreDetails
                     sd.PhoneNumber = value.PhoneNumber;
                     sd.AlternateNumber = value.AlternateNumber;
                     sd.DeliveryRadius = value.DeliveryRadius;
-                    sd.Logo = value.Logo;
                     sd.Status = "ON";
 
-                    var ci = context.Categories.SingleOrDefault(c => c.CategoryName == value.Category.String).CategoryId;
+                    //Insert Image Id
+                    var I = context.Images.FirstOrDefault(i => i.ImageId == value.Logo.Id);
+                    if (I == null)
+                    {
+                        throw new ArgumentException("Invalid Image Id");
+                    }
+                    I.IsDeleted = false;
+                    context.SubmitChanges();
+                    sd.Logo = I.ImageId;
 
-                    var ui = context.Users.SingleOrDefault(c => c.EmailId == value.User.String);
+
+                    var ci = context.Categories.SingleOrDefault(c => c.CategoryId == value.Category.Id);
+
+                    var ui = context.Users.SingleOrDefault(c => c.UserId == value.User.Id);
                     var check = context.ShopDetails.SingleOrDefault(c => c.UserId == ui.UserId);
                     if (check != null)
                     {
                         throw new ArgumentException("Entered Email Already Registered for another store");
                     }
 
-
-                    sd.CategoryId = ci;
+                    sd.CategoryId = ci.CategoryId;
                     sd.UserId = ui.UserId;
 
                     context.ShopDetails.InsertOnSubmit(sd);
                     context.SubmitChanges();
                     
-
-
                     FoodCenterContext.ShopAddress add = new FoodCenterContext.ShopAddress()
                     {
                         AddressLine = value.Address.AddresssLine,
@@ -64,30 +71,54 @@ namespace FOODProject.Core.Shop.StoreDetails
             }
             
         }
-        public Result GetallShop()
+        public Result GetCurrentShop(int UserId)
         {
             using (FoodCenterDataContext context = new FoodCenterDataContext())
             {
-                return new Result()
+                var qes = (from obj in context.ShopDetails
+                           where obj.UserId == UserId
+                           select obj.ShopId).SingleOrDefault();
+                if (qes != null)
                 {
-                    Message = String.Format($"Get All Shop Details"),
-                    Status = Result.ResultStatus.success,
-                    Data = (from obj in context.ShopDetails
-                            join add in context.ShopAddresses
-                            on obj.ShopId equals add.ShopId
-                            select new
-                            {
-                                obj.ShopId,
-                                obj.ShopName,
-                                obj.PhoneNumber,
-                                obj.DeliveryRadius,
-                                obj.UserId,
-                                obj.CategoryId,
-                                obj.Status,
-                                add.AddressLine
-                            }).ToList(),
+                    return new Result()
+                    {
+                        Message = String.Format($"Get Current Shop Details"),
+                        Status = Result.ResultStatus.success,
+                        Data = (from obj in context.ShopDetails
+                                join add in context.ShopAddresses
+                                on obj.ShopId equals add.ShopId
+                                where obj.ShopId==qes
+                                select new
+                                {
+                                    ShopId=obj.ShopId,
+                                    ShopName=obj.ShopName,
+                                    PhoneNo=obj.PhoneNumber,
+                                    AlternateNo=obj.AlternateNumber,
+                                    DeliveryRadius=obj.DeliveryRadius, 
+                                    Status = obj.Status,
+                                    Description=obj.Description,
+                                    Logo=obj.Logo,
+                                    LogoPath=obj.Logo==0?null:obj.Image_Logo.Path,
+                                    CoverPhoto=obj.CoverPhoto,
+                                    CoverPath=obj.CoverPhoto==0?null: obj.Image_CategoryId.Path,
+                                    UserId=obj.UserId,
+                                    EmailId=obj.User.EmailId,
+                                    CategoryId = obj.CategoryId,
+                                    CategoryName= obj.Category.CategoryName,
+                                    AddressId=add.AddressId,
+                                    AddressLine=add.AddressLine
+                                }).FirstOrDefault(),
 
-                };
+                    };
+                }
+                else
+                {
+                    return new Result()
+                    {
+                        Message = String.Format($"Invalid Current Shop "),
+                        Status = Result.ResultStatus.success,
+                    };
+                }
             }
               
         }
@@ -96,35 +127,76 @@ namespace FOODProject.Core.Shop.StoreDetails
         {
             using (FoodCenterDataContext context = new FoodCenterDataContext())
             {
-                var qes = (from obj in context.ShopDetails
-                           where obj.UserId == UserId
-                           select obj.ShopId).SingleOrDefault();
-                ShopDetail shopdetail = context.ShopDetails.SingleOrDefault(x => x.ShopId == qes);
-                if (shopdetail != null)
+                using (TransactionScope scope = new TransactionScope())
                 {
-                    shopdetail.ShopName = value.ShopName;
-                    shopdetail.PhoneNumber = value.PhoneNumber;
-                    shopdetail.Logo = value.Logo;
-                    shopdetail.CoverPhoto = value.CoverPhoto;
-                    shopdetail.Description = value.Description;
 
-
-                    context.SubmitChanges();
-                    return new Result()
+                    var qes = (from obj in context.ShopDetails
+                               where obj.UserId == UserId
+                               select obj.ShopId).SingleOrDefault();
+                    ShopDetail shopdetail = context.ShopDetails.SingleOrDefault(x => x.ShopId == qes);
+                    if (shopdetail != null)
                     {
+                        shopdetail.ShopName = value.ShopName;
+                        shopdetail.PhoneNumber = value.PhoneNumber;
+                        //shopdetail.Logo = value.Logo;
+                        shopdetail.Description = value.Description;
+                        context.SubmitChanges();
 
-                        Message = string.Format($"Profile Updated Successfully"),
-                        Status = Result.ResultStatus.success,
-                    };
-                }
-                else
-                {
-                    return new Result()
+                        var I = context.Images.FirstOrDefault(i => i.ImageId == value.Logo.Id);
+                        if (I != null)
+                        {
+                            shopdetail.Logo = I.ImageId;
+                            I.IsDeleted = false;
+                            context.SubmitChanges();
+                           
+                        }
+
+                        var C = context.Images.FirstOrDefault(c => c.ImageId == value.CoverPhoto.Id);
+                        if (C != null)
+                        {
+                            shopdetail.CoverPhoto = C.ImageId;
+                            C.IsDeleted = false;
+                            context.SubmitChanges();
+                        }
+
+                        context.SubmitChanges();
+
+                        
+                        ShopAddress sa = context.ShopAddresses.FirstOrDefault(x => x.ShopId ==shopdetail.ShopId);
+                        if(sa!=null)
+                        {
+                            sa.AddressLine = value.Address.AddresssLine;
+                            sa.Latitude = value.Address.Latitude;
+                            sa.Longitude = value.Address.Longitude;
+                            context.SubmitChanges();
+                        }
+                        else
+                        {
+                            return new Result()
+                            {
+
+                                Message = string.Format($"Address Is Not Valid"),
+                                Status = Result.ResultStatus.danger,
+                            };
+                        }
+                        scope.Complete();
+                        return new Result()
+                        {
+
+                            Message = string.Format($"Profile Updated Successfully"),
+                            Status = Result.ResultStatus.success,
+                            Data=shopdetail.ShopId
+                        };
+                    }
+                    else
                     {
+                        return new Result()
+                        {
 
-                        Message = string.Format($"Invalid Shop ID"),
-                        Status = Result.ResultStatus.danger,
-                    };
+                            Message = string.Format($"Invalid Shop ID"),
+                            Status = Result.ResultStatus.danger,
+                        };
+                    }
                 }
             }
                 

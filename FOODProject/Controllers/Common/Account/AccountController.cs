@@ -9,7 +9,7 @@ using static FOODProject.Core.Common.Accounts.Accounts;
 
 namespace FOODProject.Controllers.Common.Account
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class AccountController : ControllerBase
     {

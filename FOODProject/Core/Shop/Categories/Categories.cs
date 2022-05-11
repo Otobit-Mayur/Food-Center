@@ -10,17 +10,13 @@ namespace FOODProject.Core.Shop.Categories
 {
     public class Categories
     {
-     
         FoodCenterDataContext context = new FoodCenterDataContext();
-           
-
         public Result AddCategory(Model.Shop.Category.Category value)
-        {   
+        {
             Category c = new Category();
-
             c.CategoryName = value.CategoryName;
             var check = context.Categories.FirstOrDefault(x => x.CategoryName == value.CategoryName);
-            if(check!=null)
+            if (check != null)
             {
                 return new Result()
                 {
@@ -38,20 +34,20 @@ namespace FOODProject.Core.Shop.Categories
                     Status = Result.ResultStatus.success,
                 };
             }
-
         }
         public Result Get()
-        
         {
             return new Result()
             {
-                Message=string.Format("Get All Category Successfully"),
-                Status=Result.ResultStatus.success,
-                Data= (from obj in context.Categories
-                       select new { obj.CategoryId, obj.CategoryName }).ToList(),
+                Message = string.Format("Get All Category Successfully"),
+                Status = Result.ResultStatus.success,
+                Data = (from obj in context.Categories
+                        select new Model.Common.IntegerNullString()
+                        {
+                            Id = obj.CategoryId,
+                            Text = obj.CategoryName
+                        }).ToList(),
             };
-    
         }
-
     }
 }

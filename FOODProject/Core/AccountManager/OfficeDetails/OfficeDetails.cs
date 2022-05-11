@@ -10,13 +10,10 @@ namespace FOODProject.Core.AccountManager.OfficeDetails
 {
     public class OfficeDetails
     {
-
         public Result AddOfficeDetail(Model.AccountManager.OfficeDetail.OfficeDetail value)
         {
             using (TransactionScope scope = new TransactionScope())
             {
-
-
                 using (FoodCenterDataContext context = new FoodCenterDataContext())
                 {
                     OfficeDetail OD = new OfficeDetail();
@@ -24,12 +21,21 @@ namespace FOODProject.Core.AccountManager.OfficeDetails
                     OD.OfficeName = value.OfficeName;
                     OD.ManagerName = value.Managername;
                     OD.PhoneNumber = value.PhoneNumber;
-                    OD.AlternateNumber = value.PhoneNumber;
-                    OD.Image = value.Image;
+                    OD.AlternateNumber = value.AlternateNumber;
 
-                    var ui = context.Users.SingleOrDefault(c => c.EmailId == value.User.String);
+                    var I = context.Images.FirstOrDefault(i => i.ImageId == value.Image.Id);
+                    if (I == null)
+                    {
+                        throw new ArgumentException("Invalid Image Id");
+                    }
+                    I.IsDeleted = false;
+                    context.SubmitChanges();
+                    OD.Image = I.ImageId;
 
-                    var check = context.OfficeDetails.SingleOrDefault(c => c.UserId == ui.UserId);
+                    // OD.Image = value.Image;
+
+                    var ui = context.Users.SingleOrDefault(c => c.UserId == value.User.Id);
+                    var check = context.ShopDetails.SingleOrDefault(c => c.UserId == ui.UserId);
                     if (check != null)
                     {
                         throw new ArgumentException("Entered Email Already Registered for another store");
@@ -68,66 +74,118 @@ namespace FOODProject.Core.AccountManager.OfficeDetails
                 }
             }
         }
-        public Result GetAllOfficeDetail()
-        {
-            using (FoodCenterDataContext context = new FoodCenterDataContext())
-            {
-                return new Result()
-                {
-                    Message = String.Format($"Get All Office Details"),
-                    Status = Result.ResultStatus.success,
-                    Data = (from obj in context.OfficeDetails
-                            join add in context.OfficeAddresses
-                            on obj.OfficeId equals add.OfficeId
-                            select new { 
-                                obj.OfficeId,
-                                obj.OfficeName,
-                                obj.ManagerName,
-                                obj.PhoneNumber,
-                                obj.Image,
-                                obj.UserId,
-                                add.AddressLine,
-                                add.Latitude,
-                                add.Longitude }).ToList(),
-                };
-            }
-        }
-        public Result UpdateProfile(Model.AccountManager.OfficeDetail.UpdateProfile value, int UserId)
+        public Result GetCurrentOfficeDetail(int UserId)
         {
             using (FoodCenterDataContext context = new FoodCenterDataContext())
             {
                 var qes = (from obj in context.OfficeDetails
                            where obj.UserId == UserId
                            select obj.OfficeId).SingleOrDefault();
-                OfficeDetail officeDetail = context.OfficeDetails.SingleOrDefault(x => x.OfficeId == qes);
-                if (officeDetail != null)
+                if (qes != null)
                 {
-                    officeDetail.ManagerName = value.ManagerName;
-                    officeDetail.PhoneNumber = value.PhoneNumber;
-                    officeDetail.Image = value.Image;
-                    officeDetail.CoverPhoto = value.CoverPhoto;
-                    officeDetail.Description = value.Description;
-                    
 
-                    context.SubmitChanges();
                     return new Result()
                     {
-
-                        Message = string.Format($"Profile Updated Successfully"),
+                        Message = String.Format($"Get Current Office Details"),
                         Status = Result.ResultStatus.success,
+                        Data = (from obj in context.OfficeDetails
+                                join add in context.OfficeAddresses
+                                on obj.OfficeId equals add.OfficeId
+                                select new
+                                {
+                                    OfficeId = obj.OfficeId,
+                                    OfficeName = obj.OfficeName,
+                                    ManagerName = obj.ManagerName,
+                                    PhoneNumber = obj.PhoneNumber,
+                                    ImageId = obj.Image,
+                                    Path = obj.Image == 0 ? null : obj.Image_Image.Path,
+                                    CoverPhotoId = obj.CoverPhoto,
+                                    Coverpath = obj.CoverPhoto == 0 ? null : obj.Image_CoverPhoto.Path,
+                                    Description = obj.Description,
+                                    UserId = obj.UserId,
+                                    EmailId = obj.User.EmailId,
+                                    Address = add.AddressLine
+                                }).FirstOrDefault(),
                     };
                 }
                 else
                 {
                     return new Result()
                     {
-
-                        Message = string.Format($"Invalid Office ID"),
-                        Status = Result.ResultStatus.danger,
+                        Message = String.Format($"Invalid Current Shop "),
+                        Status = Result.ResultStatus.success,
                     };
                 }
             }
+        }
+        public Result UpdateProfile(Model.AccountManager.OfficeDetail.UpdateProfile value, int UserId)
+        {
+            using (FoodCenterDataContext context = new FoodCenterDataContext())
+            {
+                using (TransactionScope scope = new TransactionScope())
+                {
+                    var qes = (from obj in context.OfficeDetails
+                               where obj.UserId == UserId
+                               select obj.OfficeId).SingleOrDefault();
+                    OfficeDetail officeDetail = context.OfficeDetails.SingleOrDefault(x => x.OfficeId == qes);
+                    if (officeDetail != null)
+                    {
+                        officeDetail.ManagerName = value.ManagerName;
+                        officeDetail.PhoneNumber = value.PhoneNumber;
+                        var I = context.Images.FirstOrDefault(i => i.ImageId == value.Image.Id);
+                        if (I == null)
+                        {
+                            throw new ArgumentException("Invalid Image Id");
+                        }
+                        I.IsDeleted = false;
+                        context.SubmitChanges();
+                        officeDetail.Image = I.ImageId;
 
+                        var C = context.Images.FirstOrDefault(c => c.ImageId == value.Cover.Id);
+                        if (C != null)
+                        {
+                            C.IsDeleted = false;
+                            context.SubmitChanges();
+                        }
+                        officeDetail.CoverPhoto = C.ImageId;
+                        officeDetail.Description = value.Description;
+                        context.SubmitChanges();
+
+
+                        FoodCenterContext.OfficeAddress add = context.OfficeAddresses.FirstOrDefault(x => x.OfficeId == officeDetail.OfficeId);
+                        if (add != null)
+                        {
+                            add.AddressLine = value.Address.AddresssLine;
+                            add.Latitude = value.Address.Latitude;
+                            add.Longitude = value.Address.Longitude;
+                            context.SubmitChanges();
+                        }
+                        else
+                        {
+                            return new Result()
+                            {
+                                Message = string.Format($"Address Is Not Valid"),
+                                Status = Result.ResultStatus.danger,
+                            };
+                        }
+
+
+                        return new Result()
+                        {
+                            Message = string.Format($"Profile Updated Successfully"),
+                            Status = Result.ResultStatus.success,
+                        };
+                    }
+                    else
+                    {
+                        return new Result()
+                        {
+                            Message = string.Format($"Invalid Office ID"),
+                            Status = Result.ResultStatus.danger,
+                        };
+                    }
+                }
+            }
         }
     }
 }

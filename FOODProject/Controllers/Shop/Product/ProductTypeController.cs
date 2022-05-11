@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace FOODProject.Controllers.Shop.Product
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class ProductTypeController : ControllerBase
     {

@@ -19,6 +19,7 @@ namespace FOODProject.Cores.Employee
                     var qes = (from obj in context.OfficeDetails
                                where obj.UserId == UserId
                                select obj.OfficeId).SingleOrDefault();
+
                     User u = new User();
                     u.EmailId = value.EmailId;
                     u.Password = value.Password;
@@ -39,8 +40,7 @@ namespace FOODProject.Cores.Employee
                     e.UserId = u.UserId;
                     e.OfficeLocation = value.OfficeLocation;
                     e.OfficeId = qes;
-                    e.IsDeleted = "False";
-                    e.IsActive = "True";
+                    
                     context.EmployeeDetails.InsertOnSubmit(e);
                     context.SubmitChanges();
                     scope.Complete();
@@ -54,7 +54,7 @@ namespace FOODProject.Cores.Employee
 
             }
         }
-        public Result AddEmpPassword(Model.Employee.AddEmployeePassword value, int Id)
+       /* public Result AddEmpPassword(Model.Employee.AddEmployeePassword value, int Id)
         {
             using (FoodCenterDataContext context = new FoodCenterDataContext())
             {
@@ -76,17 +76,28 @@ namespace FOODProject.Cores.Employee
                     Status = Result.ResultStatus.warning,
                 };
             }
-        }
+        }*/
+
+
         public Result AddEmpDetaile(Model.Employee.EmployeeDetail value,int Id)
         {
             using (FoodCenterDataContext context = new FoodCenterDataContext())
             {
-                EmployeeDetail e = context.EmployeeDetails.FirstOrDefault(x => x.EmployeeId == Id);
+                EmployeeDetail e = context.EmployeeDetails.FirstOrDefault(x => x.UserId == Id);
                 if (e != null)
                 {
                     e.EmployeeName = value.EmployeeName;
                     e.PhoneNumber = value.PhoneNumber;
-                    e.Photo = value.Photo;
+                    e.IsDeleted = false;
+                    e.IsActive = true;
+                    var I = context.Images.FirstOrDefault(i => i.ImageId == value.Photo.Id);
+                    if (I == null)
+                    {
+                        throw new ArgumentException("Invalid Image Id");
+                    }
+                    I.IsDeleted = false;
+                    context.SubmitChanges();
+                    e.Photo = I.ImageId;
 
                     context.SubmitChanges();
                     return new Result()
@@ -100,8 +111,52 @@ namespace FOODProject.Cores.Employee
                 {
                     Message = string.Format($"User Not Found"),
                     Status = Result.ResultStatus.warning,
+                    Data=e.EmployeeId
                 };
             }
+        }
+
+        public Result GetCurrentEmployee(int UserId)
+        {
+            using (FoodCenterDataContext context = new FoodCenterDataContext())
+            {
+                var qes = (from obj in context.EmployeeDetails
+                           where obj.UserId == UserId
+                           select obj).SingleOrDefault();
+                if (qes != null)
+                {
+                    return new Result()
+                    {
+                        Message = String.Format($"Get Current Employee Details"),
+                        Status = Result.ResultStatus.success,
+                        Data = (from obj in context.EmployeeDetails
+                                where obj.EmployeeId==qes.EmployeeId
+                                select new
+                                {
+                                    EmployeeId = obj.EmployeeId,
+                                    EmployeeName = obj.EmployeeName,
+                                    PhoneNo = obj.PhoneNumber,
+                                    PhotoId = obj.Photo,
+                                    Path = obj.Photo == 0 ? null : obj.Image_Photo.Path,
+                                    CoverPhotoId = obj.CoverPhoto,
+                                    CoverPath = obj.CoverPhoto == 0 ? null : obj.Image_CoverPhoto.Path,
+                                    OfficeLocation = obj.OfficeLocation,
+                                    IsActive = obj.IsActive,
+                                    OfficeId = obj.OfficeId,
+                                    UserId = obj.UserId,
+                                    EmailId = obj.User.EmailId
+                                }).FirstOrDefault(),
+                    };
+                }
+            else
+            {
+                return new Result()
+                {
+                    Message = String.Format($"Invalid Current Employee"),
+                    Status = Result.ResultStatus.success,
+                };
+            }
+        }
         }
         public Result UpdateEmployeeDetail(Model.Employee.UpdateEmployeeDetail value,int UserId)
         {
@@ -116,8 +171,22 @@ namespace FOODProject.Cores.Employee
                 {
                     ED.EmployeeName = value.EmployeeName;
                     ED.PhoneNumber = value.PhoneNumber;
-                    ED.Photo = value.Photo;
-                    ED.CoverPhoto = value.CoverPhoto;
+                    var I = context.Images.FirstOrDefault(i => i.ImageId == value.Photo.Id);
+                    if (I != null)
+                    {
+                        ED.Photo= I.ImageId;
+                        I.IsDeleted = false;
+                        context.SubmitChanges();
+                    }
+
+
+                    var C = context.Images.FirstOrDefault(c => c.ImageId == value.CoverPhoto.Id);
+                    if (C != null)
+                    {
+                        ED.CoverPhoto = C.ImageId;
+                        C.IsDeleted = false;
+                        context.SubmitChanges();
+                    }
                     context.SubmitChanges();
 
                     return new Result()

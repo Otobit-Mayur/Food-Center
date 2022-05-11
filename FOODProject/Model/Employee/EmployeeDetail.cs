@@ -14,9 +14,10 @@ namespace FOODProject.Model.Employee
 
         [Required(ErrorMessage = "Employee Phone Number is required")]
         public ulong PhoneNumber { get; set; }
-        public string Photo { get; set; }
+        //public string Photo { get; set; }
+        public Model.Common.IntegerNullString Photo { get; set; } = new Model.Common.IntegerNullString();
 
-       // public Model.Common.IntegerNullString UserId { get; set; } = new Model.Common.IntegerNullString();
+        // public Model.Common.IntegerNullString UserId { get; set; } = new Model.Common.IntegerNullString();
     }
     public class UpdateEmployeeDetail
     {
@@ -25,7 +26,7 @@ namespace FOODProject.Model.Employee
 
         [Required(ErrorMessage = "Employee Phone Number is required")]
         public ulong PhoneNumber { get; set; }
-        public string Photo { get; set; }
-        public string CoverPhoto { get; set; }
+         public Model.Common.IntegerNullString Photo { get; set; } = new Model.Common.IntegerNullString();
+        public Model.Common.IntegerNullString CoverPhoto { get; set; } = new Model.Common.IntegerNullString();
     }
 }

@@ -15,6 +15,7 @@ namespace Shopping.Middleware
         private readonly RequestDelegate _next;
         private readonly IConfiguration _config;
 
+
         public JwtHandler(RequestDelegate next, IConfiguration config)
         {
             _next = next;

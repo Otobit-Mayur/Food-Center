@@ -31,6 +31,7 @@ namespace FOODProject.Core.AccountManager
                             select new
                             {
                                 Logo = obj.Image,
+                                Path=obj.Image==0?null:obj.Image_Image.Path,
                                 ManagerName = obj.ManagerName,
                                 OffeName=obj.OfficeName,
                                 Address = add.AddressLine,

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace FOODProject.Controllers.Shop
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class ShopHomeController : ControllerBase
     {
@@ -35,6 +35,12 @@ namespace FOODProject.Controllers.Shop
         {
             int UserId = (int)HttpContext.Items["UserId"];
             return Ok(new ShopHomes().GetProductType(UserId));
+        }
+        [HttpGet("GetTopOrder")]
+        public IActionResult GetTopOrder()
+        {
+            int UserId = (int)HttpContext.Items["UserId"];
+            return Ok(new ShopHomes().GetTopOrder(UserId));
         }
     }
 }

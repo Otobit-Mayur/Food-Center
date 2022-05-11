@@ -21,6 +21,8 @@ using FOODProject.Core.AccountManager.OfficeDetails;
 using FOODProject.Core.Common.Accounts;
 using FOODProject.Core.Shop.StoreDetails;
 using FOODProject.Cores.Employee;
+using Microsoft.Extensions.FileProviders;
+using System.IO;
 
 namespace FOODProject
 {
@@ -69,14 +71,14 @@ namespace FOODProject
                                services.AddCors(options =>
                               {
                                   options.AddPolicy("MyPolicy",
-                       builder =>
-                       {
-                                  builder.SetIsOriginAllowed(host => true)
-                       .AllowAnyMethod()
-                       .AllowAnyHeader()
-                       .AllowCredentials();
-                              });
-                              });
+                                  builder =>
+                                  {
+                                     builder.SetIsOriginAllowed(host => true)
+                                       .AllowAnyMethod()
+                                       .AllowAnyHeader()
+                                       .AllowCredentials();
+                                              });
+                                              });
 
 
             //JSON Serializer
@@ -136,13 +138,20 @@ namespace FOODProject
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseCors("MyPolicy");
-            if (env.IsDevelopment())
+            if (env.IsDevelopment() || env.IsProduction())
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "FOODProject v1"));
             }
-            
+
+            app.UseFileServer(new FileServerOptions
+            {
+                FileProvider = new PhysicalFileProvider(
+                Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Upload")),
+                RequestPath = "/Upload",
+                EnableDefaultFiles = true
+            });
 
 
             app.UseRouting();

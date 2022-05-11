@@ -56,11 +56,22 @@ namespace FOODProject.Core.Common.Accounts
                 };
             }
         }
-        public IEnumerable GetallRole()
+        public Result GetallRole()
         {
-            var qs = (from obj in context.Roles
-                      select new { obj.RoleId, obj.RoleName }).Take(2);
-            return qs;
+            //var qs = (from obj in context.Roles
+                      //select new { obj.RoleId, obj.RoleName }).Take(2);
+            return new Result()
+            {
+                Message = string.Format("New Role Added Successfully"),
+                Status = Result.ResultStatus.none,
+                Data = (from obj in context.Roles
+                        select new Model.Common.IntegerNullString()
+                        {
+                          Id=obj.RoleId,
+                          Text=obj.RoleName
+                        }).Take(2)
+            };
+
 
         }
 
@@ -69,7 +80,7 @@ namespace FOODProject.Core.Common.Accounts
             User sp = new User();
             Role role = new Role();
          
-            var ms = context.Roles.SingleOrDefault(c => c.RoleName == values.Role.String);
+            var ms = context.Roles.SingleOrDefault(c => c.RoleName == values.Role.Text);
            
             var res = context.Users.FirstOrDefault(x => x.EmailId == values.EmailId);
             if (res != null)
@@ -93,24 +104,33 @@ namespace FOODProject.Core.Common.Accounts
                 {
                     Message = string.Format($"{values.EmailId} Signup Successfully"),
                     Status = Result.ResultStatus.success,
-                    Data =sp.EmailId,
+                    Data = new Model.Common.IntegerNullString()
+                    {
+                        Id = sp.UserId,
+                        Text = sp.EmailId
+                    }
                 };
                     /*return "Signup Successfully";*/
             }
-
         }
         public Result CheckEmail(Model.Common.Account.CheckEmail value)
         {
             var res = context.Users.FirstOrDefault(x => x.EmailId == value.EmailId);
             if (res != null)
             {
-                throw new ArgumentException("EmailId Already Exists");
-               
+                return new Result()
+                {
+                    //throw new ArgumentException("EmailId Already Exists");
+                    Message = string.Format($"EmailId Already Exists"),
+                    Status = Result.ResultStatus.warning,
+                    Data = "False",
+                };
             }
             return new Result()
             {
                 Message = string.Format($"Success"),
                 Status = Result.ResultStatus.success,
+                Data="True",
             };
         }
         public Result getallUser()
@@ -127,7 +147,7 @@ namespace FOODProject.Core.Common.Accounts
 
         public Result Login(Model.Common.Account.Login values)
         {
-           
+
             var result = (from SignUp in context.Users
                           where SignUp.EmailId == values.EmailId && SignUp.Password == values.Password
                           select new 
@@ -136,70 +156,6 @@ namespace FOODProject.Core.Common.Accounts
                               EmailId=SignUp.EmailId,
                               RoleId=SignUp.RoleId
                           }).FirstOrDefault();
-
-            if(result.RoleId == 1)
-            {
-                var q = (from Shop in context.ShopDetails
-                         where Shop.UserId == result.UserId
-                         select Shop.UserId).Count();
-                if (q != 1)
-                {
-                    return new Result()
-                    {
-                        Message = string.Format("Shop Detail Not Found"),
-                        Status = Result.ResultStatus.none,
-                    };
-                }
-            }
-            if (result.RoleId == 2)
-            {
-                var q = (from office in context.OfficeDetails
-                         where office.UserId == result.UserId
-                         select office.UserId).Count();
-                if (q != 1)
-                {
-                    return new Result()
-                    {
-                        Message = string.Format("Office Detail Not Found"),
-                        Status = Result.ResultStatus.none,
-                    };
-                }
-            }
-            if (result.RoleId == 3)
-            {
-                var check = (from Employee in context.EmployeeDetails
-                             where Employee.UserId == result.UserId && Employee.IsDeleted == "True"
-                             select Employee.UserId).FirstOrDefault();
-                if(check is not null)
-                {
-                    throw new ArgumentException("Employee Deleted");
-                }
-
-                var q = (from Employee in context.EmployeeDetails
-                         where Employee.UserId == result.UserId 
-                         select Employee.UserId).Count();
-
-                if (q != 1)
-                {
-                    return new Result()
-                    {
-                        Message = string.Format("Employee Detail Not Found"),
-                        Status = Result.ResultStatus.none,
-                    };
-                }
-            }
-
-            //Check User Details 
-            /*var q = (from Shop in context.ShopDetails
-                     from Office in context.OfficeDetails
-                     from Employee in context.EmployeeDetails
-                     where Shop.UserId == result.UserId || Office.UserId == result.UserId || Employee.UserId == result.UserId
-                     select Shop.UserId).Count();
-
-            if (q!=1)
-            {
-                throw new ArgumentException("Details Not Found ");
-            }*/
 
 
             //Query To Get Current User Login 
@@ -231,6 +187,75 @@ namespace FOODProject.Core.Common.Accounts
                 context.UserRefreshes.InsertOnSubmit(ur);
                 context.SubmitChanges();
 
+                if (result.RoleId == 1)
+                {
+                    var q = (from Shop in context.ShopDetails
+                             where Shop.UserId == result.UserId
+                             select Shop.UserId).Count();
+                    if (q != 1)
+                    {
+                        return new Result()
+                        {
+                            Message = string.Format("Shop Detail Not Found"),
+                            Status = Result.ResultStatus.none,
+                            Data = new
+                            {
+                                UserId = result.UserId,
+                                RoleId = result.RoleId
+                            },
+                        };
+                    }
+                }
+                if (result.RoleId == 2)
+                {
+                    var q = (from office in context.OfficeDetails
+                             where office.UserId == result.UserId
+                             select office.UserId).Count();
+                    if (q != 1)
+                    {
+                        return new Result()
+                        {
+                            Message = string.Format("Office Detail Not Found"),
+                            Status = Result.ResultStatus.none,
+                            Data  = new
+                            {
+                                UserId = result.UserId,
+                                RoleId=result.RoleId
+                            },
+                        };
+                    }
+                }
+                if (result.RoleId == 3)
+                {
+                    var check = (from Employee in context.EmployeeDetails
+                                 where Employee.UserId == result.UserId && Employee.IsDeleted == true
+                                 select Employee.UserId).FirstOrDefault();
+                    if (check is not null)
+                    {
+                        throw new ArgumentException("Employee Deleted");
+                    }
+
+
+                    var qa = (from Employee in context.EmployeeDetails
+                              where Employee.UserId == result.UserId
+                              select Employee).FirstOrDefault();
+
+                    if (qa.EmployeeName is null)
+                    {
+                        return new Result()
+                        {
+                            Message = string.Format("Employee Detail Not Found"),
+                            Status = Result.ResultStatus.none,
+                            Data = new
+                            {
+                                UserId = result.UserId,
+                                EmployeeId=qa.EmployeeId,
+                                RoleId = result.RoleId
+                            },
+                        };
+                    }
+                }
+
                 return new Result()
                 {
                     Message = String.Format($"Login Successfully"),
@@ -239,6 +264,7 @@ namespace FOODProject.Core.Common.Accounts
                     {
                         token=jwtToken,
                         RefreshToken=refreshToken,
+                        UserId=result.UserId,
                         UserEmailId= result.EmailId,
                         RoleId=result.RoleId,
 
@@ -247,7 +273,12 @@ namespace FOODProject.Core.Common.Accounts
             }
             else
             {
-                throw new ArgumentException("Please Enter Valid Login Details..");
+                return new Result()
+                {
+                    Message = string.Format("Please Enter Valid Login Details"),
+                    Status = Result.ResultStatus.none,
+                };
+                //throw new ArgumentException("Please Enter Valid Login Details..");
             }
         }
         public Result getsid(string Emailid)

@@ -10,7 +10,6 @@ namespace FOODProject.Core.AccountManager
     public class Subscribers
     {
         FoodCenterDataContext context = new FoodCenterDataContext();
-
         public Result GetAllSubscriber(int UserId)
         {
             var office = (from obj in context.OfficeDetails
@@ -40,12 +39,14 @@ namespace FOODProject.Core.AccountManager
                         on sd.ShopId equals sa.ShopId
                         join s in context.Subscribers
                         on sd.ShopId equals s.ShopId
-                        where s.Subscription == "Accepted" 
+                        where s.Subscription == "Accepted" && s.OfficeId==office.OfficeId
                         select new
                         {
+                            ShopId=s.ShopId,
                             ShopImage = sd.Logo,
                             ShopName = sd.ShopName,
                             ShopAddress = sa.AddressLine,
+                            Status=s.Status,
                             Distance = GetDistanceFromShop(p1, sa.AddressId)
                         }).ToList(),
             };
@@ -90,13 +91,13 @@ namespace FOODProject.Core.AccountManager
                 throw new ArgumentException("Subscription Not Done!");
             }
 
-            if (sub.Status == "ON")
+            if (sub.Status == true)
             {
-                sub.Status = "OFF";
+                sub.Status = false;
             }
             else
             {
-                sub.Status = "ON";
+                sub.Status = true;
             }
             context.SubmitChanges();
             return new Result()

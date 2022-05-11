@@ -39,6 +39,7 @@ namespace FOODProject.Core.Shop
                         where s.Subscription == "Accepted" && s.ShopId == shop.ShopId
                         select new
                         {
+                            OfficeId = off.OfficeId,
                             Image = off.Image,
                             Name = off.OfficeName,
                             Address = oa.AddressLine,
@@ -49,10 +50,6 @@ namespace FOODProject.Core.Shop
         }
         public Result GetById(int UserId, int Id)
         {
-            if(Id == 0)
-            {
-                throw new ArgumentException("Id Not Found");
-            }
             OfficeDetail of = db.OfficeDetails.SingleOrDefault(x => x.OfficeId == Id);
             if(of is null)
             {
@@ -80,13 +77,14 @@ namespace FOODProject.Core.Shop
                             where s.Subscription == "Accepted" && s.ShopId == sid && s.OfficeId == Id
                             select new
                             {
+                                OfficeId = off.OfficeId,
                                 Image = off.Image,
                                 Name = off.OfficeName,
                                 Address = oa.AddressLine,
                                 Staff = off.Staff,
                                 Phone = off.PhoneNumber,
                                 Email = u.EmailId
-                            }).ToList(),
+                            }).FirstOrDefault(),
                 };
             }
             else
@@ -122,6 +120,8 @@ namespace FOODProject.Core.Shop
                         where s.Subscription == "Not Accepted" && s.ShopId == shop.ShopId
                         select new
                         {
+                            SubscriberId=s.SubscriberId,
+                            OfficeId=off.OfficeId,
                             Image = off.Image,
                             Name = off.OfficeName,
                             Address = oa.AddressLine,
@@ -130,7 +130,77 @@ namespace FOODProject.Core.Shop
                         }).ToList(),
             };
         }
-        public double GetDistanceFromShop(ShopAddress p1 ,int OfficeId ) {
+        public Result ApproveRequest(int Id)
+        {
+            Subscriber s = db.Subscribers.FirstOrDefault(x => x.SubscriberId == Id);
+            if(s!=null)
+            {
+                if (s.Subscription == "Not Accepted")
+                {
+                    s.Subscription = "Accepted";
+                    s.Status = true;
+                    db.SubmitChanges();
+                    return new Result()
+                    {
+                        Status = Result.ResultStatus.success,
+                        Message = string.Format("Request Accepted Successfully "),
+                        Data=s.SubscriberId,
+                    };
+                }
+                else
+                {
+                    return new Result()
+                    {
+                        Status = Result.ResultStatus.danger,
+                        Message = string.Format("Request Already Accepted"),
+                        Data = s.SubscriberId,
+                    };
+                }
+            }
+
+            return new Result()
+            {
+                Status = Result.ResultStatus.danger,
+                Message = string.Format("Id Not Found"),
+            };
+
+        }
+        public Result RejectRequest(int Id)
+        {
+            Subscriber s = db.Subscribers.FirstOrDefault(x => x.SubscriberId == Id);
+            if (s != null)
+            {
+                if (s.Subscription == "Not Accepted")
+                {
+                    s.Subscription = "Rejected";
+                    db.SubmitChanges();
+                    return new Result()
+                    {
+                        Status = Result.ResultStatus.success,
+                        Message = string.Format("Request Rejected Successfully "),
+                        Data = s.SubscriberId,
+                    };
+                }
+                else
+                {
+                    return new Result()
+                    {
+                        Status = Result.ResultStatus.danger,
+                        Message = string.Format("Request Already Rejected"),
+                        Data = s.SubscriberId,
+                    };
+                }
+            }
+
+            return new Result()
+            {
+                Status = Result.ResultStatus.danger,
+                Message = string.Format("Id Not Found"),
+            };
+
+        }
+        public double GetDistanceFromShop(ShopAddress p1 ,int OfficeId ) 
+        {
             var p2 = (from x in db.OfficeAddresses where x.OfficeId == OfficeId select x).SingleOrDefault();
 
             if(p2.Latitude is null || p2.Longitude is null)
@@ -158,26 +228,23 @@ namespace FOODProject.Core.Shop
                 var sid = (from sp in db.ShopDetails
                            where sp.UserId == UserId
                            select sp.ShopId).SingleOrDefault();
-                
+
                 return new Result()
                 {
                     Status = Result.ResultStatus.success,
                     Message = string.Format("Get All Detail Successfully"),
-                    Data = (from om in db.OrderMstrs
-                            join od in db.OrderDetails
-                            on om.OrderId equals od.OrderId
-                            join p in db.Products
-                            on od.ProductId equals p.ProductId
-                            where om.Status == "Accepted" && om.Track == "Done" && om.ShopId == sid && om.OfficeId == Id
-                            orderby om.DeliveryTime
+                    Data = (from od in db.OrderDetails
+                            where od.OrderMstr.Track == "Done" && od.OrderMstr.ShopId == sid && od.OrderMstr.OfficeId == Id
                             select new
                             {
-                                ProductName = p.ProductName,
+                                ProductId = od.Product.ProductId,
+                                ProductName = od.Product.ProductName,
+                                ImageId = od.Product.ImageId,
+                                Path = od.Product.ImageId == 0 ? null : od.Product.Image.Path,
                                 Qty = od.Qty,
-                                Total = om.Total,
-                                Time = om.DeliveryTime                               
-                            }
-                    ).ToList(),
+                                Total = od.OrderMstr.Total,
+                                Time = od.OrderMstr.DeliveryTime
+                            }).ToList(),
                 };
             }
             else

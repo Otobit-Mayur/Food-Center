@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace FOODProject.Controllers.AccountManager
 {
-    [Route("AccountManager/[controller]/[action]")]
+    [Route("Office/[controller]/[action]")]
     [ApiController]
     public class SubscriberController : ControllerBase
     {

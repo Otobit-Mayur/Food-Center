@@ -16,7 +16,7 @@ namespace FOODProject.Core.Shop.Products
         {
             FoodCenterContext.Product p = new Product();
 
-            var res = context.ProductTypes.SingleOrDefault(x => x.Type == value.Type.String);
+            var res = context.ProductTypes.SingleOrDefault(x => x.TypeId == value.Type.Id);
             /* var ft = context.FixLookUps.FirstOrDefault(x => x.FixName == value.FoodType.Id);*/
             //.EmailId == value.UserId.String
            /* var ft = from od in context.FixLookUps
@@ -37,9 +37,20 @@ namespace FOODProject.Core.Shop.Products
             {
                 p.Price = value.Price;
                 p.Description = value.Description;
-                p.Image = value.Image;
+
+                var I = context.Images.FirstOrDefault(i => i.ImageId == value.Image.Id);
+                if (I == null)
+                {
+                    throw new ArgumentException("Invalid Image Id");
+                }
+                I.IsDeleted = false;
+                context.SubmitChanges();
+
+
+                p.ImageId = I.ImageId;
                 p.TypeId = res.TypeId;
-                p.Status = "ON";
+                p.Status = true;
+                p.IsDeleted = false;
                /* p.FoodType = ft.ToString();*/
                 context.Products.InsertOnSubmit(p);
                 context.SubmitChanges();
@@ -49,7 +60,6 @@ namespace FOODProject.Core.Shop.Products
                     Status = Result.ResultStatus.success,
                 };
             }
-
         }
         public Result GetAllProduct(int UserId)
         {
@@ -61,26 +71,54 @@ namespace FOODProject.Core.Shop.Products
                 Message = string.Format("Get All Product Successfully"),
                 Status = Result.ResultStatus.none,
                 Data = (from obj in context.Products
-                        join pt in context.ProductTypes
-                        on obj.TypeId equals pt.TypeId
-                        where obj.ProductType.ShopId==qes && obj.Status != "DELETE"
+                        where obj.ProductType.ShopId==qes && obj.IsDeleted==false
                         select new
                         {
                             ProductId = obj.ProductId,
                             ProductName = obj.ProductName,
                             Price = obj.Price,
                             Description = obj.Description,
-                            Image = obj.Image,
+                            Image = obj.ImageId,
+                            Path=obj.ImageId == 0? null: obj.Image.Path,
                             TypeId = obj.TypeId,
-                            Type = pt.Type,
-                            ShopId = pt.ShopId
+                            Type = obj.ProductType.Type,
+                            ShopId = obj.ProductType.ShopId,
+                            Status=obj.Status,
                         }).ToList(),
             };
         }
+
+        public Result GetById(int Id)
+        {
+            Product product = context.Products.SingleOrDefault(x => x.ProductId == Id);
+            if(product==null)
+            {
+                throw new ArgumentException("Invalid Id");
+            }
+            return new Result()
+            {
+                Message = string.Format("Get Product Successfully"),
+                Status = Result.ResultStatus.success,
+                Data = (from p in context.Products
+                        where p.ProductId == Id
+                        select new
+                        {
+                            ProductId = p.ProductId,
+                            ProductName = p.ProductName,
+                            Price = p.Price,
+                            Description = p.Description,
+                            Image = p.ImageId,
+                            Path = p.ImageId == 0 ? null : p.Image.Path,
+                            TypeId = p.TypeId,
+                            Type = p.ProductType.Type,
+                            ShopId = p.ProductType.ShopId,
+                            Status = p.Status,
+                        }).FirstOrDefault(),
+            };
+        }
+
         public Result Update(Model.Shop.Product.Product value, int Id)
         {
-            
-
             Product product = context.Products.SingleOrDefault(x => x.ProductId == Id);
             if (product != null)
             {
@@ -88,7 +126,18 @@ namespace FOODProject.Core.Shop.Products
                 var check = context.Products.FirstOrDefault(x => x.ProductName == value.ProductName);
                 product.Price = value.Price;
                 product.Description = value.Description;
-                product.Image = value.Image;
+
+                var I = context.Images.FirstOrDefault(i => i.ImageId == value.Image.Id);
+                if (I == null)
+                {
+                    throw new ArgumentException("Invalid Image Id");
+                }
+
+                I.IsDeleted = false;
+                context.SubmitChanges();
+
+
+                product.ImageId = I.ImageId;
                 product.TypeId = value.Type.Id;
 
                 context.SubmitChanges();
@@ -110,13 +159,13 @@ namespace FOODProject.Core.Shop.Products
             Product product = context.Products.SingleOrDefault(x => x.ProductId == Id);
             if (product != null)
             {
-                if (product.Status == "ON")
+                if (product.Status == true)
                 {
-                    product.Status = "OFF";
+                    product.Status = false;
                 }
                 else
                 {
-                    product.Status = "ON";
+                    product.Status = true;
                 }
                 context.SubmitChanges();
                 return new Result()
@@ -127,20 +176,17 @@ namespace FOODProject.Core.Shop.Products
             }
             return new Result()
             {
-                Message = string.Format($"Product Not Available"),
+                Message = string.Format($"Product ID Not Available"),
                 Status = Result.ResultStatus.danger,
             };
         }
 
         public Result Delete(int Id)
         {
-            //FoodCenterContext.Product p = new Product();
-
             Product product = context.Products.SingleOrDefault(x => x.ProductId == Id);
             if (product != null)
             {
-                product.Status = "DELETE";
-                //context.Products.DeleteOnSubmit(product);
+                product.IsDeleted=true;
                 context.SubmitChanges();
                 return new Result()
                 {
@@ -164,8 +210,6 @@ namespace FOODProject.Core.Shop.Products
                 Message = string.Format($"Get Product Successfully"),
                 Status = Result.ResultStatus.success,
                 Data = (from obj in context.Products
-                        join pt in context.ProductTypes
-                        on obj.TypeId equals pt.TypeId
                         where obj.TypeId == TypeId
                         select new
                         {
@@ -173,14 +217,13 @@ namespace FOODProject.Core.Shop.Products
                             ProductName = obj.ProductName,
                             Price = obj.Price,
                             Description = obj.Description,
-                            Image = obj.Image,
+                            Image = obj.ImageId,
                             TypeId = obj.TypeId,
-                            Type = pt.Type,
-                            ShopId = pt.ShopId
+                            Type = obj.ProductType.Type,
+                            ShopId = obj.ProductType.ShopId
                         }).ToList(),
             };
 
-            
         }
 
         //Sort By Price In Ascending order 

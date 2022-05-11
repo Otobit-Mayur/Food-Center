@@ -24,7 +24,9 @@ namespace FOODProject.Core.Shop
                 {
                     Message = string.Format($"Get Detail Successfully"),
                     Status = Result.ResultStatus.success,
-                    Data = (from obj in context.ShopDetails
+                    Data = (from image in context.Images
+                            join obj in context.ShopDetails
+                            on image.ImageId equals obj.Logo
                             join add in context.ShopAddresses
                             on obj.ShopId equals add.ShopId
                             where obj.ShopId==qes.ShopId
@@ -33,7 +35,8 @@ namespace FOODProject.Core.Shop
                                 Logo=obj.Logo,
                                 ShopName=obj.ShopName,
                                 Address=add.AddressLine,
-                                Status=obj.Status
+                                Status=obj.Status,
+                                Path=image.Path
                             }).ToList(),
                  };
             }
@@ -122,6 +125,42 @@ namespace FOODProject.Core.Shop
                     Data = qs,
                 };
             }
+        }
+        public Result GetTopOrder(int UserId)
+        {
+            using (FoodCenterDataContext context = new FoodCenterDataContext())
+            {
+                var shop = (from sp in context.ShopDetails
+                            where sp.UserId == UserId
+                            select sp).FirstOrDefault();
+                if (shop is null)
+                {
+                    throw new ArgumentException("Shop not found!");
+                }
+                var products = (from order in context.OrderDetails
+                                join om in context.OrderMstrs
+                                on order.OrderId equals om.OrderId
+                                join p in context.Products
+                                on order.ProductId equals p.ProductId
+                                where om.ShopId == shop.ShopId
+                                group order.Qty by order.ProductId into ans
+                                orderby ans.Sum() descending
+                                select new
+                                {
+                                    ProductId = ans.Key,
+                                    Order = ans.Sum(),
+                                    ProductName = context.Products.Where(x => x.ProductId == ans.Key).Select(x => x.ProductName),
+                                    ProductImage = context.Products.Where(x => x.ProductId == ans.Key).Select(x => x.Image),
+                                }).Take(5);
+                return new Result()
+                {
+                    Status = Result.ResultStatus.success,
+                    Message = string.Format("Get All Detail Successfully"),
+                    Data = products,
+                };
+
+            }
+
         }
     }
 }

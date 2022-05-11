@@ -8,6 +8,6 @@ namespace FOODProject.Model.Common
     public class IntegerNullString
     {
         public int Id { get; set; }
-        public string String { get; set; }
+        public string Text { get; set; }
     }
 }

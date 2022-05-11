@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace FOODProject.Controllers.Shop.StoreDetail
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class AddAddressController : ControllerBase
     {

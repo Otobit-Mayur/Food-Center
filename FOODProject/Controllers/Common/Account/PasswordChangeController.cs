@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace FOODProject.Controllers.Common.Account
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class PasswordChangeController : ControllerBase
     {
@@ -20,10 +20,10 @@ namespace FOODProject.Controllers.Common.Account
         }
 
         [HttpPut]
-        public IActionResult Updatepassword(Model.Common.Account.Changepassword value)
+        public IActionResult Updatepassword(Model.Common.Account.Changepassword value,[FromQuery]int id)
         {
-            int UserId = (int)HttpContext.Items["UserId"];
-            var result = _updatePassword.Changepassword(value, UserId);
+           // int UserId = (int)HttpContext.Items["UserId"];
+            var result = _updatePassword.Changepassword(value,id);
             return Ok(result);
         }
     }

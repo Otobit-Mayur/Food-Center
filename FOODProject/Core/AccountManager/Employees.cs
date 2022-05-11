@@ -41,20 +41,44 @@ namespace FOODProject.Core.AccountManager
                         Status = Result.ResultStatus.success,
                         Message = string.Format("Get All Detail Successfully"),
                         Data = (from e in context.EmployeeDetails
-                                where e.OfficeId == office.OfficeId
+                                where e.OfficeId == office.OfficeId && e.IsDeleted==false
                                 select new { 
                                     EmployeeId = e.EmployeeId,
                                     EmployeeName = e.EmployeeName,
                                     Photo = e.Photo,
-
+                                    Path=e.Photo==0?null:e.Image_Photo.Path,
+                                    IsActive=e.IsActive,
+                                    IsDeleted=e.IsDeleted,
+                                    TotalOrders=TotalOrder(e.EmployeeId)
                         }).ToList(),
                     };
                 }
-               
             }
             else
             {
                 throw new ArgumentException("Some Unknown Error Is Occure");
+            }
+        }
+        public int? TotalOrder(int id)
+        {
+            EmployeeDetail emp = context.EmployeeDetails.FirstOrDefault(x => x.EmployeeId == id);
+            {
+                if(emp is null)
+                {
+                    throw new ArgumentException("Employee Not Found");
+                }
+                var res = (from om in context.OrderMstrs
+                           where om.Track == "Done" && om.EmployeeId == emp.EmployeeId
+                           select om.Total).Sum();
+                if(res is null)
+                {
+                    return 0;
+                }
+                else
+                {
+                    return res;
+                }
+                
             }
         }
         public Result DeleteEmployee(int Id)
@@ -64,15 +88,15 @@ namespace FOODProject.Core.AccountManager
             {
                 throw new ArgumentException("Employee Not Found");
             }
-            if (e.IsDeleted == "True")
+            if (e.IsDeleted == true)
             {
                 throw new ArgumentException("Employee Already Deleted");
             }
 
-            if (e.IsDeleted == "False")
+            if (e.IsDeleted == false)
             {
-                e.IsDeleted = "True";
-                e.IsActive = "False";
+                e.IsDeleted = true;
+                e.IsActive = false;
                 context.SubmitChanges();
                 return new Result()
                 {
@@ -93,18 +117,18 @@ namespace FOODProject.Core.AccountManager
             {
                 throw new ArgumentException("Employee Not Found");
             }
-            if (e.IsDeleted == "True")
+            if (e.IsDeleted == true)
             {
                 throw new ArgumentException("Employee is Deleted");
             }
 
-            if (e.IsActive == "True")
+            if (e.IsActive == true)
             {
-                e.IsActive = "False";
+                e.IsActive = false;
             }
             else
             {
-                e.IsActive = "True";
+                e.IsActive = true;
             }
             context.SubmitChanges();
             return new Result()

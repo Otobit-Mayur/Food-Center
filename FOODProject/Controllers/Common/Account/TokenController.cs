@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace FOODProject.Controllers.Common.Account
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class TokenController : ControllerBase
     {
@@ -38,6 +38,7 @@ namespace FOODProject.Controllers.Common.Account
 
             r1.RToken = newRefreshToken;
             _context.SubmitChanges();
+
 
             return new ObjectResult(new
             {

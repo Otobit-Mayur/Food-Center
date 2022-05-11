@@ -12,11 +12,11 @@ namespace FOODProject.Controllers.Employee
     [ApiController]
     public class OrderController : ControllerBase
     {
-        [HttpPost("{Id}")]
-        public IActionResult AddOrder([FromRoute] int Id,Model.Employee.Order Value)
+        [HttpPost]
+        public IActionResult AddOrder([FromQuery]int Id,Model.Employee.Order value)
         {
             int UserId = (int)HttpContext.Items["UserId"];
-            return Ok(new Orders().AddOrder(Value, UserId, Id));
+            return Ok(new Orders().AddOrder(value,UserId,Id));
         }
         [HttpGet]
         public IActionResult GetAllSubscriber()

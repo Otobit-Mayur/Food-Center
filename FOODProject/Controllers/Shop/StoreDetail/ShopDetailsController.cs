@@ -3,12 +3,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace FOODProject.Controllers.Shop.StoreDetail
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class ShopDetailsController : ControllerBase
     {
@@ -25,9 +26,11 @@ namespace FOODProject.Controllers.Shop.StoreDetail
             return Ok(result);
         }
         [HttpGet]
+
         public IActionResult GetAllShop()
         {
-            var result = _storeDetails.GetallShop();
+            int UserId = (int)HttpContext.Items["UserId"];
+            var result = _storeDetails.GetCurrentShop(UserId);
             return Ok(result);
         }
         [HttpPut]

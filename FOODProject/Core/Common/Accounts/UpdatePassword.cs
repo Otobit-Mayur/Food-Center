@@ -11,36 +11,37 @@ namespace FOODProject.Core.Common.Accounts
     public class UpdatePassword
     {
         FoodCenterDataContext context = new FoodCenterDataContext();
-        public Result Changepassword(Model.Common.Account.Changepassword value, int UserId)
+        public Result Changepassword(Model.Common.Account.Changepassword value, int Id)
         {
-            
-             var qs = (from obj in context.Users
-                    where obj.UserId == UserId
-                    select obj).ToList();
-            if (qs.Count()>0)
+            User user = context.Users.FirstOrDefault(x => x.UserId == Id);
+            if(user==null)
             {
-                /*user.Password = value.OldPassword;*/
-                var check = (from obj in qs
-                             where obj.Password==value.OldPassword
-                             select obj).SingleOrDefault();
-                if(check!=null)
-                {
-                    check.Password = value.NewPassword;
-                    context.SubmitChanges();
-                    return new Result()
+                throw new ArgumentException("User Is Invalid");
+            }
+            else
+            {
+                    var check = (from obj in context.Users
+                                 where obj.UserId==Id &&  obj.Password == value.OldPassword
+                                 select obj).SingleOrDefault();
+                    if (check != null)
                     {
-                        Message = string.Format("Password Change Successfully"),
-                        Status = Result.ResultStatus.success,
-                    };
-                }
-                else
-                {
-                    return new Result()
+                        check.Password = value.NewPassword;
+                        context.SubmitChanges();
+                        return new Result()
+                        {
+                            Message = string.Format("Password Change Successfully"),
+                            Status = Result.ResultStatus.success,
+                        };
+                    }
+                    else
                     {
-                        Message = string.Format("Old Password Is Incorrect"),
-                        Status = Result.ResultStatus.warning,
-                    };
-                }
+                        return new Result()
+                        {
+                            Message = string.Format("Old Password Is Incorrect"),
+                            Status = Result.ResultStatus.warning,
+                        };
+                    }
+                
             }
             return new Result()
             {

@@ -12,14 +12,14 @@ namespace FOODProject.Controllers.Shop
     [ApiController]
     public class SubscriberController : ControllerBase
     {
-        [HttpGet("{Id}")]
+        [HttpGet()]
         public IActionResult GetAllSubscriber()
         {
             int UserId = (int)HttpContext.Items["UserId"];
             return Ok(new Subscribers().GetAllSubscriber(UserId));
         }
-        [HttpGet("{Id}")]
-        public IActionResult GetById([FromRoute] int Id)
+        [HttpGet]
+        public IActionResult GetById([FromQuery] int Id)
         {
             int UserId = (int)HttpContext.Items["UserId"];
             return Ok(new Subscribers().GetById(UserId,Id));
@@ -29,6 +29,16 @@ namespace FOODProject.Controllers.Shop
         {
             int UserId = (int)HttpContext.Items["UserId"];
             return Ok(new Subscribers().GetAllRequest(UserId));
+        }
+        [HttpPut]
+        public IActionResult ApproveRequest([FromQuery]int Id)
+        {
+            return Ok(new Subscribers().ApproveRequest(Id));
+        }
+        [HttpPut]
+        public IActionResult RejectRequest([FromQuery] int Id)
+        {
+            return Ok(new Subscribers().RejectRequest(Id));
         }
         [HttpGet("{Id}")]
         public IActionResult GetResentOrder([FromRoute] int Id)

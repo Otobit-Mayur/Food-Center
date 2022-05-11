@@ -16,9 +16,9 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "swagger",
+      "launchUrl": "Swagger",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "development"
       }
     },
     "FOODProject": {
@@ -32,7 +32,13 @@
       "applicationUrl": "http://localhost:5000"
     },
     "IIS": {
-      "commandName": "IIS"
+      "commandName": "IIS",
+      "launchBrowser": true,
+      "launchUrl": "Swagger",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "development"
+      },
+      "nativeDebugging": true
     }
   }
 }
