@@ -35,7 +35,14 @@ namespace FOODProject.Controllers.Shop.Product
                 throw new Exception("Unauthorized");
             }
         }
-       //[Authorize]
+        [HttpGet("GetFoodType")]
+        public IActionResult GetFoodType()
+        {
+            var result = _products.GetFoodType();
+            return Ok(result);
+        }
+
+        //[Authorize]
         [HttpGet("GetAll")]
         public IActionResult Get()
         {

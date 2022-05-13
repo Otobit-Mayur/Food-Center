@@ -180,8 +180,9 @@ namespace FOODProject.Core.Employee
                            Price = pd.Price,
                            ProductType = pd.ProductType.Type,
                            Description = pd.Description,
-                           ShopId=pd.ProductType.ShopId
-                         //ShopDescription=pd.ProductType.ShopDetail.Description
+                           ShopId=pd.ProductType.ShopId,
+                           FoodType = pd.FixLookUp.FixName
+                            //ShopDescription=pd.ProductType.ShopDetail.Description
                         }).ToList(),
             };
         }

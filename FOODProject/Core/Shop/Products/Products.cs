@@ -49,6 +49,7 @@ namespace FOODProject.Core.Shop.Products
 
                 p.ImageId = I.ImageId;
                 p.TypeId = res.TypeId;
+                p.FoodType = value.FoodType.Id;
                 p.Status = true;
                 p.IsDeleted = false;
                /* p.FoodType = ft.ToString();*/
@@ -60,6 +61,21 @@ namespace FOODProject.Core.Shop.Products
                     Status = Result.ResultStatus.success,
                 };
             }
+        }
+        public Result GetFoodType()
+        {
+            return new Result()
+            {
+                Message = string.Format("Get All Product Successfully"),
+                Status = Result.ResultStatus.none,
+                Data = (from obj in context.FixLookUps
+                        where obj.LookUpId==6
+                        select new Model.Common.IntegerNullString()
+                        {
+                            Id = obj.FixId,
+                            Text = obj.FixName
+                        }).ToList(),
+            };
         }
         public Result GetAllProduct(int UserId)
         {
@@ -84,6 +100,7 @@ namespace FOODProject.Core.Shop.Products
                             Type = obj.ProductType.Type,
                             ShopId = obj.ProductType.ShopId,
                             Status=obj.Status,
+                            FoodType=obj.FixLookUp.FixName
                         }).ToList(),
             };
         }
@@ -113,6 +130,7 @@ namespace FOODProject.Core.Shop.Products
                             Type = p.ProductType.Type,
                             ShopId = p.ProductType.ShopId,
                             Status = p.Status,
+                            FoodType = p.FixLookUp.FixName
                         }).FirstOrDefault(),
             };
         }
@@ -126,6 +144,7 @@ namespace FOODProject.Core.Shop.Products
                 var check = context.Products.FirstOrDefault(x => x.ProductName == value.ProductName);
                 product.Price = value.Price;
                 product.Description = value.Description;
+                product.FoodType = value.FoodType.Id;
 
                 var I = context.Images.FirstOrDefault(i => i.ImageId == value.Image.Id);
                 if (I == null)
@@ -220,7 +239,8 @@ namespace FOODProject.Core.Shop.Products
                             Image = obj.ImageId,
                             TypeId = obj.TypeId,
                             Type = obj.ProductType.Type,
-                            ShopId = obj.ProductType.ShopId
+                            ShopId = obj.ProductType.ShopId,
+                            FoodType = obj.FixLookUp.FixName
                         }).ToList(),
             };
 

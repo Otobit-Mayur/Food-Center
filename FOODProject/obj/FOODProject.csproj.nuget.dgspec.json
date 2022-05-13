@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\SMARTY\\Desktop\\FOODProject\\FOODProject\\FOODProject.csproj": {}
+    "C:\\Users\\MAYUR\\Desktop\\FOODProject\\Food-Center\\FOODProject\\FOODProject.csproj": {}
   },
   "projects": {
-    "C:\\Users\\SMARTY\\Desktop\\FOODProject\\FOODProject\\FOODProject.csproj": {
+    "C:\\Users\\MAYUR\\Desktop\\FOODProject\\Food-Center\\FOODProject\\FOODProject.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\SMARTY\\Desktop\\FOODProject\\FOODProject\\FOODProject.csproj",
+        "projectUniqueName": "C:\\Users\\MAYUR\\Desktop\\FOODProject\\Food-Center\\FOODProject\\FOODProject.csproj",
         "projectName": "FOODProject",
-        "projectPath": "C:\\Users\\SMARTY\\Desktop\\FOODProject\\FOODProject\\FOODProject.csproj",
-        "packagesPath": "C:\\Users\\SMARTY\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\SMARTY\\Desktop\\FOODProject\\FOODProject\\obj\\",
+        "projectPath": "C:\\Users\\MAYUR\\Desktop\\FOODProject\\Food-Center\\FOODProject\\FOODProject.csproj",
+        "packagesPath": "C:\\Users\\MAYUR\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\MAYUR\\Desktop\\FOODProject\\Food-Center\\FOODProject\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\SMARTY\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\MAYUR\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -115,7 +111,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.404\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.408\\RuntimeIdentifierGraph.json"
         }
       }
     }
